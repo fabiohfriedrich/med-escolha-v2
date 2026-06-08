@@ -34,9 +34,10 @@ export async function generateStaticParams() {
   return descriptions.map(d => ({ id: String(d.id) }))
 }
 
-export async function generateMetadata({ params }: { params: { id: string } }) {
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const { id: idStr } = await params
   const descriptions = (descriptionsData as any).specialties as Array<{ id: number; nome: string; descricao: string }>
-  const d = descriptions.find(x => x.id === parseInt(params.id))
+  const d = descriptions.find(x => x.id === parseInt(idStr))
   if (!d) return {}
   return {
     title: `${d.nome} | Med Escolha`,
@@ -44,8 +45,9 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
   }
 }
 
-export default async function EspecialidadePage({ params }: { params: { id: string } }) {
-  const id = parseInt(params.id)
+export default async function EspecialidadePage({ params }: { params: Promise<{ id: string }> }) {
+  const { id: idStr } = await params
+  const id = parseInt(idStr)
   if (isNaN(id) || id < 1 || id > 55) return notFound()
 
   const descriptions = (descriptionsData as any).specialties as Array<{
