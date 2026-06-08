@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { MatchResult } from '@/lib/scoring'
 import descriptionsData from '@/data/descriptions.json'
 import c04bData from '@/data/c04b_perguntas.json'
@@ -399,6 +400,14 @@ export default function Results({ result, answers, onRestart, hideRestartButton 
                         <p className="text-xs text-gray-400 mt-3">* O percentual de match compreende também outros resultados além dos descritos acima.</p>
                       </div>
                     )}
+
+                    {/* Link para página completa na biblioteca */}
+                    <div className="pt-2 border-t border-gray-100">
+                      <Link href={`/especialidades/${e.id}`}
+                        className="inline-flex items-center gap-2 text-sm font-bold text-blue-700 hover:text-blue-900 transition">
+                        📖 Ver página completa de {e.nome} →
+                      </Link>
+                    </div>
                   </div>
                 )}
               </div>
@@ -426,11 +435,12 @@ export default function Results({ result, answers, onRestart, hideRestartButton 
             {displayed.map((e, i) => {
               const sat = SAT_STYLE[e.saturacao] || { bg: '#f3f4f6', color: '#374151' }
               return (
-                <div key={e.id} className="flex items-center gap-3 px-4 py-3 border-b border-gray-50 last:border-0"
+                <Link key={e.id} href={`/especialidades/${e.id}`}
+                  className="flex items-center gap-3 px-4 py-3 border-b border-gray-50 last:border-0 hover:bg-blue-50 transition group"
                   style={{ background: i < 3 ? '#f0fdfa' : undefined }}>
                   <span className="w-7 text-center text-sm font-bold flex-shrink-0" style={{ color: '#94a3b8' }}>{i + 1}</span>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-gray-800 truncate">{e.nome}</p>
+                    <p className="text-sm font-semibold text-gray-800 truncate group-hover:text-blue-700 transition">{e.nome}</p>
                     <div className="w-full bg-gray-100 rounded-full h-1.5 mt-1">
                       <div className="h-1.5 rounded-full" style={{ width: `${e.pct}%`, background: '#2dd4bf' }} />
                     </div>
@@ -444,7 +454,7 @@ export default function Results({ result, answers, onRestart, hideRestartButton 
                       {e.pct.toFixed(1)}%
                     </span>
                   </div>
-                </div>
+                </Link>
               )
             })}
           </div>

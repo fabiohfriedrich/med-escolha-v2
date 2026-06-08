@@ -27,7 +27,27 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <nav className="bg-blue-900 text-white sticky top-0 z-50 shadow-md">
+          <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
+            <a href="/" className="flex items-center gap-2 group">
+              <span className="text-xl">🩺</span>
+              <span className="font-extrabold text-white text-sm tracking-tight group-hover:text-blue-200 transition">
+                Med Escolha
+              </span>
+              <span className="hidden sm:inline text-blue-400 text-xs font-medium ml-1">por Amo Medicina</span>
+            </a>
+            <div className="flex items-center gap-1">
+              <a href="/especialidades"
+                className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold text-blue-200 hover:text-white hover:bg-blue-800 transition">
+                <span>📚</span>
+                <span>Especialidades</span>
+              </a>
+            </div>
+          </div>
+        </nav>
+        {children}
+      </body>
     </html>
   );
 }
