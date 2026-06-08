@@ -1,0 +1,554 @@
+{
+  "specialties": [
+    {
+      "id": 1,
+      "nome": "Acupuntura",
+      "medicos_ativos": 8200,
+      "salario_min": 8000,
+      "salario_max": 18000,
+      "anos_formacao": 2,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Médio"
+    },
+    {
+      "id": 2,
+      "nome": "Alergia e Imunologia",
+      "medicos_ativos": 3124,
+      "salario_min": 16000,
+      "salario_max": 28000,
+      "anos_formacao": 3,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Alto"
+    },
+    {
+      "id": 3,
+      "nome": "Anestesiologia",
+      "medicos_ativos": 34500,
+      "salario_min": 20000,
+      "salario_max": 45000,
+      "anos_formacao": 3,
+      "saturacao": "Média",
+      "crescimento_projetado": "Médio"
+    },
+    {
+      "id": 4,
+      "nome": "Angiologia",
+      "medicos_ativos": 3100,
+      "salario_min": 14000,
+      "salario_max": 28000,
+      "anos_formacao": 3,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Alto"
+    },
+    {
+      "id": 5,
+      "nome": "Cardiologia",
+      "medicos_ativos": 26000,
+      "salario_min": 18000,
+      "salario_max": 40000,
+      "anos_formacao": 5,
+      "saturacao": "Média",
+      "crescimento_projetado": "Médio"
+    },
+    {
+      "id": 6,
+      "nome": "Cirurgia Cardiovascular",
+      "medicos_ativos": 2100,
+      "salario_min": 25000,
+      "salario_max": 60000,
+      "anos_formacao": 7,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Médio"
+    },
+    {
+      "id": 7,
+      "nome": "Cirurgia da Mão",
+      "medicos_ativos": 2000,
+      "salario_min": 18000,
+      "salario_max": 38000,
+      "anos_formacao": 6,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Médio"
+    },
+    {
+      "id": 8,
+      "nome": "Cirurgia de Cabeça e Pescoço",
+      "medicos_ativos": 1600,
+      "salario_min": 20000,
+      "salario_max": 45000,
+      "anos_formacao": 6,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Alto"
+    },
+    {
+      "id": 9,
+      "nome": "Cirurgia do Aparelho Digestivo",
+      "medicos_ativos": 4200,
+      "salario_min": 18000,
+      "salario_max": 40000,
+      "anos_formacao": 6,
+      "saturacao": "Média",
+      "crescimento_projetado": "Médio"
+    },
+    {
+      "id": 10,
+      "nome": "Cirurgia Geral",
+      "medicos_ativos": 29500,
+      "salario_min": 12000,
+      "salario_max": 30000,
+      "anos_formacao": 2,
+      "saturacao": "Alta",
+      "crescimento_projetado": "Baixo"
+    },
+    {
+      "id": 11,
+      "nome": "Cirurgia Oncológica",
+      "medicos_ativos": 2600,
+      "salario_min": 20000,
+      "salario_max": 50000,
+      "anos_formacao": 7,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Alto"
+    },
+    {
+      "id": 12,
+      "nome": "Cirurgia Pediátrica",
+      "medicos_ativos": 1900,
+      "salario_min": 18000,
+      "salario_max": 38000,
+      "anos_formacao": 7,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Médio"
+    },
+    {
+      "id": 13,
+      "nome": "Cirurgia Plástica",
+      "medicos_ativos": 6287,
+      "salario_min": 22000,
+      "salario_max": 50000,
+      "anos_formacao": 5,
+      "saturacao": "Média",
+      "crescimento_projetado": "Alto"
+    },
+    {
+      "id": 14,
+      "nome": "Cirurgia Torácica",
+      "medicos_ativos": 1800,
+      "salario_min": 22000,
+      "salario_max": 45000,
+      "anos_formacao": 6,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Médio"
+    },
+    {
+      "id": 15,
+      "nome": "Cirurgia Vascular",
+      "medicos_ativos": 5200,
+      "salario_min": 18000,
+      "salario_max": 40000,
+      "anos_formacao": 6,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Alto"
+    },
+    {
+      "id": 16,
+      "nome": "Clínica Médica",
+      "medicos_ativos": 118000,
+      "salario_min": 10000,
+      "salario_max": 25000,
+      "anos_formacao": 2,
+      "saturacao": "Alta",
+      "crescimento_projetado": "Baixo"
+    },
+    {
+      "id": 17,
+      "nome": "Coloproctologia",
+      "medicos_ativos": 4800,
+      "salario_min": 16000,
+      "salario_max": 35000,
+      "anos_formacao": 6,
+      "saturacao": "Média",
+      "crescimento_projetado": "Médio"
+    },
+    {
+      "id": 18,
+      "nome": "Dermatologia",
+      "medicos_ativos": 14800,
+      "salario_min": 20000,
+      "salario_max": 50000,
+      "anos_formacao": 3,
+      "saturacao": "Alta",
+      "crescimento_projetado": "Alto"
+    },
+    {
+      "id": 19,
+      "nome": "Endocrinologia e Metabologia",
+      "medicos_ativos": 9842,
+      "salario_min": 18000,
+      "salario_max": 30000,
+      "anos_formacao": 4,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Alto"
+    },
+    {
+      "id": 20,
+      "nome": "Endoscopia",
+      "medicos_ativos": 7800,
+      "salario_min": 16000,
+      "salario_max": 35000,
+      "anos_formacao": 4,
+      "saturacao": "Média",
+      "crescimento_projetado": "Médio"
+    },
+    {
+      "id": 21,
+      "nome": "Gastroenterologia",
+      "medicos_ativos": 13500,
+      "salario_min": 16000,
+      "salario_max": 35000,
+      "anos_formacao": 5,
+      "saturacao": "Média",
+      "crescimento_projetado": "Médio"
+    },
+    {
+      "id": 22,
+      "nome": "Genética Médica",
+      "medicos_ativos": 820,
+      "salario_min": 14000,
+      "salario_max": 28000,
+      "anos_formacao": 3,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Alto"
+    },
+    {
+      "id": 23,
+      "nome": "Geriatria",
+      "medicos_ativos": 3600,
+      "salario_min": 14000,
+      "salario_max": 26000,
+      "anos_formacao": 4,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Alto"
+    },
+    {
+      "id": 24,
+      "nome": "Ginecologia e Obstetrícia",
+      "medicos_ativos": 40200,
+      "salario_min": 14000,
+      "salario_max": 35000,
+      "anos_formacao": 3,
+      "saturacao": "Alta",
+      "crescimento_projetado": "Baixo"
+    },
+    {
+      "id": 25,
+      "nome": "Hematologia e Hemoterapia",
+      "medicos_ativos": 5100,
+      "salario_min": 16000,
+      "salario_max": 32000,
+      "anos_formacao": 5,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Alto"
+    },
+    {
+      "id": 26,
+      "nome": "Homeopatia",
+      "medicos_ativos": 4800,
+      "salario_min": 6000,
+      "salario_max": 15000,
+      "anos_formacao": 2,
+      "saturacao": "Média",
+      "crescimento_projetado": "Baixo"
+    },
+    {
+      "id": 27,
+      "nome": "Infectologia",
+      "medicos_ativos": 4900,
+      "salario_min": 14000,
+      "salario_max": 28000,
+      "anos_formacao": 5,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Alto"
+    },
+    {
+      "id": 28,
+      "nome": "Mastologia",
+      "medicos_ativos": 3600,
+      "salario_min": 16000,
+      "salario_max": 35000,
+      "anos_formacao": 6,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Alto"
+    },
+    {
+      "id": 29,
+      "nome": "Medicina de Emergência",
+      "medicos_ativos": 14200,
+      "salario_min": 15000,
+      "salario_max": 35000,
+      "anos_formacao": 3,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Alto"
+    },
+    {
+      "id": 30,
+      "nome": "Medicina de Família e Comunidade",
+      "medicos_ativos": 11500,
+      "salario_min": 10000,
+      "salario_max": 22000,
+      "anos_formacao": 2,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Alto"
+    },
+    {
+      "id": 31,
+      "nome": "Medicina de Tráfego",
+      "medicos_ativos": 2100,
+      "salario_min": 8000,
+      "salario_max": 18000,
+      "anos_formacao": 2,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Baixo"
+    },
+    {
+      "id": 32,
+      "nome": "Medicina do Trabalho",
+      "medicos_ativos": 10200,
+      "salario_min": 12000,
+      "salario_max": 25000,
+      "anos_formacao": 2,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Médio"
+    },
+    {
+      "id": 33,
+      "nome": "Medicina Esportiva",
+      "medicos_ativos": 4100,
+      "salario_min": 12000,
+      "salario_max": 28000,
+      "anos_formacao": 3,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Alto"
+    },
+    {
+      "id": 34,
+      "nome": "Medicina Física e Reabilitação",
+      "medicos_ativos": 4100,
+      "salario_min": 12000,
+      "salario_max": 24000,
+      "anos_formacao": 4,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Alto"
+    },
+    {
+      "id": 35,
+      "nome": "Medicina Intensiva",
+      "medicos_ativos": 12400,
+      "salario_min": 18000,
+      "salario_max": 40000,
+      "anos_formacao": 4,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Alto"
+    },
+    {
+      "id": 36,
+      "nome": "Medicina Legal e Perícia Médica",
+      "medicos_ativos": 3100,
+      "salario_min": 12000,
+      "salario_max": 25000,
+      "anos_formacao": 3,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Médio"
+    },
+    {
+      "id": 37,
+      "nome": "Medicina Nuclear",
+      "medicos_ativos": 1300,
+      "salario_min": 18000,
+      "salario_max": 38000,
+      "anos_formacao": 4,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Alto"
+    },
+    {
+      "id": 38,
+      "nome": "Medicina Preventiva e Social",
+      "medicos_ativos": 3200,
+      "salario_min": 10000,
+      "salario_max": 22000,
+      "anos_formacao": 3,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Médio"
+    },
+    {
+      "id": 39,
+      "nome": "Nefrologia",
+      "medicos_ativos": 7200,
+      "salario_min": 16000,
+      "salario_max": 32000,
+      "anos_formacao": 5,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Alto"
+    },
+    {
+      "id": 40,
+      "nome": "Neurocirurgia",
+      "medicos_ativos": 4900,
+      "salario_min": 25000,
+      "salario_max": 60000,
+      "anos_formacao": 8,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Médio"
+    },
+    {
+      "id": 41,
+      "nome": "Neurologia",
+      "medicos_ativos": 11800,
+      "salario_min": 16000,
+      "salario_max": 35000,
+      "anos_formacao": 5,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Alto"
+    },
+    {
+      "id": 42,
+      "nome": "Nutrologia",
+      "medicos_ativos": 6200,
+      "salario_min": 12000,
+      "salario_max": 28000,
+      "anos_formacao": 3,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Alto"
+    },
+    {
+      "id": 43,
+      "nome": "Oftalmologia",
+      "medicos_ativos": 17500,
+      "salario_min": 16000,
+      "salario_max": 40000,
+      "anos_formacao": 3,
+      "saturacao": "Média",
+      "crescimento_projetado": "Médio"
+    },
+    {
+      "id": 44,
+      "nome": "Oncologia Clínica",
+      "medicos_ativos": 7800,
+      "salario_min": 18000,
+      "salario_max": 40000,
+      "anos_formacao": 5,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Alto"
+    },
+    {
+      "id": 45,
+      "nome": "Ortopedia e Traumatologia",
+      "medicos_ativos": 24500,
+      "salario_min": 16000,
+      "salario_max": 45000,
+      "anos_formacao": 5,
+      "saturacao": "Alta",
+      "crescimento_projetado": "Médio"
+    },
+    {
+      "id": 46,
+      "nome": "Otorrinolaringologia",
+      "medicos_ativos": 9800,
+      "salario_min": 14000,
+      "salario_max": 32000,
+      "anos_formacao": 3,
+      "saturacao": "Média",
+      "crescimento_projetado": "Médio"
+    },
+    {
+      "id": 47,
+      "nome": "Patologia",
+      "medicos_ativos": 4900,
+      "salario_min": 14000,
+      "salario_max": 30000,
+      "anos_formacao": 4,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Médio"
+    },
+    {
+      "id": 48,
+      "nome": "Patologia Clínica / Medicina Laboratorial",
+      "medicos_ativos": 6800,
+      "salario_min": 14000,
+      "salario_max": 30000,
+      "anos_formacao": 4,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Médio"
+    },
+    {
+      "id": 49,
+      "nome": "Pediatria",
+      "medicos_ativos": 54000,
+      "salario_min": 10000,
+      "salario_max": 24000,
+      "anos_formacao": 2,
+      "saturacao": "Média",
+      "crescimento_projetado": "Baixo"
+    },
+    {
+      "id": 50,
+      "nome": "Pneumologia",
+      "medicos_ativos": 7800,
+      "salario_min": 14000,
+      "salario_max": 30000,
+      "anos_formacao": 5,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Alto"
+    },
+    {
+      "id": 51,
+      "nome": "Psiquiatria",
+      "medicos_ativos": 22000,
+      "salario_min": 14000,
+      "salario_max": 35000,
+      "anos_formacao": 3,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Alto"
+    },
+    {
+      "id": 52,
+      "nome": "Radiologia",
+      "medicos_ativos": 17800,
+      "salario_min": 18000,
+      "salario_max": 40000,
+      "anos_formacao": 4,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Alto"
+    },
+    {
+      "id": 53,
+      "nome": "Radioterapia",
+      "medicos_ativos": 2600,
+      "salario_min": 18000,
+      "salario_max": 38000,
+      "anos_formacao": 4,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Alto"
+    },
+    {
+      "id": 54,
+      "nome": "Reumatologia",
+      "medicos_ativos": 5200,
+      "salario_min": 16000,
+      "salario_max": 32000,
+      "anos_formacao": 5,
+      "saturacao": "Baixa",
+      "crescimento_projetado": "Alto"
+    },
+    {
+      "id": 55,
+      "nome": "Urologia",
+      "medicos_ativos": 10200,
+      "salario_min": 16000,
+      "salario_max": 38000,
+      "anos_formacao": 5,
+      "saturacao": "Média",
+      "crescimento_projetado": "Médio"
+    }
+  ]
+}

@@ -1,0 +1,334 @@
+{
+  "specialties": [
+    {
+      "id": 1,
+      "nome": "Acupuntura",
+      "descricao": "Especialidade médica reconhecida pelo CFM que utiliza a estimulação de pontos específicos do corpo para tratar dores, distúrbios funcionais e complementar tratamentos convencionais. Integra medicina tradicional chinesa à prática clínica ocidental.",
+      "rotina_tipica": "Atendimento ambulatorial em consultório, sessões de 30–60 min por paciente. Baixíssima urgência, sem plantão. Alta demanda por atenção e comunicação. Frequentemente exercida como complemento a outra especialidade principal."
+    },
+    {
+      "id": 2,
+      "nome": "Alergia e Imunologia",
+      "descricao": "Especialidade com menor índice médico/habitante entre as clínicas no Brasil (DMB 2025). Atua em doenças alérgicas (asma, rinite, urticária, anafilaxia) e imunodeficiências, com interface crescente com oncologia (imunoterapia) e doenças autoimunes.",
+      "rotina_tipica": "Consultas ambulatoriais de média-longa duração. Baixa urgência com exceção de anafilaxia. Crescente demanda por protocolos de imunoterapia e pesquisa translacional. Perfil científico marcante, com muitos especialistas ligados a pesquisa e docência."
+    },
+    {
+      "id": 3,
+      "nome": "Anestesiologia",
+      "descricao": "Especialidade responsável pela segurança do paciente em procedimentos cirúrgicos, obstétricos e de terapia intensiva. Atua no manejo da dor aguda e crônica, sedação e monitorização hemodinâmica. Demanda raciocínio rápido e precisão técnica sob pressão.",
+      "rotina_tipica": "Centro cirúrgico de manhã até o fim dos procedimentos — horário irregular e dependente da agenda cirúrgica. Plantões noturnos frequentes. Alta remuneração, mas ritmo intenso. Possibilidade de atuação em clínicas de dor como alternativa ambulatorial."
+    },
+    {
+      "id": 4,
+      "nome": "Angiologia",
+      "descricao": "Especialidade dedicada ao diagnóstico e tratamento clínico de doenças do sistema vascular periférico: varizes, trombose venosa profunda, insuficiência arterial e linfática. Interface importante com cirurgia vascular.",
+      "rotina_tipica": "Consultas ambulatoriais com uso de ultrassom doppler. Procedimentos minimamente invasivos (escleroterapia, ablação). Baixa urgência no geral, com exceção de tromboembolismo. Boa qualidade de vida comparada a cirurgias."
+    },
+    {
+      "id": 5,
+      "nome": "Cardiologia",
+      "descricao": "Especialidade de alta demanda que trata doenças do coração e sistema circulatório: insuficiência cardíaca, arritmias, doença arterial coronariana e cardiopatias estruturais. Principal causa de mortalidade no Brasil, garantindo demanda constante.",
+      "rotina_tipica": "Misto de consultório, exames complementares (ecocardiograma, ergometria) e internação. Subespecialidades como hemodinâmica e eletrofisiologia têm perfil mais procedimental e intervencionista. Plantões em UCO frequentes para quem atua em hospital."
+    },
+    {
+      "id": 6,
+      "nome": "Cirurgia Cardiovascular",
+      "descricao": "Especialidade cirúrgica de alta complexidade responsável por revascularização do miocárdio, correção de valvopatias, cirurgia da aorta e implante de dispositivos cardíacos. Trabalho em equipe multidisciplinar com perfusionistas e cardiologistas.",
+      "rotina_tipica": "Centro cirúrgico de longa duração (4–8h por procedimento). Alta carga física e mental. Plantões de sobreaviso frequentes. Mercado concentrado em grandes centros hospitalares. Remuneração entre as mais altas da medicina brasileira."
+    },
+    {
+      "id": 7,
+      "nome": "Cirurgia da Mão",
+      "descricao": "Subespecialidade cirúrgica de alta precisão voltada ao tratamento de lesões e doenças do membro superior: síndrome do túnel do carpo, tendões, nervos, fraturas e reimplantes. Exige destreza manual excepcional e conhecimento anatômico detalhado.",
+      "rotina_tipica": "Cirurgias ambulatoriais e hospitalares de alta precisão. Consultório para seguimento pós-operatório. Mercado concentrado em grandes centros. Boa qualidade de vida após a curva de aprendizado."
+    },
+    {
+      "id": 8,
+      "nome": "Cirurgia de Cabeça e Pescoço",
+      "descricao": "Especialidade cirúrgica voltada ao tratamento de tumores malignos e benignos da cabeça e pescoço: tireoide, glândulas salivares, laringe, faringe e estruturas faciais. Alta interface com oncologia, otorrinolaringologia e cirurgia plástica.",
+      "rotina_tipica": "Cirurgias de média a longa duração (2–6h). Ambulatório oncológico e pré/pós-operatório. Trabalho em equipe multidisciplinar. Demanda crescente com aumento de incidência de câncer de cabeça e pescoço no Brasil."
+    },
+    {
+      "id": 9,
+      "nome": "Cirurgia do Aparelho Digestivo",
+      "descricao": "Especialidade cirúrgica focada em doenças do tubo digestivo: esôfago, estômago, intestino, fígado, pâncreas e baço. Inclui cirurgia bariátrica, laparoscópica avançada e oncológica do sistema digestivo.",
+      "rotina_tipica": "Centro cirúrgico com procedimentos de duração variável (1–6h). Demanda de urgência moderada (abdome agudo). Consultório para seguimento. Cirurgia bariátrica é segmento de alta demanda e remuneração."
+    },
+    {
+      "id": 10,
+      "nome": "Cirurgia Geral",
+      "descricao": "Base de toda a carreira cirúrgica, necessária como pré-requisito para a maioria das subespecialidades cirúrgicas. Atua em procedimentos abdominais, hérnias, trauma e urgências cirúrgicas. Mercado saturado nas grandes capitais.",
+      "rotina_tipica": "Alta carga de urgência e emergência, plantões frequentes, centro cirúrgico e ambulatório. Remuneração menor do que subespecialidades. Porta de entrada para carreira cirúrgica especializada."
+    },
+    {
+      "id": 11,
+      "nome": "Cirurgia Oncológica",
+      "descricao": "Especialidade cirúrgica voltada ao tratamento de tumores sólidos: mama, cólon, reto, estômago, pâncreas, entre outros. Trabalha em equipe multidisciplinar com oncologistas clínicos, radioterapeutas e patologistas.",
+      "rotina_tipica": "Cirurgias de média-alta complexidade, ambulatório oncológico, discussão de casos em tumor board. Impacto emocional relevante pelo contato com pacientes oncológicos. Crescimento acelerado com aumento de incidência de câncer."
+    },
+    {
+      "id": 12,
+      "nome": "Cirurgia Pediátrica",
+      "descricao": "Especialidade cirúrgica voltada ao tratamento de malformações congênitas, tumores e doenças cirúrgicas em crianças e adolescentes. Exige adaptação técnica para anatomia pediátrica e forte habilidade de comunicação com familiares.",
+      "rotina_tipica": "Centro cirúrgico com casos que variam de neonatos a adolescentes. Urgências pediátricas frequentes. Ambiente hospitalar com equipe multiprofissional. Alta demanda emocional e satisfação pelo impacto na vida das crianças."
+    },
+    {
+      "id": 13,
+      "nome": "Cirurgia Plástica",
+      "descricao": "Especialidade que atua tanto na vertente reconstrutiva (trauma, queimaduras, anomalias congênitas, pós-oncológico) quanto estética. Exige habilidade manual refinada, senso estético apurado e comunicação cuidadosa com pacientes que têm expectativas elevadas.",
+      "rotina_tipica": "Alternância entre centro cirúrgico e consultório. Alta demanda por gestão de agenda e relacionamento com pacientes. Componente estético traz autonomia sobre o próprio serviço, mas exige alto investimento inicial em infraestrutura."
+    },
+    {
+      "id": 14,
+      "nome": "Cirurgia Torácica",
+      "descricao": "Especialidade cirúrgica voltada ao tratamento de doenças do tórax: pulmão, mediastino, pleura, traqueia e esôfago. Interface importante com oncologia (câncer de pulmão é o de maior mortalidade no Brasil).",
+      "rotina_tipica": "Cirurgias de longa duração, muitas via videotoracoscopia (VATS). Plantões em hospitais terciários. Demanda crescente associada ao aumento de diagnóstico de câncer de pulmão."
+    },
+    {
+      "id": 15,
+      "nome": "Cirurgia Vascular",
+      "descricao": "Especialidade cirúrgica dedicada ao tratamento de doenças arteriais e venosas: aneurismas de aorta, doença arterial periférica, varizes complexas e fístulas arteriovenosas para hemodiálise. Alta interface com cardiologia e nefrologia.",
+      "rotina_tipica": "Cirurgias abertas e endovasculares, consultório e ambulatório. Urgências vasculares (isquemia aguda de membro) frequentes. Demanda crescente com envelhecimento da população e aumento de diabetes."
+    },
+    {
+      "id": 16,
+      "nome": "Clínica Médica",
+      "descricao": "Base da medicina interna e pré-requisito para a maioria das especialidades clínicas. Atua no diagnóstico e tratamento de doenças sistêmicas em adultos, cuidados hospitalares e pacientes complexos com múltiplas comorbidades.",
+      "rotina_tipica": "Alta variabilidade: internação hospitalar, ambulatório, plantões de pronto-socorro. Mercado saturado nas capitais, mas com alta demanda no interior e SUS. Porta de entrada essencial para carreira clínica especializada."
+    },
+    {
+      "id": 17,
+      "nome": "Coloproctologia",
+      "descricao": "Especialidade focada no diagnóstico e tratamento de doenças do cólon, reto e ânus: câncer colorretal, doença inflamatória intestinal, hemorroidas, fissuras e fístulas. Combina cirurgia e colonoscopia.",
+      "rotina_tipica": "Misto de cirurgias (eletivas e oncológicas) e procedimentos endoscópicos. Consultório com volume alto de queixas anorretais. Mercado com demanda crescente associada ao rastreamento de câncer colorretal."
+    },
+    {
+      "id": 18,
+      "nome": "Dermatologia",
+      "descricao": "Especialidade com uma das melhores qualidades de vida da medicina. Atua em condições da pele, cabelo e unhas: dermatites, psoríase, acne, câncer de pele, procedimentos estéticos e cosmiatria. Alta demanda privada.",
+      "rotina_tipica": "Consultório com consultas de 15–30 min, procedimentos cirúrgicos menores (biópsia, curetagem) e estéticos (toxina botulínica, laser). Sem urgências relevantes. Uma das especialidades com maior saturação em grandes capitais."
+    },
+    {
+      "id": 19,
+      "nome": "Endocrinologia e Metabologia",
+      "descricao": "Especialidade focada no diagnóstico e tratamento de doenças hormonais, metabólicas e do sistema endócrino: diabetes, tireoide, obesidade, osteoporose, distúrbios adrenais e hipofisários. O endocrinologista é consultado por pacientes crônicos que demandam acompanhamento de longo prazo.",
+      "rotina_tipica": "Consultas longas (45–60 min), com análise detalhada de exames laboratoriais e de imagem. Baixíssima urgência — raramente há plantão. Trabalho majoritariamente ambulatorial, com alta demanda por raciocínio analítico e capacidade de comunicação."
+    },
+    {
+      "id": 20,
+      "nome": "Endoscopia",
+      "descricao": "Especialidade que utiliza endoscópios para diagnóstico e tratamento de doenças do trato gastrointestinal. Procedimentos incluem colonoscopia, gastroscopia, CPRE e ecoendoscopia. Alta demanda por rastreamento de câncer colorretal.",
+      "rotina_tipica": "Sala de endoscopia de manhã — ritmo alto de procedimentos curtos (30–60 min cada). Baixa urgência no geral. Sedação é realizada em conjunto com anestesiologistas. Demanda crescente por rastreamento."
+    },
+    {
+      "id": 21,
+      "nome": "Gastroenterologia",
+      "descricao": "Especialidade que trata doenças do esôfago, estômago, intestino, fígado, pâncreas e vias biliares. Hepatologia é uma subespecialidade de alto crescimento, impulsionada pela epidemia de NASH (esteatohepatite não alcoólica).",
+      "rotina_tipica": "Consultório, endoscopia diagnóstica e terapêutica, internação hospitalar em casos de cirrose e hepatite. Boa qualidade de vida comparada a especialidades cirúrgicas."
+    },
+    {
+      "id": 22,
+      "nome": "Genética Médica",
+      "descricao": "Especialidade de alta especialização com o menor número absoluto de especialistas no Brasil (DMB 2025). Diagnóstico e aconselhamento de doenças genéticas e raras, com expansão acelerada pela medicina genômica e testes moleculares.",
+      "rotina_tipica": "Consultas longas e complexas, interpretação de exames genômicos, aconselhamento de famílias. Perfil altamente intelectual e científico. Mercado ainda em formação, com oportunidades em centros de referência e pesquisa."
+    },
+    {
+      "id": 23,
+      "nome": "Geriatria",
+      "descricao": "Especialidade de altíssimo crescimento diante do envelhecimento da população brasileira. Cuida da saúde integral do idoso, incluindo polifarmácia, síndromes geriátricas, demência, fragilidade e cuidados paliativos.",
+      "rotina_tipica": "Consultas longas com abordagem multidimensional (funcional, cognitiva, social). Misto de ambulatório, hospital e domicílio. Alta demanda por comunicação com familiares e equipe multiprofissional."
+    },
+    {
+      "id": 24,
+      "nome": "Ginecologia e Obstetrícia",
+      "descricao": "Uma das especialidades mais amplas da medicina, abrangendo saúde reprodutiva, assistência ao parto, oncologia ginecológica, uroginecologia e medicina fetal. Alta demanda, mas também alta saturação e responsabilidade legal.",
+      "rotina_tipica": "Consultório, sala de parto, centro cirúrgico (cesáreas, videolaparoscopia). Plantões obstétricos frequentes e imprevisíveis. Alta carga emocional e médico-legal. Subespecialidades como FETO e oncologia gin. têm perfil diferenciado."
+    },
+    {
+      "id": 25,
+      "nome": "Hematologia e Hemoterapia",
+      "descricao": "Especialidade que trata doenças do sangue e da medula óssea: leucemias, linfomas, mieloma múltiplo, anemias hemolíticas e hemoglobinopatias. Interface importante com oncologia e imunoterapia.",
+      "rotina_tipica": "Ambulatório oncohematológico, internação hospitalar em casos agudos, procedimentos como punção de medula. Alta carga emocional pelo contato com neoplasias hematológicas. Crescimento impulsionado por novas terapias-alvo."
+    },
+    {
+      "id": 26,
+      "nome": "Homeopatia",
+      "descricao": "Especialidade médica reconhecida pelo CFM que utiliza substâncias altamente diluídas para tratar doenças de forma individualizada. Frequentemente exercida como complemento a outra especialidade principal, com forte demanda no setor privado.",
+      "rotina_tipica": "Consultas longas e individualizadas (60–90 min). Sem urgências, sem plantão. Exercida majoritariamente em consultório privado. Geralmente combinada com outra especialidade para compor renda."
+    },
+    {
+      "id": 27,
+      "nome": "Infectologia",
+      "descricao": "Especialidade estratégica no Brasil pela alta prevalência de doenças infecciosas tropicais, HIV, tuberculose e infecções hospitalares. Ganhou projeção global após a pandemia de COVID-19 e tem interface crescente com resistência antimicrobiana.",
+      "rotina_tipica": "Consultório ambulatorial, visitas a pacientes internados, gestão de protocolos de antibioticoterapia em hospitais. Alta demanda intelectual com casos complexos. Muitos infectologistas atuam em pesquisa e docência."
+    },
+    {
+      "id": 28,
+      "nome": "Mastologia",
+      "descricao": "Especialidade dedicada ao diagnóstico e tratamento de doenças da mama: câncer de mama, nódulos benignos, ginecomastia e rastreamento. Câncer de mama é o mais incidente entre mulheres no Brasil — garante demanda crescente.",
+      "rotina_tipica": "Consultório, cirurgias (tumorectomia, mastectomia, reconstrução), acompanhamento pós-operatório. Trabalho em equipe com oncologistas e radioterapeutas. Alta satisfação por impacto direto no prognóstico do câncer."
+    },
+    {
+      "id": 29,
+      "nome": "Medicina de Emergência",
+      "descricao": "Especialidade relativamente nova no Brasil (reconhecida em 2015), responsável pelo atendimento de urgências e emergências clínicas e traumáticas. Alta demanda por profissionais qualificados em pronto-socorros e UTIs de porta.",
+      "rotina_tipica": "Pronto-socorro com ritmo acelerado, alta variabilidade de casos, decisões rápidas sob pressão. Plantões noturnos e finais de semana frequentes. Excelente remuneração por plantão. Perfil para quem tolera bem imprevisibilidade e estresse."
+    },
+    {
+      "id": 30,
+      "nome": "Medicina de Família e Comunidade",
+      "descricao": "Especialidade voltada à atenção primária à saúde, cuidado integral e longitudinal de indivíduos e famílias. Base do SUS e da estratégia Saúde da Família. Crescimento acelerado por políticas de fortalecimento da atenção básica.",
+      "rotina_tipica": "UBS ou clínicas de atenção primária, consultas de 15–20 min com alta variedade de queixas. Vínculo de longo prazo com pacientes e comunidade. Boa qualidade de vida e sem urgências de alta complexidade."
+    },
+    {
+      "id": 31,
+      "nome": "Medicina de Tráfego",
+      "descricao": "Especialidade voltada à avaliação de aptidão física e mental para conduzir veículos, exames para CNH e perícias de acidentes de trânsito. Exercida principalmente em clínicas credenciadas ao DETRAN.",
+      "rotina_tipica": "Exames periciais em ritmo alto, pouca demanda intelectual clínica. Sem urgências. Boa previsibilidade de horário. Frequentemente exercida como complemento de renda a outra especialidade principal."
+    },
+    {
+      "id": 32,
+      "nome": "Medicina do Trabalho",
+      "descricao": "Especialidade voltada à saúde dos trabalhadores: prevenção de doenças ocupacionais, laudos de insalubridade, PCMSO, afastamentos e reabilitação. Demanda estável por obrigatoriedade legal em empresas acima de certo porte.",
+      "rotina_tipica": "Empresa ou clínica corporativa, sem urgências. Horário comercial previsível, sem plantões. Demanda por laudos e perícias administrativas. Boa qualidade de vida e equilíbrio trabalho-vida pessoal."
+    },
+    {
+      "id": 33,
+      "nome": "Medicina Esportiva",
+      "descricao": "Especialidade voltada à prevenção, diagnóstico e tratamento de lesões musculoesqueléticas em atletas e praticantes de atividade física, além de prescrição de exercício para saúde e reabilitação cardiovascular.",
+      "rotina_tipica": "Consultório com consultas de 30–45 min. Sem urgências significativas. Alta demanda privada e crescente com o boom do fitness e medicina preventiva. Perfil de especialidade com excelente qualidade de vida."
+    },
+    {
+      "id": 34,
+      "nome": "Medicina Física e Reabilitação",
+      "descricao": "Especialidade dedicada à reabilitação de pacientes com sequelas de AVC, trauma, amputações, dor crônica e doenças musculoesqueléticas. Trabalho em equipe multiprofissional com fisioterapeutas, fonoaudiólogos e terapeutas ocupacionais.",
+      "rotina_tipica": "Consultório e ambulatório de reabilitação. Sem urgências. Alta demanda por comunicação e planejamento terapêutico individualizado. Crescimento associado ao aumento de sobreviventes de AVC e trauma."
+    },
+    {
+      "id": 35,
+      "nome": "Medicina Intensiva",
+      "descricao": "Especialidade voltada ao cuidado de pacientes críticos em UTI: sepse, insuficiência respiratória, choque e pós-operatório de alto risco. Alta demanda após a pandemia de COVID-19, que evidenciou o déficit de intensivistas no Brasil.",
+      "rotina_tipica": "Plantões em UTI — ambiente de alta pressão, decisões rápidas e monitorização contínua. Trabalho em equipe multidisciplinar. Remuneração por plantão excelente. Exige resiliência emocional para lidar com pacientes graves e famílias em crise."
+    },
+    {
+      "id": 36,
+      "nome": "Medicina Legal e Perícia Médica",
+      "descricao": "Especialidade voltada à aplicação da medicina em questões jurídicas: necropsia, exame de lesões corporais, avaliação de sanidade mental, dano pessoal e tanatologia forense. Atuação principalmente no setor público.",
+      "rotina_tipica": "Instituto médico legal, IML, perícias judiciais, laudos técnicos. Horário comercial com eventualidade de sobreaviso. Sem contato clínico-terapêutico direto. Carreira pública estável com aprovação em concurso."
+    },
+    {
+      "id": 37,
+      "nome": "Medicina Nuclear",
+      "descricao": "Especialidade de diagnóstico por imagem que utiliza radiofármacos para avaliar função de órgãos e detectar tumores via PET-CT e cintilografia. Alto crescimento com expansão de centros de imagem oncológica no Brasil.",
+      "rotina_tipica": "Sala de laudos com análise de imagens, comunicação com clínicos solicitantes. Sem urgências. Perfil mais contemplativo e analítico. Mercado concentrado em hospitais terciários e centros oncológicos."
+    },
+    {
+      "id": 38,
+      "nome": "Medicina Preventiva e Social",
+      "descricao": "Especialidade voltada à saúde coletiva, epidemiologia, gestão em saúde e elaboração de políticas públicas. Atuação em ministérios, secretarias de saúde, Anvisa, OMS e academia. Pouca assistência direta ao paciente.",
+      "rotina_tipica": "Escritório ou academia — análise de dados, elaboração de protocolos, pesquisa epidemiológica. Sem urgências. Horário comercial previsível. Perfil para quem tem interesse em saúde além da clínica individual."
+    },
+    {
+      "id": 39,
+      "nome": "Nefrologia",
+      "descricao": "Especialidade dedicada ao diagnóstico e tratamento de doenças dos rins: insuficiência renal crônica, síndrome nefrótica, hipertensão renovascular e gestão de pacientes em diálise. Crescimento associado à epidemia de diabetes.",
+      "rotina_tipica": "Consultas ambulatoriais, visitas a pacientes em hemodiálise (rotina muito regular), internação hospitalar em casos agudos. Alta demanda por continuidade do cuidado. Boa previsibilidade de agenda."
+    },
+    {
+      "id": 40,
+      "nome": "Neurocirurgia",
+      "descricao": "Uma das especializações mais longas e exigentes da medicina. Trata tumores cerebrais, AVC hemorrágico, trauma cranioencefálico, doenças da coluna e nervos periféricos. Residência de até 8 anos de formação total.",
+      "rotina_tipica": "Cirurgias de alta complexidade (4–12h), plantões de urgência frequentes, ambiente de alta responsabilidade. Remuneração entre as mais altas. Exige dedicação total durante a residência e primeiros anos de carreira."
+    },
+    {
+      "id": 41,
+      "nome": "Neurologia",
+      "descricao": "Especialidade de alta complexidade diagnóstica que trata doenças do sistema nervoso: AVC, Alzheimer, Parkinson, epilepsia, esclerose múltipla e enxaqueca crônica. Interface crescente com neurologia intervencionista e biomarcadores.",
+      "rotina_tipica": "Consultório com consultas longas e detalhadas. Internação hospitalar em casos agudos (AVC, status epilepticus). Alta demanda por raciocínio diagnóstico elaborado. Crescimento acelerado com envelhecimento da população."
+    },
+    {
+      "id": 42,
+      "nome": "Nutrologia",
+      "descricao": "Especialidade dedicada ao estudo e tratamento de distúrbios nutricionais: obesidade, desnutrição, transtornos alimentares, suporte nutricional em UTI e nutrição funcional. Alta demanda privada pelo interesse crescente em saúde e bem-estar.",
+      "rotina_tipica": "Consultas ambulatoriais de 30–60 min. Sem urgências. Alta demanda por medicina preventiva e lifestyle. Mercado privado aquecido, com parte dos profissionais atuando no segmento de medicina de longevidade."
+    },
+    {
+      "id": 43,
+      "nome": "Oftalmologia",
+      "descricao": "Especialidade com alto volume de procedimentos cirúrgicos eletivos (catarata, refrativa, glaucoma, retina). Uma das de maior faturamento por procedimento na medicina privada. Demanda estável e crescente com envelhecimento populacional.",
+      "rotina_tipica": "Consultório com consultas de 15–20 min e centro cirúrgico com procedimentos curtos e de alta repetição. Sem urgências no geral (exceto trauma ocular). Alta satisfação por resultados imediatos e transformadores."
+    },
+    {
+      "id": 44,
+      "nome": "Oncologia Clínica",
+      "descricao": "Especialidade de alta relevância pelo aumento constante de incidência de câncer no Brasil. Responsável pelo tratamento sistêmico: quimioterapia, imunoterapia, terapia-alvo e hormonioterapia. Trabalho em equipe multidisciplinar.",
+      "rotina_tipica": "Ambulatório oncológico com consultas longas, prescrição de protocolos, discussão de casos em tumor board. Alta carga emocional pelo contato próximo com pacientes e famílias em situações graves. Alta satisfação por impacto real."
+    },
+    {
+      "id": 45,
+      "nome": "Ortopedia e Traumatologia",
+      "descricao": "Especialidade cirúrgica voltada ao sistema musculoesquelético: fraturas, artroplastias, lesões esportivas, doenças degenerativas e tumores ósseos. Uma das mais procuradas por residentes, resultando em alta competitividade e saturação nos grandes centros.",
+      "rotina_tipica": "Centro cirúrgico, consultório e pronto-socorro (plantões de trauma). Alta carga física. Demanda por subespecialização (coluna, quadril, joelho) para diferenciação no mercado saturado de capitais."
+    },
+    {
+      "id": 46,
+      "nome": "Otorrinolaringologia",
+      "descricao": "Especialidade dedicada a doenças do ouvido, nariz e garganta: otites, sinusites, rinites, surdez, disfagia, apneia do sono e câncer de cabeça e pescoço. Combina clínica ambulatorial com procedimentos cirúrgicos.",
+      "rotina_tipica": "Consultório de alto volume, procedimentos ambulatoriais (rinoscopias, lavagens), cirurgias de curta-média duração. Boa qualidade de vida comparada a especialidades de alta urgência."
+    },
+    {
+      "id": 47,
+      "nome": "Patologia",
+      "descricao": "Especialidade analítica que faz o diagnóstico definitivo de doenças pela análise macro e microscópica de tecidos (biópsias, peças cirúrgicas) e necropsias. Papel central no diagnóstico de câncer.",
+      "rotina_tipica": "Laboratório de patologia — análise de lâminas no microscópio, laudos técnicos, reuniões com equipes clínicas. Sem contato direto com pacientes. Perfil introspectivo e analítico. Boa qualidade de vida."
+    },
+    {
+      "id": 48,
+      "nome": "Patologia Clínica / Medicina Laboratorial",
+      "descricao": "Especialidade responsável pela gestão e interpretação de exames laboratoriais: bioquímica, hematologia laboratorial, microbiologia e imunologia clínica. Atuação em laboratórios hospitalares e clínicos, com foco em qualidade diagnóstica.",
+      "rotina_tipica": "Laboratório clínico, sem contato direto com pacientes. Laudos técnicos, validação de exames e suporte a equipes médicas. Horário comercial previsível. Mercado com oportunidades em grandes redes laboratoriais."
+    },
+    {
+      "id": 49,
+      "nome": "Pediatria",
+      "descricao": "Especialidade dedicada à saúde integral de crianças e adolescentes desde o nascimento até 18 anos. Inclui puericultura, vacinação, doenças infecciosas infantis e acompanhamento do desenvolvimento neuropsicomotor.",
+      "rotina_tipica": "Consultório e pronto-socorro pediátrico. Alta demanda por comunicação com pais. Plantões noturnos frequentes em hospital. Subespecialidades como neonatologia, pediatria intensiva e cardiologia pediátrica têm perfil diferenciado."
+    },
+    {
+      "id": 50,
+      "nome": "Pneumologia",
+      "descricao": "Especialidade que trata doenças do aparelho respiratório: asma, DPOC, pneumonias, câncer de pulmão, fibrose pulmonar e apneia do sono. Crescimento acelerado após a pandemia de COVID-19 e aumento de doenças respiratórias crônicas.",
+      "rotina_tipica": "Consultório ambulatorial, espirometrias, broncoscopias, acompanhamento de pacientes em oxigenoterapia. Internações em casos agudos. Demanda crescente com sequelas de COVID e aumento de diagnóstico de doenças pulmonares."
+    },
+    {
+      "id": 51,
+      "nome": "Psiquiatria",
+      "descricao": "Especialidade em crescimento acelerado pela epidemia global de transtornos mentais: depressão, ansiedade, TDAH, transtorno bipolar e esquizofrenia. Brasil tem o maior número de casos de depressão da América Latina.",
+      "rotina_tipica": "Consultório com consultas de 30–50 min. Sem urgências no geral (exceto psiquiatria hospitalar). Alta demanda por escuta ativa e raciocínio diagnóstico multidimensional. Mercado privado aquecido e com expansão da telepsiquiatria."
+    },
+    {
+      "id": 52,
+      "nome": "Radiologia",
+      "descricao": "Especialidade diagnóstica que interpreta imagens médicas: radiografia, tomografia, ressonância, ultrassonografia e mamografia. Crescimento acelerado pela digitalização e teleradiologia, que amplia atuação independente de localização.",
+      "rotina_tipica": "Sala de laudos com análise de imagens digitais, sem contato direto com pacientes. Perfil analítico e solitário. Alta produtividade possível por laudos remotos. IA é a principal disrupção no horizonte da especialidade."
+    },
+    {
+      "id": 53,
+      "nome": "Radioterapia",
+      "descricao": "Especialidade oncológica que utiliza radiação ionizante para tratamento de tumores. Alta tecnologia (acelerador linear, braquiterapia). Déficit significativo de especialistas no Brasil, especialmente fora do eixo SP-RJ.",
+      "rotina_tipica": "Planejamento de tratamento no sistema de radioterapia, atendimento de pacientes durante o ciclo de tratamento. Sem urgências relevantes. Trabalho em equipe com físicos médicos e dosimetristas. Horário previsível."
+    },
+    {
+      "id": 54,
+      "nome": "Reumatologia",
+      "descricao": "Especialidade que trata doenças autoimunes e musculoesqueléticas: artrite reumatoide, lúpus, espondilite anquilosante, síndrome de Sjögren e vasculites. Alta demanda com crescimento de novas terapias biológicas.",
+      "rotina_tipica": "Consultas longas e detalhadas (45–60 min), com análise de exames laboratoriais e imagem. Sem urgências relevantes. Alta satisfação por impacto no controle de doenças incapacitantes. Perfil contemplativo e científico."
+    },
+    {
+      "id": 55,
+      "nome": "Urologia",
+      "descricao": "Especialidade cirúrgica dedicada ao sistema urinário e reprodutor masculino: cálculos renais, câncer de próstata, bexiga e rim, disfunção sexual e incontinência. Demanda crescente com envelhecimento masculino e rastreamento de câncer.",
+      "rotina_tipica": "Misto de consultório, endoscopia urológica (cistoscopia, ureteroscopia) e cirurgias (laparoscópica, robótica). Sem urgências de alto impacto no geral. Boa qualidade de vida comparada a cirurgias de urgência."
+    }
+  ]
+}
