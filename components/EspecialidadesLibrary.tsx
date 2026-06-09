@@ -12,7 +12,6 @@ interface Especialidade {
   por_100k_hab: number | null
   pct_mulheres: number | null
   media_idade: number | null
-  // from dmb_data.json
   salario_min?: number
   salario_max?: number
   anos_formacao?: number
@@ -68,7 +67,6 @@ export default function EspecialidadesLibrary({ especialidades, backHref }: Prop
     }
     if (catFiltro !== 'Todas') list = list.filter(e => getCat(e.id) === catFiltro)
     if (satFiltro !== 'Todas') list = list.filter(e => e.saturacao === satFiltro)
-
     list.sort((a, b) => {
       if (ordenar === 'especialistas') return (b.especialistas ?? 0) - (a.especialistas ?? 0)
       if (ordenar === 'salario') return (b.salario_max ?? 0) - (a.salario_max ?? 0)
@@ -78,126 +76,109 @@ export default function EspecialidadesLibrary({ especialidades, backHref }: Prop
   }, [especialidades, busca, catFiltro, satFiltro, ordenar])
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
+
       {/* Header */}
-      <div className="bg-blue-900 text-white">
-        <div className="max-w-5xl mx-auto px-4 py-10">
+      <div style={{ background: '#0f2d5e', color: 'white' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '40px 24px' }}>
           {backHref && (
-            <Link href={backHref} className="inline-flex items-center gap-1.5 text-blue-300 hover:text-white text-sm mb-6 transition">
+            <Link href={backHref} style={{ color: '#93c5fd', fontSize: 14, display: 'inline-block', marginBottom: 20 }}>
               ← Voltar ao resultado
             </Link>
           )}
-          <p className="text-blue-300 text-xs font-bold uppercase tracking-widest mb-2">Med Escolha · por Amo Medicina</p>
-          <h1 className="text-3xl font-extrabold mb-2">Biblioteca de Especialidades</h1>
-          <p className="text-blue-200 text-sm">
+          <p style={{ color: '#60a5fa', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 2, marginBottom: 8 }}>
+            Med Escolha · por Amo Medicina
+          </p>
+          <h1 style={{ fontSize: 32, fontWeight: 900, marginBottom: 8 }}>Biblioteca de Especialidades</h1>
+          <p style={{ color: '#93c5fd', fontSize: 14 }}>
             {especialidades.length} especialidades reconhecidas pelo CFM · Dados do DMB 2025 (FMUSP/AMB)
           </p>
         </div>
       </div>
 
       {/* Filtros */}
-      <div className="sticky top-0 z-10 bg-white border-b border-gray-200 shadow-sm">
-        <div className="max-w-5xl mx-auto px-4 py-3 flex flex-wrap gap-3 items-center">
-          {/* Busca */}
-          <div className="relative flex-1 min-w-[180px]">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">🔍</span>
+      <div style={{ position: 'sticky', top: 0, zIndex: 10, background: 'white', borderBottom: '1px solid #e2e8f0', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '12px 24px', display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
+          <div style={{ position: 'relative', flex: 1, minWidth: 180 }}>
+            <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8', fontSize: 14 }}>🔍</span>
             <input
               type="text"
               placeholder="Buscar especialidade..."
               value={busca}
               onChange={e => setBusca(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-300"
+              style={{ width: '100%', paddingLeft: 36, paddingRight: 12, paddingTop: 8, paddingBottom: 8, fontSize: 13, border: '1px solid #e2e8f0', borderRadius: 12, background: '#f8fafc', outline: 'none', boxSizing: 'border-box' }}
             />
           </div>
-
-          {/* Categoria */}
-          <select value={catFiltro} onChange={e => setCatFiltro(e.target.value)}
-            className="text-sm border border-gray-200 rounded-xl px-3 py-2 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-300">
-            {categorias.map(c => <option key={c}>{c}</option>)}
-          </select>
-
-          {/* Saturação */}
-          <select value={satFiltro} onChange={e => setSatFiltro(e.target.value)}
-            className="text-sm border border-gray-200 rounded-xl px-3 py-2 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-300">
-            <option>Todas</option>
-            <option>Baixa</option>
-            <option>Média</option>
-            <option>Alta</option>
-          </select>
-
-          {/* Ordenar */}
+          {[
+            { value: catFiltro, onChange: (v: string) => setCatFiltro(v), options: categorias },
+            { value: satFiltro, onChange: (v: string) => setSatFiltro(v), options: ['Todas', 'Baixa', 'Média', 'Alta'] },
+          ].map((sel, i) => (
+            <select key={i} value={sel.value} onChange={e => sel.onChange(e.target.value)}
+              style={{ fontSize: 13, border: '1px solid #e2e8f0', borderRadius: 12, padding: '8px 12px', background: '#f8fafc', outline: 'none' }}>
+              {sel.options.map(o => <option key={o}>{o}</option>)}
+            </select>
+          ))}
           <select value={ordenar} onChange={e => setOrdenar(e.target.value as any)}
-            className="text-sm border border-gray-200 rounded-xl px-3 py-2 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-300">
+            style={{ fontSize: 13, border: '1px solid #e2e8f0', borderRadius: 12, padding: '8px 12px', background: '#f8fafc', outline: 'none' }}>
             <option value="nome">A–Z</option>
             <option value="especialistas">Mais especialistas</option>
             <option value="salario">Maior salário</option>
           </select>
-
-          <span className="text-xs text-gray-400 ml-auto hidden sm:inline">{filtradas.length} especialidades</span>
+          <span style={{ fontSize: 12, color: '#94a3b8', marginLeft: 'auto' }}>{filtradas.length} especialidades</span>
         </div>
       </div>
 
       {/* Grade */}
-      <div className="max-w-5xl mx-auto px-4 py-8">
+      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '32px 24px' }}>
         {filtradas.length === 0 ? (
-          <div className="text-center py-20 text-gray-400">
-            <p className="text-4xl mb-4">🔍</p>
-            <p className="font-semibold">Nenhuma especialidade encontrada</p>
+          <div style={{ textAlign: 'center', padding: '80px 0', color: '#94a3b8' }}>
+            <p style={{ fontSize: 40, marginBottom: 16 }}>🔍</p>
+            <p style={{ fontWeight: 700 }}>Nenhuma especialidade encontrada</p>
             <button onClick={() => { setBusca(''); setCatFiltro('Todas'); setSatFiltro('Todas') }}
-              className="mt-4 text-sm text-blue-600 underline">Limpar filtros</button>
+              style={{ marginTop: 16, fontSize: 13, color: '#1d6fe8', textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer' }}>
+              Limpar filtros
+            </button>
           </div>
         ) : (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 16 }}>
             {filtradas.map(e => {
               const sat = e.saturacao ? SAT_STYLE[e.saturacao] : undefined
               const cresc = e.crescimento ? CRESC_STYLE[e.crescimento] : undefined
               const cat = getCat(e.id)
 
               return (
-                <Link key={e.id} href={`/especialidades/${e.id}`}
-                  className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-blue-200 transition-all p-5 flex flex-col gap-3 group">
-                  {/* Categoria tag */}
-                  <div className="flex items-start justify-between gap-2">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-blue-400">{cat}</span>
-                    {e.especialistas && (
-                      <span className="text-[10px] text-gray-400 flex-shrink-0">
-                        {e.especialistas.toLocaleString('pt-BR')} esp.
-                      </span>
-                    )}
-                  </div>
+                <Link key={e.id} href={`/especialidades/${e.id}`} style={{ textDecoration: 'none' }}>
+                  <div style={{ background: 'white', borderRadius: 16, border: '1px solid #e2e8f0', padding: 20, display: 'flex', flexDirection: 'column', gap: 12, height: '100%', boxSizing: 'border-box', transition: 'box-shadow 0.2s' }}
+                    onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.1)')}
+                    onMouseLeave={e => (e.currentTarget.style.boxShadow = 'none')}>
 
-                  {/* Nome */}
-                  <h3 className="font-extrabold text-blue-900 text-base leading-tight group-hover:text-blue-700 transition">
-                    {e.nome}
-                  </h3>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8 }}>
+                      <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1, color: '#60a5fa' }}>{cat}</span>
+                      {e.especialistas && (
+                        <span style={{ fontSize: 10, color: '#94a3b8' }}>{e.especialistas.toLocaleString('pt-BR')} esp.</span>
+                      )}
+                    </div>
 
-                  {/* Descrição resumida */}
-                  <p className="text-sm text-gray-500 leading-relaxed line-clamp-3 flex-1">
-                    {e.descricao}
-                  </p>
+                    <h3 style={{ fontWeight: 900, color: '#0f2d5e', fontSize: 15, lineHeight: 1.3, margin: 0 }}>{e.nome}</h3>
 
-                  {/* Badges */}
-                  <div className="flex flex-wrap gap-1.5 mt-auto pt-2 border-t border-gray-50">
-                    {sat && e.saturacao && (
-                      <span style={{ background: sat.bg, color: sat.color, fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 8 }}>
-                        Sat. {e.saturacao}
-                      </span>
-                    )}
-                    {cresc && e.crescimento && (
-                      <span style={{ background: cresc.bg, color: cresc.color, fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 8 }}>
-                        Cresc. {e.crescimento}
-                      </span>
-                    )}
-                    {e.anos_formacao && (
-                      <span style={{ background: '#f1f5f9', color: '#475569', fontSize: 10, fontWeight: 600, padding: '2px 8px', borderRadius: 8 }}>
-                        {e.anos_formacao} anos
-                      </span>
-                    )}
-                    {e.por_100k_hab && (
-                      <span style={{ background: '#f1f5f9', color: '#475569', fontSize: 10, fontWeight: 600, padding: '2px 8px', borderRadius: 8 }}>
-                        {e.por_100k_hab}/100k hab.
-                      </span>
-                    )}
+                    <p style={{ fontSize: 13, color: '#64748b', lineHeight: 1.6, margin: 0, flex: 1, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                      {e.descricao}
+                    </p>
+
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, paddingTop: 12, borderTop: '1px solid #f1f5f9' }}>
+                      {sat && e.saturacao && (
+                        <span style={{ ...sat, fontSize: 10, fontWeight: 700, padding: '3px 10px', borderRadius: 8 }}>Sat. {e.saturacao}</span>
+                      )}
+                      {cresc && e.crescimento && (
+                        <span style={{ ...cresc, fontSize: 10, fontWeight: 700, padding: '3px 10px', borderRadius: 8 }}>Cresc. {e.crescimento}</span>
+                      )}
+                      {e.anos_formacao && (
+                        <span style={{ background: '#f1f5f9', color: '#475569', fontSize: 10, fontWeight: 600, padding: '3px 10px', borderRadius: 8 }}>{e.anos_formacao} anos res.</span>
+                      )}
+                      {e.por_100k_hab && (
+                        <span style={{ background: '#f1f5f9', color: '#475569', fontSize: 10, fontWeight: 600, padding: '3px 10px', borderRadius: 8 }}>{e.por_100k_hab}/100k hab.</span>
+                      )}
+                    </div>
                   </div>
                 </Link>
               )

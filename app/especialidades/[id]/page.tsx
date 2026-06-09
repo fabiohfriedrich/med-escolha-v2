@@ -18,15 +18,15 @@ const PRE_REQ: Record<number, string> = {
   51:'Acesso direto',52:'Acesso direto',53:'Acesso direto',54:'Clínica Médica',55:'Clínica Médica',
 }
 
-const SAT_STYLE: Record<string, { bg: string; color: string }> = {
-  Baixa: { bg: '#dcfce7', color: '#15803d' },
-  Média: { bg: '#fef3c7', color: '#b45309' },
-  Alta:  { bg: '#fee2e2', color: '#dc2626' },
+const SAT_STYLE: Record<string, { background: string; color: string }> = {
+  Baixa: { background: '#dcfce7', color: '#15803d' },
+  Média: { background: '#fef3c7', color: '#b45309' },
+  Alta:  { background: '#fee2e2', color: '#dc2626' },
 }
-const CRESC_STYLE: Record<string, { bg: string; color: string }> = {
-  Alto:  { bg: '#dcfce7', color: '#15803d' },
-  Médio: { bg: '#dbeafe', color: '#1d4ed8' },
-  Baixo: { bg: '#f3f4f6', color: '#6b7280' },
+const CRESC_STYLE: Record<string, { background: string; color: string }> = {
+  Alto:  { background: '#dcfce7', color: '#15803d' },
+  Médio: { background: '#dbeafe', color: '#1d4ed8' },
+  Baixo: { background: '#f3f4f6', color: '#6b7280' },
 }
 
 export async function generateStaticParams() {
@@ -39,10 +39,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const descriptions = (descriptionsData as any).specialties as Array<{ id: number; nome: string; descricao: string }>
   const d = descriptions.find(x => x.id === parseInt(idStr))
   if (!d) return {}
-  return {
-    title: `${d.nome} | Med Escolha`,
-    description: d.descricao?.substring(0, 160),
-  }
+  return { title: `${d.nome} | Med Escolha`, description: d.descricao?.substring(0, 160) }
 }
 
 export default async function EspecialidadePage({ params }: { params: Promise<{ id: string }> }) {
@@ -51,13 +48,13 @@ export default async function EspecialidadePage({ params }: { params: Promise<{ 
   if (isNaN(id) || id < 1 || id > 55) return notFound()
 
   const descriptions = (descriptionsData as any).specialties as Array<{
-    id: number; nome: string; descricao: string; rotina_tipica: string
+    id: number; nome: string; descricao: string; rotina_tipica: string; categoria?: string
   }>
   const desc = descriptions.find(d => d.id === id)
   if (!desc) return notFound()
 
   const dmb = (dmbData as any).specialties as Array<{
-    id: number; salario_min: number; salario_max: number; medicos_ativos: number
+    id: number; salario_min: number; salario_max: number
     anos_formacao: number; saturacao: string; crescimento_projetado: string
   }>
   const dmbSpec = dmb.find(d => d.id === id)
@@ -68,176 +65,163 @@ export default async function EspecialidadePage({ params }: { params: Promise<{ 
     .eq('id', id)
     .single()
 
-  // Prev / Next navigation
   const prev = id > 1 ? descriptions.find(d => d.id === id - 1) : null
   const next = id < 55 ? descriptions.find(d => d.id === id + 1) : null
 
   const sat = dmbSpec?.saturacao ? SAT_STYLE[dmbSpec.saturacao] : undefined
   const cresc = dmbSpec?.crescimento_projetado ? CRESC_STYLE[dmbSpec.crescimento_projetado] : undefined
 
-  function StatBox({ label, value }: { label: string; value: string }) {
-    return (
-      <div style={{ background: '#f8fafc', borderRadius: 12, padding: '14px 10px', textAlign: 'center' }}>
-        <p style={{ fontSize: 17, fontWeight: 800, color: '#1e3a5f', lineHeight: 1.2 }}>{value}</p>
-        <p style={{ fontSize: 10, color: '#64748b', marginTop: 3 }}>{label}</p>
-      </div>
-    )
-  }
+  const badge = (label: string, style: React.CSSProperties) => (
+    <span style={{ fontSize: 11, fontWeight: 700, padding: '4px 14px', borderRadius: 20, ...style }}>{label}</span>
+  )
+
+  const card = (children: React.ReactNode) => (
+    <div style={{ background: 'white', borderRadius: 16, border: '1px solid #e2e8f0', padding: 24, marginBottom: 16 }}>
+      {children}
+    </div>
+  )
+
+  const sectionTitle = (icon: string, label: string) => (
+    <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase' as const, letterSpacing: 1.5, color: '#94a3b8', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 6 }}>
+      <span>{icon}</span> {label}
+    </p>
+  )
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-blue-900 text-white">
-        <div className="max-w-3xl mx-auto px-4 py-10">
-          <Link href="/especialidades"
-            className="inline-flex items-center gap-1.5 text-blue-300 hover:text-white text-sm mb-6 transition">
+    <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
+
+      {/* Hero */}
+      <div style={{ background: '#0f2d5e', color: 'white', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', top: 0, right: 0, width: 350, height: 350, borderRadius: '50%', background: '#1a4a8a', opacity: 0.15, transform: 'translate(30%, -30%)' }} />
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '40px 24px', position: 'relative', zIndex: 1 }}>
+          <Link href="/especialidades" style={{ color: '#93c5fd', fontSize: 13, fontWeight: 500, display: 'inline-block', marginBottom: 20, textDecoration: 'none' }}>
             ← Todas as especialidades
           </Link>
-          <p className="text-blue-300 text-xs font-bold uppercase tracking-widest mb-2">Med Escolha · por Amo Medicina</p>
-          <h1 className="text-3xl font-extrabold leading-tight mb-3">{desc.nome}</h1>
-
-          {/* Badges */}
-          <div className="flex flex-wrap gap-2">
-            {dmbSpec?.saturacao && sat && (
-              <span style={{ ...sat, fontSize: 11, fontWeight: 700, padding: '3px 12px', borderRadius: 10 }}>
-                Saturação {dmbSpec.saturacao}
-              </span>
-            )}
-            {dmbSpec?.crescimento_projetado && cresc && (
-              <span style={{ ...cresc, fontSize: 11, fontWeight: 700, padding: '3px 12px', borderRadius: 10 }}>
-                Crescimento {dmbSpec.crescimento_projetado}
-              </span>
-            )}
-            {dmbSpec?.anos_formacao && (
-              <span style={{ background: 'rgba(255,255,255,0.15)', color: '#e2e8f0', fontSize: 11, fontWeight: 600, padding: '3px 12px', borderRadius: 10 }}>
-                {dmbSpec.anos_formacao} anos de residência
-              </span>
-            )}
-            <span style={{ background: 'rgba(255,255,255,0.15)', color: '#e2e8f0', fontSize: 11, fontWeight: 600, padding: '3px 12px', borderRadius: 10 }}>
-              Pré-req.: {PRE_REQ[id] || 'Acesso direto'}
-            </span>
+          {desc.categoria && (
+            <p style={{ color: '#60a5fa', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 2, marginBottom: 8 }}>
+              {desc.categoria} · Med Escolha
+            </p>
+          )}
+          <h1 style={{ fontSize: 36, fontWeight: 900, marginBottom: 16, lineHeight: 1.2 }}>{desc.nome}</h1>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+            {dmbSpec?.saturacao && sat && badge(`Saturação ${dmbSpec.saturacao}`, sat)}
+            {dmbSpec?.crescimento_projetado && cresc && badge(`Crescimento ${dmbSpec.crescimento_projetado}`, cresc)}
+            {dmbSpec?.anos_formacao && badge(`${dmbSpec.anos_formacao} anos de residência`, { background: 'rgba(255,255,255,0.15)', color: '#e2e8f0' })}
+            {badge(`Pré-req.: ${PRE_REQ[id] || 'Acesso direto'}`, { background: 'rgba(255,255,255,0.15)', color: '#e2e8f0' })}
           </div>
         </div>
       </div>
 
-      <div className="max-w-3xl mx-auto px-4 py-8 space-y-8">
+      {/* Conteúdo */}
+      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '32px 24px' }}>
+        <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start' }}>
 
-        {/* Descrição + Rotina */}
-        <div className="grid sm:grid-cols-2 gap-5">
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Sobre a especialidade</p>
-            <p className="text-sm text-gray-700 leading-relaxed">{desc.descricao}</p>
-          </div>
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Rotina típica</p>
-            <p className="text-sm text-gray-700 leading-relaxed">{desc.rotina_tipica}</p>
-          </div>
-        </div>
+          {/* Coluna principal */}
+          <div style={{ flex: 1, minWidth: 0 }}>
+            {card(<>
+              {sectionTitle('📋', 'Sobre a especialidade')}
+              <p style={{ fontSize: 14, color: '#374151', lineHeight: 1.7, margin: 0 }}>{desc.descricao}</p>
+            </>)}
 
-        {/* Estatísticas DMB 2025 */}
-        {supaRow && (
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Dados do mercado</p>
-            <p className="text-[10px] text-gray-300 mb-4">Fonte: DMB 2025 · FMUSP / AMB / Ministério da Saúde</p>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              <StatBox label="Especialistas" value={(supaRow.especialistas ?? 0).toLocaleString('pt-BR')} />
-              <StatBox label="Por 100k hab." value={supaRow.por_100k_hab ? `${Number(supaRow.por_100k_hab).toFixed(2)}` : '—'} />
-              <StatBox label="% Mulheres" value={supaRow.pct_mulheres ? `${supaRow.pct_mulheres}%` : '—'} />
-              <StatBox label="Média de idade" value={supaRow.media_idade ? `${supaRow.media_idade} anos` : '—'} />
-              <StatBox label="% nas capitais" value={supaRow.pct_capital ? `${supaRow.pct_capital}%` : '—'} />
-              <StatBox label="% no Sudeste" value={supaRow.pct_sudeste ? `${supaRow.pct_sudeste}%` : '—'} />
-              <StatBox label="% com 55+ anos" value={supaRow.pct_55_plus ? `${supaRow.pct_55_plus}%` : '—'} />
-              {dmbSpec?.anos_formacao && <StatBox label="Duração residência" value={`${dmbSpec.anos_formacao} anos`} />}
-            </div>
-          </div>
-        )}
+            {card(<>
+              {sectionTitle('🕐', 'Rotina típica')}
+              <p style={{ fontSize: 14, color: '#374151', lineHeight: 1.7, margin: 0 }}>{desc.rotina_tipica}</p>
+            </>)}
 
-        {/* Salário */}
-        {dmbSpec && dmbSpec.salario_min > 0 && (
-          <div style={{ background: '#eff6ff', borderRadius: 16, padding: '20px 24px', display: 'flex', alignItems: 'center', gap: 16 }}>
-            <span style={{ fontSize: 32 }}>💰</span>
-            <div>
-              <p style={{ fontSize: 10, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', marginBottom: 4 }}>Faixa salarial estimada</p>
-              <p style={{ fontSize: 18, fontWeight: 800, color: '#1e3a5f' }}>
-                R$ {dmbSpec.salario_min.toLocaleString('pt-BR')} – R$ {dmbSpec.salario_max.toLocaleString('pt-BR')}/mês
-              </p>
-              <p style={{ fontSize: 11, color: '#94a3b8', marginTop: 3 }}>Valores estimados para especialistas estabelecidos</p>
-            </div>
-          </div>
-        )}
-
-        {/* Visualização proporcional de gênero */}
-        {supaRow?.pct_mulheres && (
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Distribuição por gênero</p>
-            <div className="flex items-center gap-4">
-              <div className="flex-1">
-                <div className="flex justify-between text-xs font-semibold mb-1">
-                  <span style={{ color: '#ec4899' }}>👩 Mulheres</span>
-                  <span style={{ color: '#ec4899' }}>{supaRow.pct_mulheres}%</span>
-                </div>
-                <div className="w-full bg-gray-100 rounded-full h-3">
-                  <div className="h-3 rounded-full" style={{ width: `${supaRow.pct_mulheres}%`, background: '#f472b6' }} />
+            {dmbSpec && dmbSpec.salario_min > 0 && (
+              <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 16, padding: 24, display: 'flex', alignItems: 'center', gap: 16, marginBottom: 16 }}>
+                <div style={{ width: 48, height: 48, borderRadius: 12, background: '#fef3c7', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, flexShrink: 0 }}>💰</div>
+                <div>
+                  <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1, color: '#92400e', marginBottom: 4 }}>Faixa salarial estimada</p>
+                  <p style={{ fontSize: 20, fontWeight: 900, color: '#0f2d5e', margin: 0 }}>
+                    R$ {dmbSpec.salario_min.toLocaleString('pt-BR')} – R$ {dmbSpec.salario_max.toLocaleString('pt-BR')}/mês
+                  </p>
+                  <p style={{ fontSize: 11, color: '#94a3b8', margin: '4px 0 0' }}>Valores estimados para especialistas estabelecidos</p>
                 </div>
               </div>
-              <div className="flex-1">
-                <div className="flex justify-between text-xs font-semibold mb-1">
-                  <span style={{ color: '#3b82f6' }}>👨 Homens</span>
-                  <span style={{ color: '#3b82f6' }}>{(100 - Number(supaRow.pct_mulheres)).toFixed(1)}%</span>
-                </div>
-                <div className="w-full bg-gray-100 rounded-full h-3">
-                  <div className="h-3 rounded-full" style={{ width: `${100 - Number(supaRow.pct_mulheres)}%`, background: '#60a5fa' }} />
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+            )}
 
-        {/* Distribuição geográfica */}
-        {supaRow?.pct_capital && (
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Onde estão os especialistas</p>
-            <div className="space-y-3">
+            {supaRow?.pct_mulheres && card(<>
+              {sectionTitle('👥', 'Distribuição por gênero')}
               {[
-                { label: 'Nas capitais', pct: Number(supaRow.pct_capital), color: '#1d4ed8' },
-                { label: 'No Sudeste', pct: Number(supaRow.pct_sudeste || 0), color: '#0d9488' },
+                { label: 'Mulheres', pct: Number(supaRow.pct_mulheres), color: '#db2777', bg: '#fce7f3' },
+                { label: 'Homens', pct: 100 - Number(supaRow.pct_mulheres), color: '#1d6fe8', bg: '#dbeafe' },
               ].map(item => (
-                <div key={item.label}>
-                  <div className="flex justify-between text-sm mb-1">
-                    <span className="text-gray-600">{item.label}</span>
-                    <span className="font-bold" style={{ color: item.color }}>{item.pct}%</span>
+                <div key={item.label} style={{ marginBottom: 12 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, fontWeight: 600, marginBottom: 6 }}>
+                    <span style={{ color: item.color }}>{item.label}</span>
+                    <span style={{ color: item.color }}>{item.pct.toFixed(1)}%</span>
                   </div>
-                  <div className="w-full bg-gray-100 rounded-full h-2">
-                    <div className="h-2 rounded-full" style={{ width: `${item.pct}%`, background: item.color }} />
+                  <div style={{ width: '100%', height: 10, borderRadius: 999, background: item.bg }}>
+                    <div style={{ width: `${item.pct}%`, height: 10, borderRadius: 999, background: item.color }} />
                   </div>
                 </div>
               ))}
-            </div>
-          </div>
-        )}
+            </>)}
 
-        {/* Navegação prev/next */}
-        <div className="flex gap-3 pt-2">
-          {prev ? (
-            <Link href={`/especialidades/${prev.id}`}
-              className="flex-1 bg-white border border-gray-200 rounded-xl px-4 py-3 hover:border-blue-300 hover:bg-blue-50 transition text-sm">
-              <p className="text-xs text-gray-400 mb-0.5">← Anterior</p>
-              <p className="font-semibold text-blue-900 truncate">{prev.nome}</p>
-            </Link>
-          ) : <div className="flex-1" />}
-          {next ? (
-            <Link href={`/especialidades/${next.id}`}
-              className="flex-1 bg-white border border-gray-200 rounded-xl px-4 py-3 hover:border-blue-300 hover:bg-blue-50 transition text-sm text-right">
-              <p className="text-xs text-gray-400 mb-0.5">Próxima →</p>
-              <p className="font-semibold text-blue-900 truncate">{next.nome}</p>
-            </Link>
-          ) : <div className="flex-1" />}
+            {supaRow?.pct_capital && card(<>
+              {sectionTitle('📍', 'Onde estão')}
+              {[
+                { label: 'Nas capitais', pct: Number(supaRow.pct_capital), color: '#1d6fe8' },
+                { label: 'No Sudeste', pct: Number(supaRow.pct_sudeste || 0), color: '#0d9488' },
+              ].map(item => (
+                <div key={item.label} style={{ marginBottom: 12 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, marginBottom: 6 }}>
+                    <span style={{ color: '#374151', fontWeight: 500 }}>{item.label}</span>
+                    <span style={{ color: item.color, fontWeight: 700 }}>{item.pct}%</span>
+                  </div>
+                  <div style={{ width: '100%', height: 10, borderRadius: 999, background: '#f1f5f9' }}>
+                    <div style={{ width: `${item.pct}%`, height: 10, borderRadius: 999, background: item.color }} />
+                  </div>
+                </div>
+              ))}
+            </>)}
+          </div>
+
+          {/* Sidebar */}
+          {supaRow && (
+            <div style={{ width: 260, flexShrink: 0, position: 'sticky', top: 80 }}>
+              <div style={{ background: 'white', borderRadius: 16, border: '1px solid #e2e8f0', padding: 20 }}>
+                {sectionTitle('📊', 'Dados do mercado')}
+                <p style={{ fontSize: 10, color: '#cbd5e1', marginBottom: 16, marginTop: -8 }}>Fonte: DMB 2025 · FMUSP/AMB</p>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                  {[
+                    { label: 'Especialistas', value: (supaRow.especialistas ?? 0).toLocaleString('pt-BR') },
+                    { label: 'Por 100k hab.', value: supaRow.por_100k_hab ? Number(supaRow.por_100k_hab).toFixed(2) : '—' },
+                    { label: 'Mulheres', value: supaRow.pct_mulheres ? `${supaRow.pct_mulheres}%` : '—' },
+                    { label: 'Média de idade', value: supaRow.media_idade ? `${supaRow.media_idade}` : '—' },
+                    { label: 'Com 55+ anos', value: supaRow.pct_55_plus ? `${supaRow.pct_55_plus}%` : '—' },
+                    { label: 'Residência', value: dmbSpec?.anos_formacao ? `${dmbSpec.anos_formacao} anos` : '—' },
+                  ].map(stat => (
+                    <div key={stat.label} style={{ background: '#f8fafc', borderRadius: 10, padding: '12px 8px', textAlign: 'center' }}>
+                      <p style={{ fontSize: 16, fontWeight: 900, color: '#0f2d5e', margin: 0 }}>{stat.value}</p>
+                      <p style={{ fontSize: 10, color: '#94a3b8', marginTop: 4, marginBottom: 0 }}>{stat.label}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
-        {/* Voltar */}
-        <div className="pb-8 text-center">
-          <Link href="/especialidades"
-            className="inline-flex items-center gap-2 text-sm text-blue-600 font-semibold hover:text-blue-800 transition">
+        {/* Prev / Next */}
+        <div style={{ display: 'flex', gap: 12, marginTop: 24 }}>
+          {prev ? (
+            <Link href={`/especialidades/${prev.id}`} style={{ flex: 1, background: 'white', border: '1px solid #e2e8f0', borderRadius: 12, padding: '12px 16px', textDecoration: 'none', display: 'block' }}>
+              <p style={{ fontSize: 11, color: '#94a3b8', marginBottom: 4 }}>← Anterior</p>
+              <p style={{ fontSize: 14, fontWeight: 700, color: '#0f2d5e', margin: 0 }}>{prev.nome}</p>
+            </Link>
+          ) : <div style={{ flex: 1 }} />}
+          {next ? (
+            <Link href={`/especialidades/${next.id}`} style={{ flex: 1, background: 'white', border: '1px solid #e2e8f0', borderRadius: 12, padding: '12px 16px', textDecoration: 'none', display: 'block', textAlign: 'right' }}>
+              <p style={{ fontSize: 11, color: '#94a3b8', marginBottom: 4 }}>Próxima →</p>
+              <p style={{ fontSize: 14, fontWeight: 700, color: '#0f2d5e', margin: 0 }}>{next.nome}</p>
+            </Link>
+          ) : <div style={{ flex: 1 }} />}
+        </div>
+
+        <div style={{ textAlign: 'center', padding: '32px 0' }}>
+          <Link href="/especialidades" style={{ fontSize: 14, fontWeight: 700, color: '#1d6fe8', textDecoration: 'none' }}>
             ← Ver todas as especialidades
           </Link>
         </div>
