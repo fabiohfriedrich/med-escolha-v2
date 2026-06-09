@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import NavMenu from "@/components/NavMenu";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,13 +38,7 @@ export default function RootLayout({
               </span>
               <span className="hidden sm:inline text-blue-400 text-xs font-medium ml-1">por Amo Medicina</span>
             </a>
-            <div className="flex items-center gap-1">
-              <a href="/especialidades"
-                className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold text-blue-200 hover:text-white hover:bg-blue-800 transition">
-                <span>📚</span>
-                <span>Especialidades</span>
-              </a>
-            </div>
+            <NavMenu />
           </div>
         </nav>
         {children}

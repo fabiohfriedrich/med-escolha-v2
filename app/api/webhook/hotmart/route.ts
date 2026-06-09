@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
+import { getSupabaseAdmin } from '@/lib/supabase-admin'
 
 // Eventos que liberam o acesso
 const EVENTOS_APROVADOS = ['PURCHASE_APPROVED', 'PURCHASE_COMPLETE']
@@ -38,6 +39,18 @@ export async function POST(req: NextRequest) {
       if (error) {
         console.error('Supabase upsert error:', error)
         return NextResponse.json({ error: 'Erro ao salvar comprador' }, { status: 500 })
+      }
+
+      // Envia convite por email apenas quando a plataforma v2 estiver disponível.
+      // Para ativar: defina INVITE_EMAILS_ENABLED=true no .env
+      if (process.env.INVITE_EMAILS_ENABLED === 'true') {
+        const { error: inviteError } = await getSupabaseAdmin().auth.admin.inviteUserByEmail(emailLower, {
+          data: { full_name: nome },
+          redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`,
+        })
+        if (inviteError && inviteError.message !== 'User already registered') {
+          console.error('[webhook] Erro ao convidar usuário:', inviteError.message)
+        }
       }
 
       console.log(`[webhook] Comprador liberado: ${emailLower} (${event})`)

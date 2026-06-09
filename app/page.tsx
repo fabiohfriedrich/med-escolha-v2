@@ -3,37 +3,25 @@
 import { useState } from 'react'
 import Quiz from '@/components/Quiz'
 import ResultLayout from '@/components/ResultLayout'
-import EmailGate from '@/components/EmailGate'
 import { MatchResult, QuizAnswers } from '@/lib/scoring'
-
-// Controle de acesso: true = exige compra na Hotmart, false = livre
-const ACESSO_RESTRITO = process.env.NEXT_PUBLIC_ACESSO_RESTRITO === 'true'
-
-type AppState = 'gate' | 'quiz' | 'loading' | 'result'
+import { createSupabaseBrowser } from '@/lib/supabase-browser'
 
 export default function Home() {
-  const [state, setState] = useState<AppState>(ACESSO_RESTRITO ? 'gate' : 'quiz')
+  const [state, setState] = useState<'quiz' | 'loading' | 'result'>('quiz')
   const [result, setResult] = useState<MatchResult | null>(null)
   const [savedAnswers, setSavedAnswers] = useState<QuizAnswers | null>(null)
   const [resultadoId, setResultadoId] = useState<string | undefined>()
-  const [emailVerificado, setEmailVerificado] = useState('')
-  const [nomeVerificado, setNomeVerificado] = useState('')
-
-  function handleAcessoLiberado(email: string, nome: string) {
-    setEmailVerificado(email)
-    setNomeVerificado(nome)
-    setState('quiz')
-  }
 
   async function handleComplete(answers: QuizAnswers) {
-    // Se passou pelo gate, usa o email verificado
-    const answersFinais = emailVerificado
-      ? { ...answers, email: emailVerificado, nome: answers.nome || nomeVerificado }
-      : answers
-
-    setSavedAnswers(answersFinais)
+    setSavedAnswers(answers)
     setState('loading')
     try {
+      const supabase = createSupabaseBrowser()
+      const { data: { user } } = await supabase.auth.getUser()
+      const answersFinais = user?.email
+        ? { ...answers, email: user.email, nome: answers.nome || user.user_metadata?.full_name || '' }
+        : answers
+
       const res = await fetch('/api/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -48,10 +36,6 @@ export default function Home() {
       setState('quiz')
       alert('Erro ao calcular resultado. Tente novamente.')
     }
-  }
-
-  if (state === 'gate') {
-    return <EmailGate onAcessoLiberado={handleAcessoLiberado} />
   }
 
   if (state === 'loading') {
@@ -72,10 +56,10 @@ export default function Home() {
         result={result}
         answers={savedAnswers}
         resultadoId={resultadoId}
-        onRestart={() => { setResult(null); setResultadoId(undefined); setState(ACESSO_RESTRITO ? 'gate' : 'quiz') }}
+        onRestart={() => { setResult(null); setResultadoId(undefined); setState('quiz') }}
       />
     )
   }
 
-  return <Quiz onComplete={handleComplete} emailPreenchido={emailVerificado} nomePreenchido={nomeVerificado} />
+  return <Quiz onComplete={handleComplete} emailPreenchido="" nomePreenchido="" />
 }
