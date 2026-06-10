@@ -32,6 +32,8 @@ export async function POST(req: NextRequest) {
             nome,
             hotmart_transaction_id: transactionId,
             ativo: true,
+            status_pagamento: 'pago',
+            tipo: 'comprador',
           },
           { onConflict: 'email', ignoreDuplicates: false }
         )
@@ -58,10 +60,16 @@ export async function POST(req: NextRequest) {
     }
 
     if (EVENTOS_CANCELADOS.includes(event)) {
+      const statusMap: Record<string, string> = {
+        PURCHASE_REFUNDED: 'reembolsado',
+        PURCHASE_CHARGEBACK: 'chargeback',
+        PURCHASE_CANCELED: 'cancelado',
+      }
+      const status_pagamento = statusMap[event] ?? 'cancelado'
       // Desativa o acesso sem apagar os dados
       const { error } = await supabase
         .from('compradores')
-        .update({ ativo: false })
+        .update({ ativo: false, status_pagamento })
         .eq('email', emailLower)
 
       if (error) console.error('Supabase update error:', error)

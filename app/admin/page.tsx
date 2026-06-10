@@ -1,29 +1,49 @@
 import { supabase } from '@/lib/supabase'
+import GraficoNovosClientes from './GraficoNovosClientes'
 
 async function getStats() {
-  const [{ count: totalRespostas }, { count: totalCompradores }, { data: recentes }] = await Promise.all([
+  const [
+    { count: totalRespostas },
+    { count: totalCompradores },
+    { data: recentes },
+    { data: todosCompradores },
+  ] = await Promise.all([
     supabase.from('resultados').select('*', { count: 'exact', head: true }),
     supabase.from('compradores').select('*', { count: 'exact', head: true }),
     supabase.from('resultados').select('nome, email, created_at, ranking_json').order('created_at', { ascending: false }).limit(5),
+    supabase.from('compradores').select('created_at, ativo, testes_realizados').order('created_at', { ascending: true }),
   ])
 
   const { count: compradoresAtivos } = await supabase
-    .from('compradores')
-    .select('*', { count: 'exact', head: true })
-    .eq('ativo', true)
+    .from('compradores').select('*', { count: 'exact', head: true }).eq('ativo', true)
 
   const { count: semTestes } = await supabase
-    .from('compradores')
-    .select('*', { count: 'exact', head: true })
-    .eq('testes_realizados', 0)
-    .eq('ativo', true)
+    .from('compradores').select('*', { count: 'exact', head: true }).eq('testes_realizados', 0).eq('ativo', true)
 
-  return { totalRespostas, totalCompradores, compradoresAtivos, semTestes, recentes }
+  // Agrupa novos compradores por semana (últimas 8 semanas)
+  const agora = new Date()
+  const semanas: { label: string; count: number }[] = []
+  for (let i = 7; i >= 0; i--) {
+    const inicio = new Date(agora)
+    inicio.setDate(agora.getDate() - i * 7 - 6)
+    inicio.setHours(0, 0, 0, 0)
+    const fim = new Date(agora)
+    fim.setDate(agora.getDate() - i * 7)
+    fim.setHours(23, 59, 59, 999)
+    const count = (todosCompradores ?? []).filter(c => {
+      const d = new Date(c.created_at)
+      return d >= inicio && d <= fim
+    }).length
+    const label = inicio.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })
+    semanas.push({ label, count })
+  }
+
+  return { totalRespostas, totalCompradores, compradoresAtivos, semTestes, recentes, semanas }
 }
 
 function StatCard({ label, value, sub, color }: { label: string; value: number | null; sub?: string; color: string }) {
   return (
-    <div className={`bg-white rounded-2xl border border-gray-100 p-6 shadow-sm`}>
+    <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
       <p className="text-sm font-semibold text-gray-500">{label}</p>
       <p className={`text-4xl font-extrabold mt-1 ${color}`}>{value ?? '—'}</p>
       {sub && <p className="text-xs text-gray-400 mt-1">{sub}</p>}
@@ -32,7 +52,7 @@ function StatCard({ label, value, sub, color }: { label: string; value: number |
 }
 
 export default async function AdminDashboard() {
-  const { totalRespostas, totalCompradores, compradoresAtivos, semTestes, recentes } = await getStats()
+  const { totalRespostas, totalCompradores, compradoresAtivos, semTestes, recentes, semanas } = await getStats()
 
   return (
     <div className="space-y-8">
@@ -51,6 +71,12 @@ export default async function AdminDashboard() {
           sub="% dos compradores testaram"
           color="text-purple-600"
         />
+      </div>
+
+      {/* Gráfico de novos clientes por semana */}
+      <div>
+        <h2 className="text-lg font-extrabold text-gray-800 mb-4">Novos clientes por semana</h2>
+        <GraficoNovosClientes dados={semanas} />
       </div>
 
       <div>

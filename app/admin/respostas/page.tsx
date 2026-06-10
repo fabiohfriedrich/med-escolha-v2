@@ -1,17 +1,35 @@
 import { supabase } from '@/lib/supabase'
 
-export default async function AdminRespostas() {
-  const { data: respostas } = await supabase
+export default async function AdminRespostas({ searchParams }: { searchParams: Promise<{ email?: string }> }) {
+  const { email: emailFiltro } = await searchParams
+
+  let query = supabase
     .from('resultados')
     .select('id, nome, email, created_at, ranking_json, perfil_json')
     .order('created_at', { ascending: false })
     .limit(200)
 
+  if (emailFiltro) {
+    query = query.eq('email', emailFiltro)
+  }
+
+  const { data: respostas } = await query
+
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-extrabold text-gray-900">Respostas</h1>
-        <p className="text-gray-500 text-sm mt-1">{respostas?.length ?? 0} testes realizados</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-extrabold text-gray-900">Respostas</h1>
+          {emailFiltro ? (
+            <p className="text-gray-500 text-sm mt-1">
+              Filtrando por: <span className="font-semibold text-blue-700">{emailFiltro}</span>
+              {' '}&mdash; {respostas?.length ?? 0} testes
+              <a href="/admin/respostas" className="ml-3 text-xs text-blue-500 underline">Limpar filtro</a>
+            </p>
+          ) : (
+            <p className="text-gray-500 text-sm mt-1">{respostas?.length ?? 0} testes realizados</p>
+          )}
+        </div>
       </div>
 
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
@@ -58,7 +76,9 @@ export default async function AdminRespostas() {
                 )
               })}
               {!respostas?.length && (
-                <tr><td colSpan={5} className="px-5 py-10 text-center text-gray-400">Nenhuma resposta ainda.</td></tr>
+                <tr><td colSpan={5} className="px-5 py-10 text-center text-gray-400">
+                  {emailFiltro ? 'Nenhum teste encontrado para este email.' : 'Nenhuma resposta ainda.'}
+                </td></tr>
               )}
             </tbody>
           </table>
