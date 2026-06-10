@@ -42,7 +42,7 @@ export default function Home() {
 
       {/* Cards */}
       <section className="max-w-4xl mx-auto px-6 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
           {/* Card 1 — Faça seu teste */}
           <Link
@@ -104,6 +104,27 @@ export default function Home() {
             </div>
             <span className="mt-auto inline-flex items-center gap-1 text-sm font-bold text-blue-700 group-hover:gap-2 transition-all">
               Ver perfil →
+            </span>
+          </Link>
+
+          {/* Card 4 — Meus testes */}
+          <Link
+            href="/perfil?tab=resultados"
+            className="group bg-white hover:shadow-xl text-gray-900 rounded-2xl p-8 flex flex-col gap-4 shadow-md border border-gray-100 transition-shadow cursor-pointer"
+          >
+            <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center">
+              <svg className="w-6 h-6 text-blue-700" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+              </svg>
+            </div>
+            <div>
+              <h2 className="text-xl font-extrabold text-blue-900 mb-2">Meus testes</h2>
+              <p className="text-gray-500 text-sm leading-relaxed">
+                Consulte seus resultados anteriores e acompanhe como seu perfil evolui ao longo do tempo.
+              </p>
+            </div>
+            <span className="mt-auto inline-flex items-center gap-1 text-sm font-bold text-blue-700 group-hover:gap-2 transition-all">
+              Ver histórico →
             </span>
           </Link>
 

@@ -2,15 +2,23 @@
 
 import { useState, useEffect } from 'react'
 import { createSupabaseBrowser } from '@/lib/supabase-browser'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 
-type Tab = 'dados' | 'senha'
+type Tab = 'dados' | 'senha' | 'resultados'
+
+type Resultado = {
+  id: string
+  created_at: string
+  ranking_json: Array<{ especialidade: string; score: number }>
+}
 
 export default function PerfilPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const supabase = createSupabaseBrowser()
 
-  const [tab, setTab] = useState<Tab>('dados')
+  const tabParam = searchParams.get('tab') as Tab | null
+  const [tab, setTab] = useState<Tab>(tabParam === 'resultados' ? 'resultados' : 'dados')
   const [loading, setLoading] = useState(true)
   const [salvando, setSalvando] = useState(false)
   const [mensagem, setMensagem] = useState<{ tipo: 'ok' | 'erro'; texto: string } | null>(null)
@@ -19,6 +27,10 @@ export default function PerfilPage() {
   const [nome, setNome] = useState('')
   const [telefone, setTelefone] = useState('')
   const [email, setEmail] = useState('')
+
+  // Resultados
+  const [resultados, setResultados] = useState<Resultado[]>([])
+  const [loadingResultados, setLoadingResultados] = useState(false)
 
   // Troca de senha
   const [senhaAtual, setSenhaAtual] = useState('')
@@ -32,8 +44,20 @@ export default function PerfilPage() {
       setTelefone(data.user.user_metadata?.phone ?? '')
       setEmail(data.user.email ?? '')
       setLoading(false)
+      buscarResultados(data.user.email ?? '')
     })
   }, [])
+
+  async function buscarResultados(userEmail: string) {
+    setLoadingResultados(true)
+    const { data } = await supabase
+      .from('resultados')
+      .select('id, created_at, ranking_json')
+      .eq('email', userEmail.toLowerCase().trim())
+      .order('created_at', { ascending: false })
+    setResultados((data as Resultado[]) ?? [])
+    setLoadingResultados(false)
+  }
 
   async function salvarDados(e: React.FormEvent) {
     e.preventDefault()
@@ -112,15 +136,19 @@ export default function PerfilPage() {
 
         {/* Abas */}
         <div className="flex gap-1 bg-gray-100 rounded-xl p-1 mb-6">
-          {(['dados', 'senha'] as Tab[]).map(t => (
+          {([
+            { key: 'dados', label: 'Dados pessoais' },
+            { key: 'resultados', label: `Meus testes${resultados.length > 0 ? ` (${resultados.length})` : ''}` },
+            { key: 'senha', label: 'Trocar senha' },
+          ] as { key: Tab; label: string }[]).map(t => (
             <button
-              key={t}
-              onClick={() => { setTab(t); setMensagem(null) }}
+              key={t.key}
+              onClick={() => { setTab(t.key); setMensagem(null) }}
               className={`flex-1 py-2 rounded-lg text-sm font-semibold transition ${
-                tab === t ? 'bg-white text-blue-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+                tab === t.key ? 'bg-white text-blue-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'
               }`}
             >
-              {t === 'dados' ? '👤 Dados pessoais' : '🔒 Trocar senha'}
+              {t.label}
             </button>
           ))}
         </div>
@@ -181,6 +209,65 @@ export default function PerfilPage() {
             </form>
           )}
 
+          {/* Aba: Meus testes */}
+          {tab === 'resultados' && (
+            <div>
+              {loadingResultados ? (
+                <div className="flex justify-center py-10">
+                  <div className="w-8 h-8 border-4 border-blue-700 border-t-transparent rounded-full animate-spin" />
+                </div>
+              ) : resultados.length === 0 ? (
+                <div className="text-center py-10">
+                  <p className="text-gray-400 text-sm mb-4">Você ainda não realizou nenhum teste.</p>
+                  <a
+                    href="/teste"
+                    className="inline-block bg-blue-700 text-white text-sm font-bold px-6 py-3 rounded-xl hover:bg-blue-800 transition"
+                  >
+                    Fazer meu primeiro teste →
+                  </a>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {resultados.map((r, i) => {
+                    const top3 = (r.ranking_json ?? []).slice(0, 3)
+                    const data = new Date(r.created_at).toLocaleDateString('pt-BR', {
+                      day: '2-digit', month: 'long', year: 'numeric'
+                    })
+                    return (
+                      <div key={r.id} className="border border-gray-100 rounded-xl p-5 hover:border-blue-200 transition">
+                        <div className="flex items-start justify-between gap-4">
+                          <div>
+                            <p className="text-xs text-gray-400 mb-2">{data} · Teste #{resultados.length - i}</p>
+                            <div className="flex flex-wrap gap-2">
+                              {top3.map((esp, idx) => (
+                                <span
+                                  key={idx}
+                                  className={`inline-flex items-center gap-1 text-xs font-semibold px-3 py-1 rounded-full ${
+                                    idx === 0
+                                      ? 'bg-blue-700 text-white'
+                                      : 'bg-blue-50 text-blue-700'
+                                  }`}
+                                >
+                                  {idx === 0 ? '★ ' : ''}{esp.especialidade}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                          <a
+                            href={`/resultado/${r.id}`}
+                            className="flex-shrink-0 text-sm font-bold text-blue-700 hover:text-blue-900 transition"
+                          >
+                            Ver resultado →
+                          </a>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Aba: Trocar senha */}
           {tab === 'senha' && (
             <form onSubmit={trocarSenha} className="space-y-4">
@@ -233,7 +320,7 @@ export default function PerfilPage() {
         </div>
 
         <div className="mt-4 text-center">
-          <a href="/" className="text-sm text-blue-600 hover:text-blue-800">← Voltar ao teste</a>
+          <a href="/" className="text-sm text-blue-600 hover:text-blue-800">← Voltar ao início</a>
         </div>
       </div>
     </div>
