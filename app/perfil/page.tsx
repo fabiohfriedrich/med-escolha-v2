@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { createSupabaseBrowser } from '@/lib/supabase-browser'
 import { useRouter, useSearchParams } from 'next/navigation'
 
@@ -12,7 +12,7 @@ type Resultado = {
   ranking_json: Array<{ especialidade: string; score: number }>
 }
 
-export default function PerfilPage() {
+function PerfilContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const supabase = createSupabaseBrowser()
@@ -23,16 +23,13 @@ export default function PerfilPage() {
   const [salvando, setSalvando] = useState(false)
   const [mensagem, setMensagem] = useState<{ tipo: 'ok' | 'erro'; texto: string } | null>(null)
 
-  // Dados pessoais
   const [nome, setNome] = useState('')
   const [telefone, setTelefone] = useState('')
   const [email, setEmail] = useState('')
 
-  // Resultados
   const [resultados, setResultados] = useState<Resultado[]>([])
   const [loadingResultados, setLoadingResultados] = useState(false)
 
-  // Troca de senha
   const [senhaAtual, setSenhaAtual] = useState('')
   const [novaSenha, setNovaSenha] = useState('')
   const [confirmarSenha, setConfirmarSenha] = useState('')
@@ -95,7 +92,6 @@ export default function PerfilPage() {
     setSalvando(true)
     setMensagem(null)
 
-    // Verifica a senha atual reautenticando
     const { data: { user } } = await supabase.auth.getUser()
     const { error: reautError } = await supabase.auth.signInWithPassword({
       email: user?.email ?? '',
@@ -155,7 +151,6 @@ export default function PerfilPage() {
 
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
 
-          {/* Mensagem de feedback */}
           {mensagem && (
             <div className={`rounded-xl p-3 mb-6 text-sm ${
               mensagem.tipo === 'ok'
@@ -243,9 +238,7 @@ export default function PerfilPage() {
                                 <span
                                   key={idx}
                                   className={`inline-flex items-center gap-1 text-xs font-semibold px-3 py-1 rounded-full ${
-                                    idx === 0
-                                      ? 'bg-blue-700 text-white'
-                                      : 'bg-blue-50 text-blue-700'
+                                    idx === 0 ? 'bg-blue-700 text-white' : 'bg-blue-50 text-blue-700'
                                   }`}
                                 >
                                   {idx === 0 ? '★ ' : ''}{esp.especialidade}
@@ -324,5 +317,17 @@ export default function PerfilPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function PerfilPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="w-8 h-8 border-4 border-blue-700 border-t-transparent rounded-full animate-spin" />
+      </div>
+    }>
+      <PerfilContent />
+    </Suspense>
   )
 }
