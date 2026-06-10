@@ -1,4 +1,5 @@
-import { supabase } from '@/lib/supabase'
+import { getSupabaseAdmin } from '@/lib/supabase-admin'
+const supabase = getSupabaseAdmin()
 
 export default async function AdminRespostas({ searchParams }: { searchParams: Promise<{ email?: string }> }) {
   const { email: emailFiltro } = await searchParams

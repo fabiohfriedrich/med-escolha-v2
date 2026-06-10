@@ -1,4 +1,5 @@
-import { supabase } from '@/lib/supabase'
+import { getSupabaseAdmin } from '@/lib/supabase-admin'
+const supabase = getSupabaseAdmin()
 import GraficoNovosClientes from './GraficoNovosClientes'
 
 async function getStats() {
