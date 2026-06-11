@@ -9,7 +9,7 @@ type Tab = 'dados' | 'senha' | 'resultados'
 type Resultado = {
   id: string
   created_at: string
-  ranking_json: Array<{ especialidade: string; score: number }>
+  ranking_json: Array<{ nome: string; pct: number }>
 }
 
 function PerfilContent() {
@@ -241,7 +241,7 @@ function PerfilContent() {
                                     idx === 0 ? 'bg-blue-700 text-white' : 'bg-blue-50 text-blue-700'
                                   }`}
                                 >
-                                  {idx === 0 ? '★ ' : ''}{esp.especialidade}
+                                  {idx === 0 ? '★ ' : ''}{esp.nome}
                                 </span>
                               ))}
                             </div>
