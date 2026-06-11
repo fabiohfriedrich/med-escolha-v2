@@ -45,6 +45,10 @@ export default function CompradoresClient({ compradores }: Props) {
   const [editandoId, setEditandoId] = useState<string | null>(null)
   const [notasEditando, setNotasEditando] = useState('')
   const [limiteEditando, setLimiteEditando] = useState<number>(2)
+  const [senhaId, setSenhaId] = useState<string | null>(null)
+  const [novaSenha, setNovaSenha] = useState('')
+  const [salvandoSenha, setSalvandoSenha] = useState(false)
+  const [senhaMsg, setSenhaMsg] = useState<{ ok: boolean; texto: string } | null>(null)
 
   // Formulário de novo comprador
   const [novoEmail, setNovoEmail] = useState('')
@@ -99,6 +103,25 @@ export default function CompradoresClient({ compradores }: Props) {
     const fields: Record<string, unknown> = { ativo: newAtivo }
     if (newAtivo) fields.status_pagamento = 'pago'
     patch(c.id, fields)
+  }
+
+  async function salvarSenha(email: string) {
+    if (novaSenha.length < 6) { setSenhaMsg({ ok: false, texto: 'Mínimo 6 caracteres' }); return }
+    setSalvandoSenha(true)
+    setSenhaMsg(null)
+    const res = await fetch('/api/admin/compradores/senha', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, senha: novaSenha }),
+    })
+    const data = await res.json()
+    setSalvandoSenha(false)
+    if (res.ok) {
+      setSenhaMsg({ ok: true, texto: 'Senha alterada!' })
+      setTimeout(() => { setSenhaId(null); setNovaSenha(''); setSenhaMsg(null) }, 1500)
+    } else {
+      setSenhaMsg({ ok: false, texto: data.error ?? 'Erro ao salvar' })
+    }
   }
 
   function exportarCSV() {
@@ -331,6 +354,7 @@ export default function CompradoresClient({ compradores }: Props) {
                           </div>
                         </div>
                       ) : (
+                        <>
                         <div className="flex flex-wrap gap-1.5">
                           <button
                             onClick={() => toggleAtivo(c)}
@@ -364,7 +388,45 @@ export default function CompradoresClient({ compradores }: Props) {
                           >
                             Ver testes
                           </a>
+                          <button
+                            onClick={() => { setSenhaId(c.id); setNovaSenha(''); setSenhaMsg(null) }}
+                            className="text-xs font-semibold px-2.5 py-1 rounded-lg bg-gray-50 text-gray-600 hover:bg-gray-100 transition"
+                          >
+                            Senha
+                          </button>
                         </div>
+                        {senhaId === c.id && (
+                          <div className="mt-2 flex flex-col gap-1.5 min-w-[180px]">
+                            <input
+                              type="text"
+                              className="w-full border border-gray-300 rounded px-2 py-1 text-xs"
+                              placeholder="Nova senha (mín. 6 caracteres)"
+                              value={novaSenha}
+                              onChange={e => { setNovaSenha(e.target.value); setSenhaMsg(null) }}
+                            />
+                            {senhaMsg && (
+                              <p className={`text-xs font-semibold ${senhaMsg.ok ? 'text-green-600' : 'text-red-500'}`}>
+                                {senhaMsg.texto}
+                              </p>
+                            )}
+                            <div className="flex gap-1">
+                              <button
+                                onClick={() => salvarSenha(c.email)}
+                                disabled={salvandoSenha}
+                                className="flex-1 text-xs font-semibold px-2 py-1 rounded bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
+                              >
+                                {salvandoSenha ? 'Salvando...' : 'Salvar'}
+                              </button>
+                              <button
+                                onClick={() => { setSenhaId(null); setNovaSenha(''); setSenhaMsg(null) }}
+                                className="text-xs px-2 py-1 rounded bg-gray-100 text-gray-600 hover:bg-gray-200"
+                              >
+                                ✕
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                        </>
                       )}
                     </td>
                   </tr>
