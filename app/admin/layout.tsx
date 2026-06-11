@@ -7,6 +7,7 @@ const NAV = [
   { href: '/admin', label: '📊 Dashboard' },
   { href: '/admin/respostas', label: '📋 Respostas' },
   { href: '/admin/compradores', label: '👥 Compradores' },
+  { href: '/admin/feedbacks', label: '⭐ Feedbacks' },
 ]
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

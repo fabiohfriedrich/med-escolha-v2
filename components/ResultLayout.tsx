@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Results from './Results'
 import PostTest from './PostTest'
+import FeedbackBox from './FeedbackBox'
 import { MatchResult } from '@/lib/scoring'
 
 type Tab = 'resultado' | 'proximos' | 'refazer'
@@ -57,7 +58,10 @@ export default function ResultLayout({ result, answers, resultadoId, onRestart }
 
       {/* Conteúdo da aba */}
       {tab === 'resultado' && (
-        <Results result={result} answers={answers} onRestart={onRestart} hideRestartButton />
+        <>
+          <Results result={result} answers={answers} onRestart={onRestart} hideRestartButton />
+          {resultadoId && <FeedbackBox resultadoId={resultadoId} />}
+        </>
       )}
 
       {tab === 'proximos' && (
