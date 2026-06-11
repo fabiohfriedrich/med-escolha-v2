@@ -8,7 +8,7 @@ export default function NavBar() {
   const pathname = usePathname()
 
   // Oculta a navbar nas páginas de autenticação
-  const hideNav = pathname === '/login' || pathname === '/criar-senha'
+  const hideNav = pathname === '/login' || pathname === '/criar-senha' || pathname.startsWith('/admin')
   if (hideNav) return null
 
   return (
