@@ -1,27 +1,31 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextRequest, NextResponse } from 'next/server'
+import { verifySessionToken } from '@/app/api/admin/login/route'
 
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? 'medescolha2025'
-
-// Rotas que não exigem login Supabase
-const PUBLIC_PREFIXES = ['/login', '/criar-senha', '/auth/callback', '/api/', '/especialidades', '/admin', '/_next', '/favicon']
+// Rotas que exigem sessão Supabase válida
+const PROTECTED_PREFIXES = ['/teste', '/resultado', '/perfil']
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  // ── Proteção do painel admin (autenticação simples por cookie) ──
+  // ── Proteção do painel admin (token HMAC assinado) ──
   if (pathname.startsWith('/admin')) {
     if (pathname === '/admin/login') return NextResponse.next()
+    const jwtSecret = process.env.ADMIN_JWT_SECRET
+    if (!jwtSecret) {
+      console.error('[proxy] ADMIN_JWT_SECRET não configurada')
+      return NextResponse.redirect(new URL('/admin/login', request.url))
+    }
     const cookie = request.cookies.get('admin_auth')?.value
-    if (cookie !== ADMIN_PASSWORD) {
+    if (!cookie || !(await verifySessionToken(cookie, jwtSecret))) {
       return NextResponse.redirect(new URL('/admin/login', request.url))
     }
     return NextResponse.next()
   }
 
-  // ── Rotas públicas (sem verificação Supabase) ──
-  const isPublic = PUBLIC_PREFIXES.some(p => pathname.startsWith(p))
-  if (isPublic) return NextResponse.next()
+  // ── Só protege rotas que realmente exigem login ──
+  const isProtected = PROTECTED_PREFIXES.some(p => pathname.startsWith(p))
+  if (!isProtected) return NextResponse.next()
 
   // ── Proteção via Supabase Auth ──
   let supabaseResponse = NextResponse.next({ request })
@@ -49,10 +53,6 @@ export async function proxy(request: NextRequest) {
 
   if (!user) {
     return NextResponse.redirect(new URL('/login', request.url))
-  }
-
-  if (pathname === '/login') {
-    return NextResponse.redirect(new URL('/', request.url))
   }
 
   return supabaseResponse
