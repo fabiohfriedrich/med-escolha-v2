@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
 
 // Eventos que liberam o acesso
@@ -24,7 +23,7 @@ export async function POST(req: NextRequest) {
 
     if (EVENTOS_APROVADOS.includes(event)) {
       // Upsert: cria o comprador ou, se já existe, garante que está ativo
-      const { error } = await supabase
+      const { error } = await getSupabaseAdmin()
         .from('compradores')
         .upsert(
           {
@@ -67,7 +66,7 @@ export async function POST(req: NextRequest) {
       }
       const status_pagamento = statusMap[event] ?? 'cancelado'
       // Desativa o acesso sem apagar os dados
-      const { error } = await supabase
+      const { error } = await getSupabaseAdmin()
         .from('compradores')
         .update({ ativo: false, status_pagamento })
         .eq('email', emailLower)
