@@ -103,11 +103,8 @@ export default function Quiz({ onComplete, emailPreenchido = '', nomePreenchido 
 
   // Respostas
   const [c04a, setC04a] = useState<Record<string, boolean>>({})
-  // Inicializa todas as 81 perguntas com valor 5 (meio da escala)
-  // assim quem não altera o slider ainda contribui para o scoring
-  const [c04b, setC04b] = useState<Record<string, number>>(
-    () => Object.fromEntries(PERGUNTAS.map(p => [p.id, 5]))
-  )
+  // Sliders iniciam vazios — só entram no scoring quando o usuário interagir
+  const [c04b, setC04b] = useState<Record<string, number>>({})
   const [jung, setJung] = useState<string[]>([])
   const [hollandRespostas, setHollandRespostas] = useState<Record<string, boolean>>({})
   const [c02, setC02] = useState<number[]>([])
