@@ -44,14 +44,16 @@ export async function POST(req: NextRequest) {
 
       // Envia convite por email apenas quando a plataforma v2 estiver disponível.
       // Para ativar: defina INVITE_EMAILS_ENABLED=true no .env
-      if (process.env.INVITE_EMAILS_ENABLED === 'true') {
-        const { error: inviteError } = await getSupabaseAdmin().auth.admin.inviteUserByEmail(emailLower, {
-          data: { full_name: nome },
-          redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`,
-        })
-        if (inviteError && inviteError.message !== 'User already registered') {
-          console.error('[webhook] Erro ao convidar usuário:', inviteError.message)
-        }
+      // Cria conta no Supabase Auth com senha padrão (aluno troca no primeiro acesso)
+      const senhaDefault = process.env.DEFAULT_USER_PASSWORD ?? 'MedEscolha@2025'
+      const { error: authError } = await getSupabaseAdmin().auth.admin.createUser({
+        email: emailLower,
+        password: senhaDefault,
+        user_metadata: { full_name: nome },
+        email_confirm: true,
+      })
+      if (authError && authError.message !== 'User already registered') {
+        console.error('[webhook] Erro ao criar usuário:', authError.message)
       }
 
       console.log(`[webhook] Comprador liberado: ${emailLower} (${event})`)

@@ -45,6 +45,8 @@ export default function CriarSenhaPage() {
       return
     }
 
+    await fetch('/api/marcar-senha-criada', { method: 'POST' })
+
     router.push('/')
     router.refresh()
   }
