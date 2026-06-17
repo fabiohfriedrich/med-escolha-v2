@@ -8,6 +8,16 @@ const EVENTOS_CANCELADOS = ['PURCHASE_REFUNDED', 'PURCHASE_CHARGEBACK', 'PURCHAS
 
 export async function POST(req: NextRequest) {
   try {
+    // Valida hottok — token fixo que a Hotmart inclui em todo webhook
+    const hottok = process.env.HOTMART_HOTTOK
+    if (hottok) {
+      const receivedToken = req.headers.get('x-hotmart-hottok') ?? req.nextUrl.searchParams.get('hottok') ?? ''
+      if (receivedToken !== hottok) {
+        console.warn('[webhook] hottok inválido:', receivedToken)
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      }
+    }
+
     const body = await req.json()
 
     const event: string = body?.event ?? ''
