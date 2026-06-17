@@ -59,7 +59,7 @@ export default function ResultLayout({ result, answers, resultadoId, onRestart }
       {/* Conteúdo da aba */}
       {tab === 'resultado' && (
         <>
-          <Results result={result} answers={answers} onRestart={onRestart} hideRestartButton />
+          <Results result={result} answers={answers} resultId={resultadoId} onRestart={onRestart} hideRestartButton />
           {resultadoId && <FeedbackBox resultadoId={resultadoId} />}
         </>
       )}

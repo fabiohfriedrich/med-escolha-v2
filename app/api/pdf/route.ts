@@ -1,6 +1,36 @@
 import { NextRequest, NextResponse } from 'next/server'
 import descriptionsData from '@/data/descriptions.json'
 import c04bData from '@/data/c04b_perguntas.json'
+import { getSupabaseAdmin } from '@/lib/supabase-admin'
+
+const PDF_BUCKET = 'pdfs'
+
+async function getCachedHtml(resultId: string): Promise<string | null> {
+  try {
+    const supabase = getSupabaseAdmin()
+    const { data, error } = await supabase.storage
+      .from(PDF_BUCKET)
+      .download(`${resultId}.html`)
+    if (error || !data) return null
+    return await data.text()
+  } catch {
+    return null
+  }
+}
+
+async function cacheHtml(resultId: string, html: string): Promise<void> {
+  try {
+    const supabase = getSupabaseAdmin()
+    await supabase.storage
+      .from(PDF_BUCKET)
+      .upload(`${resultId}.html`, new Blob([html], { type: 'text/html' }), {
+        upsert: false,
+        contentType: 'text/html; charset=utf-8',
+      })
+  } catch {
+    // falha silenciosa — cache é opcional, não bloqueia o usuário
+  }
+}
 
 const DESCRIPTIONS = (descriptionsData as any).specialties as Array<{
   id: number; nome: string; descricao: string; rotina_tipica: string
@@ -186,7 +216,17 @@ function horizBar(pct: number, label: string, value: string) {
 // ── Main handler ──────────────────────────────────────────────────────────────
 export async function POST(req: NextRequest) {
   try {
-    const { perfil, ranking, answers } = await req.json()
+    const { perfil, ranking, answers, resultId } = await req.json()
+
+    // Retorna cache se disponível
+    if (resultId) {
+      const cached = await getCachedHtml(resultId)
+      if (cached) {
+        return new NextResponse(cached, {
+          headers: { 'Content-Type': 'text/html; charset=utf-8', 'X-Cache': 'HIT' },
+        })
+      }
+    }
 
     const nome: string = perfil.nome || 'Participante'
     const email: string = perfil.email || ''
@@ -680,8 +720,13 @@ ${page8}
 </body>
 </html>`
 
+    // Persiste no cache para requests futuros
+    if (resultId) {
+      await cacheHtml(resultId, html)
+    }
+
     return new NextResponse(html, {
-      headers: { 'Content-Type': 'text/html; charset=utf-8' },
+      headers: { 'Content-Type': 'text/html; charset=utf-8', 'X-Cache': 'MISS' },
     })
   } catch (err) {
     console.error(err)

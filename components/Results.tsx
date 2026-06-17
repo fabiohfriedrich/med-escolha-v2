@@ -124,11 +124,12 @@ function Badge({ label, val, sat }: { label: string; val: string; sat?: string }
 interface Props {
   result: MatchResult
   answers?: any
+  resultId?: string
   onRestart: () => void
   hideRestartButton?: boolean
 }
 
-export default function Results({ result, answers, onRestart, hideRestartButton }: Props) {
+export default function Results({ result, answers, resultId, onRestart, hideRestartButton }: Props) {
   const [showAll, setShowAll] = useState(false)
   const [printing, setPrinting] = useState(false)
   const [openId, setOpenId] = useState<number | null>(null)
@@ -160,7 +161,7 @@ export default function Results({ result, answers, onRestart, hideRestartButton 
       const res = await fetch('/api/pdf', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ perfil, ranking, answers }),
+        body: JSON.stringify({ perfil, ranking, answers, resultId }),
       })
       const html = await res.text()
       const win = window.open('', '_blank')

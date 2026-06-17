@@ -12,7 +12,7 @@ interface Props {
   answers: any
 }
 
-export default function ResultadoClient({ nome, email, ranking, perfil, answers }: Props) {
+export default function ResultadoClient({ id, nome, email, ranking, perfil, answers }: Props) {
   const result: MatchResult = { ranking, perfil: { nome, email, ...perfil } }
-  return <Results result={result} answers={answers} onRestart={() => window.location.href = '/'} />
+  return <Results result={result} answers={answers} resultId={id} onRestart={() => window.location.href = '/'} />
 }
