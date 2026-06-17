@@ -6,6 +6,35 @@ const EVENTOS_APROVADOS = ['PURCHASE_APPROVED', 'PURCHASE_COMPLETE']
 // Eventos que revogam o acesso
 const EVENTOS_CANCELADOS = ['PURCHASE_REFUNDED', 'PURCHASE_CHARGEBACK', 'PURCHASE_CANCELED']
 
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://app.medescolha.com'
+
+async function enviarConviteAcesso(emailLower: string, nome: string) {
+  const supabase = getSupabaseAdmin()
+
+  // Verifica se usuário já existe no Auth
+  const { data: listData } = await supabase.auth.admin.listUsers()
+  const jaExiste = listData?.users?.some(u => u.email === emailLower)
+
+  if (jaExiste) {
+    // Usuário já tem conta — envia link de redefinição de senha para ele acessar
+    const { error } = await supabase.auth.admin.generateLink({
+      type: 'recovery',
+      email: emailLower,
+      options: { redirectTo: `${APP_URL}/criar-senha` },
+    })
+    if (error) console.error('[webhook] Erro ao gerar link recovery:', error.message)
+    else console.log(`[webhook] Link de acesso reenviado: ${emailLower}`)
+  } else {
+    // Usuário novo — convite com link direto para criar senha
+    const { error } = await supabase.auth.admin.inviteUserByEmail(emailLower, {
+      data: { full_name: nome },
+      redirectTo: `${APP_URL}/criar-senha`,
+    })
+    if (error) console.error('[webhook] Erro ao enviar convite:', error.message)
+    else console.log(`[webhook] Convite enviado: ${emailLower}`)
+  }
+}
+
 export async function POST(req: NextRequest) {
   try {
     // Valida hottok — token fixo que a Hotmart inclui em todo webhook
@@ -19,7 +48,6 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json()
-
     const event: string = body?.event ?? ''
 
     // Ignora eventos que não precisamos processar — retorna 200 para a Hotmart não retentar
@@ -40,7 +68,7 @@ export async function POST(req: NextRequest) {
     const emailLower = email.toLowerCase().trim()
 
     if (EVENTOS_APROVADOS.includes(event)) {
-      // Upsert: cria o comprador ou, se já existe, garante que está ativo
+      // 1. Registra/ativa o comprador no banco
       const { error } = await getSupabaseAdmin()
         .from('compradores')
         .upsert(
@@ -60,19 +88,8 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Erro ao salvar comprador' }, { status: 500 })
       }
 
-      // Envia convite por email apenas quando a plataforma v2 estiver disponível.
-      // Para ativar: defina INVITE_EMAILS_ENABLED=true no .env
-      // Cria conta no Supabase Auth com senha padrão (aluno troca no primeiro acesso)
-      const senhaDefault = process.env.DEFAULT_USER_PASSWORD ?? 'MedEscolha@2025'
-      const { error: authError } = await getSupabaseAdmin().auth.admin.createUser({
-        email: emailLower,
-        password: senhaDefault,
-        user_metadata: { full_name: nome },
-        email_confirm: true,
-      })
-      if (authError && authError.message !== 'User already registered') {
-        console.error('[webhook] Erro ao criar usuário:', authError.message)
-      }
+      // 2. Envia email de acesso (convite para novo usuário, link recovery para quem já tem conta)
+      await enviarConviteAcesso(emailLower, nome)
 
       console.log(`[webhook] Comprador liberado: ${emailLower} (${event})`)
       return NextResponse.json({ ok: true, action: 'liberado', email: emailLower })
@@ -85,7 +102,6 @@ export async function POST(req: NextRequest) {
         PURCHASE_CANCELED: 'cancelado',
       }
       const status_pagamento = statusMap[event] ?? 'cancelado'
-      // Desativa o acesso sem apagar os dados
       const { error } = await getSupabaseAdmin()
         .from('compradores')
         .update({ ativo: false, status_pagamento })
@@ -97,7 +113,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ok: true, action: 'revogado', email: emailLower })
     }
 
-    // Evento ignorado (ex: PURCHASE_BILLET_PRINTED, etc.)
     return NextResponse.json({ ok: true, action: 'ignorado', event })
   } catch (err) {
     console.error('[webhook] Erro:', err)
