@@ -21,12 +21,20 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
 
     const event: string = body?.event ?? ''
+
+    // Ignora eventos que não precisamos processar — retorna 200 para a Hotmart não retentar
+    const EVENTOS_CONHECIDOS = [...EVENTOS_APROVADOS, ...EVENTOS_CANCELADOS]
+    if (!EVENTOS_CONHECIDOS.includes(event)) {
+      return NextResponse.json({ ok: true, action: 'ignorado', event })
+    }
+
     const email: string = body?.data?.buyer?.email ?? ''
     const nome: string = body?.data?.buyer?.name ?? ''
     const transactionId: string = body?.data?.purchase?.transaction ?? ''
 
     if (!email) {
-      return NextResponse.json({ error: 'Email não encontrado no payload' }, { status: 400 })
+      console.warn(`[webhook] Evento ${event} sem email no payload`)
+      return NextResponse.json({ ok: true, action: 'ignorado', reason: 'sem-email' })
     }
 
     const emailLower = email.toLowerCase().trim()
