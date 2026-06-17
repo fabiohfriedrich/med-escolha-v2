@@ -1,0 +1,1921 @@
+{
+  "especialidades": [
+    {
+      "slug": "dermatologia",
+      "nome": "Dermatologia",
+      "icon": "🔬",
+      "tags": ["concorrida", "remuneracao", "qv"],
+      "badges": [{ "texto": "🔥 Mais concorrida do Brasil", "cor": "hot" }],
+      "resumo": "A especialidade mais disputada do Brasil. Alta remuneração, qualidade de vida e boom da cosmética.",
+      "salario_faixa": "R$ 15k–60k+",
+      "duracao": "3 anos",
+      "concorrencia": 5,
+      "cfm_ativos": "~14.000",
+      "crescimento_10a": "+41%",
+      "candidatos_vaga": "~35–80:1",
+      "mercado": "Cerca de 14.000 dermatologistas ativos. 90% em consultório privado. Brasil é o 2º maior mercado de cosméticos do mundo. Envelhecimento da população e cultura de estética sustentam demanda crescente.",
+      "areas": [
+        { "icon": "🔬", "titulo": "Clínica", "descricao": "Acne, psoríase, dermatite, infecções. Base da especialidade presente em todos os consultórios." },
+        { "icon": "✨", "titulo": "Cosmética", "descricao": "Botox, laser, preenchimento, peelings. Maior parte da renda privada — mercado em expansão acelerada." },
+        { "icon": "🔪", "titulo": "Cirúrgica", "descricao": "Tumores, cirurgia de Mohs, enxertos. Exige habilidade técnica específica." },
+        { "icon": "🎗", "titulo": "Oncodermatologia", "descricao": "Melanoma e câncer de pele — o mais prevalente no Brasil. Alta demanda SUS e planos." }
+      ],
+      "residencia": [
+        { "ano": "R1", "titulo": "Base clínica e semiologia", "descricao": "Diagnóstico das principais dermatoses, histopatologia básica, rotina de ambulatório e enfermaria." },
+        { "ano": "R2", "titulo": "Cirurgia e procedimentos", "descricao": "Dermoscopia, cirurgia dermatológica, estética básica, oncodermatologia." },
+        { "ano": "R3", "titulo": "Especialização e título SBD", "descricao": "Subáreas, pesquisa, tecnologias (laser, IPL). Prova do título pela SBD." }
+      ],
+      "salarios": [
+        { "label": "Residência (R1–R3)", "pct": 13, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-formado", "pct": 30, "valor": "R$ 8k–12k" },
+        { "label": "Consultório (3–5 anos)", "pct": 55, "valor": "R$ 15k–25k" },
+        { "label": "Sênior + cosmética", "pct": 88, "valor": "R$ 30k–60k+" }
+      ],
+      "vantagens": ["Alta qualidade de vida", "Poucos plantões", "Renda elevada e crescente", "Autonomia de consultório", "Mercado cosmético robusto", "Demanda crescente"],
+      "desafios": ["Residência muito difícil de entrar", "Preparação de 2–4 anos", "Poucas vagas nos programas top", "Alto custo de instalação"],
+      "alerta": { "tipo": "warn", "texto": "A mais difícil de entrar no Brasil. USP e UNIFESP chegam a 80 candidatos/vaga. Nota de corte acima de 80%." },
+      "relacionadas": ["psiquiatria", "radiologia", "oftalmologia", "otorrinolaringologia"]
+    },
+    {
+      "slug": "psiquiatria",
+      "nome": "Psiquiatria",
+      "icon": "🧠",
+      "tags": ["crescimento", "concorrida"],
+      "badges": [{ "texto": "📈 +246% em 10 anos", "cor": "up" }, { "texto": "🔥 2ª mais concorrida", "cor": "hot" }],
+      "resumo": "Explosão pós-pandemia. Maior crescimento entre todas as especialidades na última década. Alta demanda em todo o Brasil.",
+      "salario_faixa": "R$ 12k–35k",
+      "duracao": "3 anos",
+      "concorrencia": 4,
+      "cfm_ativos": "~17.000",
+      "crescimento_10a": "+246%",
+      "candidatos_vaga": "~20–50:1",
+      "mercado": "Especialidade com maior crescimento no Brasil: +246% em 10 anos. Déficit histórico de profissionais — 1 psiquiatra para cada 10.000 brasileiros. Alta demanda SUS e privado. Pós-pandemia triplicou os casos de transtornos mentais no Brasil.",
+      "areas": [
+        { "icon": "🧠", "titulo": "Clínica adulto", "descricao": "Depressão, ansiedade, psicoses, transtornos de personalidade." },
+        { "icon": "👶", "titulo": "Psiquiatria infantil", "descricao": "TDAH, autismo, ansiedade infanto-juvenil. Alta demanda e déficit severo de profissionais." },
+        { "icon": "🏥", "titulo": "Internação e CAPS", "descricao": "Enfermarias psiquiátricas, CAPS, atenção à crise. Principalmente no SUS." },
+        { "icon": "💊", "titulo": "Psicofarmacologia", "descricao": "Manejo de medicações psiquiátricas complexas, novas classes terapêuticas." }
+      ],
+      "residencia": [
+        { "ano": "R1", "titulo": "Clínica psiquiátrica", "descricao": "Semiologia, psicopatologia, psicofarmacologia básica." },
+        { "ano": "R2", "titulo": "Aprofundamento clínico", "descricao": "Psicoterapias, urgências psiquiátricas, interconsulta hospitalar." },
+        { "ano": "R3", "titulo": "Subespecialidades", "descricao": "Infantil, forense, adições, psicogeriatria ou neuropsiquiatria." }
+      ],
+      "salarios": [
+        { "label": "Residência (R1–R3)", "pct": 15, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-formado", "pct": 35, "valor": "R$ 8k–14k" },
+        { "label": "Consultório (3–5 anos)", "pct": 55, "valor": "R$ 12k–22k" },
+        { "label": "Sênior privado", "pct": 78, "valor": "R$ 25k–40k" }
+      ],
+      "vantagens": ["Altíssima demanda de mercado", "Pode trabalhar só com consultas", "Foco em prevenção e vínculo", "Baixo risco de processos", "Crescimento acelerado e contínuo"],
+      "desafios": ["Desgaste emocional elevado", "Plantões em pronto-socorro pesados", "Estigma histórico da especialidade", "Média salarial menor que cirúrgicas"],
+      "alerta": { "tipo": "info", "texto": "A especialidade do momento. Com 1 psiquiatra para cada 10.000 brasileiros, há vaga garantida em qualquer região do país." },
+      "relacionadas": ["neurologia", "medicina-familia", "geriatria", "clinica-medica"]
+    },
+    {
+      "slug": "ortopedia",
+      "nome": "Ortopedia e Traumatologia",
+      "icon": "🦴",
+      "tags": ["concorrida", "remuneracao"],
+      "badges": [{ "texto": "🔎 Mais buscada por pacientes", "cor": "blue" }],
+      "resumo": "Especialidade mais buscada pelos pacientes no Google (17,6% das buscas). Alta demanda em todas as regiões do Brasil.",
+      "salario_faixa": "R$ 15k–50k",
+      "duracao": "3 anos (+fellowship)",
+      "concorrencia": 4,
+      "cfm_ativos": "~36.000",
+      "crescimento_10a": "+28%",
+      "candidatos_vaga": "~15–30:1",
+      "mercado": "Maior busca de pacientes no Brasil (17,6% das buscas, MedGuias 2025). Mais de 36.000 profissionais ativos. Alta demanda em trauma, esporte e cirurgia do envelhecimento.",
+      "areas": [
+        { "icon": "🏃", "titulo": "Ortopedia esportiva", "descricao": "Ligamento, tendão, cartilagem. Alta demanda e renda no privado." },
+        { "icon": "🚑", "titulo": "Traumatologia", "descricao": "Fraturas, luxações. Forte presença no SUS e pronto-socorro." },
+        { "icon": "👴", "titulo": "Ortopedia geral", "descricao": "Artroplastias de quadril e joelho, coluna vertebral." },
+        { "icon": "🧒", "titulo": "Ortopedia pediátrica", "descricao": "Deformidades congênitas, displasias, escoliose." }
+      ],
+      "residencia": [
+        { "ano": "R1", "titulo": "Base clínica e trauma", "descricao": "Fraturas, ambulatório, urgências ortopédicas." },
+        { "ano": "R2", "titulo": "Cirurgias eletivas", "descricao": "Artroplastias, coluna, cirurgias artroscópicas." },
+        { "ano": "R3", "titulo": "Subespecialização", "descricao": "Fellowship opcional: esporte, mão, coluna, tumor ósseo." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-formado", "pct": 38, "valor": "R$ 10k–15k" },
+        { "label": "Plantões + consultório", "pct": 58, "valor": "R$ 18k–30k" },
+        { "label": "Sênior + esporte/privado", "pct": 85, "valor": "R$ 35k–55k+" }
+      ],
+      "vantagens": ["Especialidade muito demandada", "Alta remuneração cirúrgica", "Mercado privado robusto", "Diversidade de subespecialidades"],
+      "desafios": ["Muitos plantões no início", "Exige alta habilidade cirúrgica", "Concorrência intensa nos programas top", "Longa jornada de formação"],
+      "alerta": { "tipo": "info", "texto": "Ortopedia lidera as buscas dos pacientes com 17,6% em 2025, especialmente no Norte e Centro-Oeste." },
+      "relacionadas": ["anestesiologia", "cirurgia-geral", "reumatologia", "medicina-intensiva"]
+    },
+    {
+      "slug": "ginecologia",
+      "nome": "Ginecologia e Obstetrícia",
+      "icon": "🌸",
+      "tags": ["concorrida", "crescimento"],
+      "badges": [{ "texto": "2ª mais buscada por pacientes", "cor": "blue" }],
+      "resumo": "2ª especialidade mais buscada pelos pacientes. Diversidade de atuação clínica, cirúrgica e obstétrica.",
+      "salario_faixa": "R$ 12k–40k",
+      "duracao": "3 anos",
+      "concorrencia": 3,
+      "cfm_ativos": "~41.000",
+      "crescimento_10a": "+25%",
+      "candidatos_vaga": "~10–25:1",
+      "mercado": "Segunda especialidade mais buscada pelos pacientes (16,2%). Mais de 41.000 gineco-obstetras no Brasil. Forte no SUS (pré-natal, parto) e privado (reprodução assistida, oncologia ginecológica).",
+      "areas": [
+        { "icon": "🤱", "titulo": "Obstetrícia", "descricao": "Pré-natal, parto, puerpério. Presente no SUS e privado." },
+        { "icon": "🩺", "titulo": "Ginecologia clínica", "descricao": "Prevenção, ciclo menstrual, menopausa, ISTs." },
+        { "icon": "🔬", "titulo": "Ginecologia oncológica", "descricao": "Câncer de colo, ovário e endométrio." },
+        { "icon": "🧬", "titulo": "Reprodução assistida", "descricao": "FIV, infertilidade. Alta renda no setor privado." }
+      ],
+      "residencia": [
+        { "ano": "R1", "titulo": "Obstetrícia e base", "descricao": "Pré-natal, trabalho de parto, urgências obstétricas." },
+        { "ano": "R2", "titulo": "Ginecologia cirúrgica", "descricao": "Histerectomia, laparoscopia, videolaparoscopia." },
+        { "ano": "R3", "titulo": "Subespecialidades", "descricao": "Oncologia ginecológica, uroginecologia, reprodução assistida." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-formada", "pct": 32, "valor": "R$ 8k–13k" },
+        { "label": "Consultório + plantão", "pct": 54, "valor": "R$ 15k–25k" },
+        { "label": "Reprodução/privado", "pct": 80, "valor": "R$ 30k–45k+" }
+      ],
+      "vantagens": ["Alta demanda constante", "Diversidade clínica e cirúrgica", "Forte no SUS e privado", "Vínculo longo com pacientes"],
+      "desafios": ["Plantões obstétricos muito pesados", "Alta exposição a processos judiciais", "Risco elevado em obstetrícia", "Burnout frequente"],
+      "alerta": { "tipo": "warn", "texto": "GO tem uma das maiores taxas de burnout na medicina por conta dos plantões obstétricos. Avaliar bem antes de decidir." },
+      "relacionadas": ["pediatria", "urologia", "medicina-familia", "endocrinologia"]
+    },
+    {
+      "slug": "oftalmologia",
+      "nome": "Oftalmologia",
+      "icon": "👁",
+      "tags": ["remuneracao", "qv", "concorrida"],
+      "badges": [{ "texto": "3ª mais buscada por pacientes", "cor": "blue" }, { "texto": "💰 Alta renda", "cor": "yellow" }],
+      "resumo": "3ª mais buscada pelos pacientes. Altíssima renda, poucos plantões e forte mercado de cirurgia refrativa.",
+      "salario_faixa": "R$ 15k–60k+",
+      "duracao": "3 anos",
+      "concorrencia": 4,
+      "cfm_ativos": "~17.000",
+      "crescimento_10a": "+38%",
+      "candidatos_vaga": "~20–45:1",
+      "mercado": "Terceira mais buscada por pacientes (15,4%). Especialmente forte no Sudeste (18,7%). Envelhecimento da população e cirurgia refrativa impulsionam demanda crescente.",
+      "areas": [
+        { "icon": "👁", "titulo": "Clínica geral", "descricao": "Refração, glaucoma, catarata, retina." },
+        { "icon": "🔬", "titulo": "Cirurgia refrativa", "descricao": "LASIK, PRK, lentes implantáveis. Alta renda no privado." },
+        { "icon": "🩺", "titulo": "Retina e vítreo", "descricao": "Degeneração macular, retinopatia diabética." },
+        { "icon": "👶", "titulo": "Oftalmopediatria", "descricao": "Estrabismo, ambliopia, retinopatia da prematuridade." }
+      ],
+      "residencia": [
+        { "ano": "R1", "titulo": "Base clínica", "descricao": "Semiologia ocular, refração, diagnóstico das principais doenças." },
+        { "ano": "R2", "titulo": "Cirurgia", "descricao": "Facoemulsificação (catarata), cirurgia palpebral." },
+        { "ano": "R3", "titulo": "Subespecialização", "descricao": "Retina, glaucoma, plástica ocular, córnea." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-formado", "pct": 34, "valor": "R$ 10k–16k" },
+        { "label": "Consultório estabelecido", "pct": 58, "valor": "R$ 18k–30k" },
+        { "label": "Cirurgia refrativa sênior", "pct": 90, "valor": "R$ 40k–70k+" }
+      ],
+      "vantagens": ["Qualidade de vida excelente", "Poucos plantões", "Alta remuneração", "Cirurgias de curta duração", "Tecnologia de ponta"],
+      "desafios": ["Residência concorrida", "Alto investimento em equipamentos (R$ 300k–800k)", "Curva de aprendizado cirúrgico longa"],
+      "alerta": { "tipo": "info", "texto": "Equipamentos caros para montar consultório, mas o retorno sobre investimento é alto — especialmente com cirurgia refrativa." },
+      "relacionadas": ["dermatologia", "otorrinolaringologia", "neurologia", "endocrinologia"]
+    },
+    {
+      "slug": "cardiologia",
+      "nome": "Cardiologia",
+      "icon": "❤️",
+      "tags": ["concorrida", "remuneracao", "crescimento"],
+      "badges": [{ "texto": "Alta demanda constante", "cor": "blue" }],
+      "resumo": "Alta demanda constante, procedimentos de alto valor e papel central na medicina adulta.",
+      "salario_faixa": "R$ 15k–55k",
+      "duracao": "2 anos CM + 2 anos",
+      "concorrencia": 4,
+      "cfm_ativos": "~24.000",
+      "crescimento_10a": "+32%",
+      "candidatos_vaga": "~15–35:1",
+      "mercado": "Quarta mais buscada por pacientes (13,1%). Doenças cardiovasculares são a 1ª causa de morte no Brasil. Alta demanda SUS e privado. Hemodinâmica e eletrofisiologia entre os procedimentos mais bem remunerados.",
+      "areas": [
+        { "icon": "❤️", "titulo": "Clínica cardiológica", "descricao": "Consultas, ecocardiograma, Holter, MAPA." },
+        { "icon": "🏥", "titulo": "Hemodinâmica", "descricao": "Cateterismo, angioplastia, intervenção coronária. Alta renda." },
+        { "icon": "⚡", "titulo": "Eletrofisiologia", "descricao": "Arritmias, ablação por cateter, implante de marcapasso." },
+        { "icon": "🚑", "titulo": "Cardiologia de urgência", "descricao": "IAM, insuficiência cardíaca aguda, choque cardiogênico." }
+      ],
+      "residencia": [
+        { "ano": "R1–R2", "titulo": "Clínica Médica (pré-req.)", "descricao": "2 anos obrigatórios de Clínica Médica antes da cardiologia." },
+        { "ano": "R3", "titulo": "Base cardiológica", "descricao": "Clínica, ecocardiograma, eletrocardiograma." },
+        { "ano": "R4", "titulo": "Aprofundamento", "descricao": "Hemodinâmica, eletrofisiologia ou cardiologia geral." }
+      ],
+      "salarios": [
+        { "label": "Residência (cardio)", "pct": 15, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-especializado", "pct": 36, "valor": "R$ 10k–16k" },
+        { "label": "Clínico estabelecido", "pct": 55, "valor": "R$ 18k–28k" },
+        { "label": "Hemodinâmica sênior", "pct": 85, "valor": "R$ 35k–60k+" }
+      ],
+      "vantagens": ["Especialidade de alto prestígio", "Procedimentos bem remunerados", "Alta demanda constante", "Diversidade de subespecialidades"],
+      "desafios": ["Exige 4 anos de residência no total", "Plantões pesados no início", "Alta pressão em urgências cardiovasculares"],
+      "alerta": { "tipo": "info", "texto": "Cardiologistas intervencionistas (hemodinâmica) têm remuneração entre as mais altas de toda a medicina no Brasil." },
+      "relacionadas": ["clinica-medica", "pneumologia", "endocrinologia", "geriatria"]
+    },
+    {
+      "slug": "neurologia",
+      "nome": "Neurologia",
+      "icon": "🧬",
+      "tags": ["crescimento", "concorrida"],
+      "badges": [{ "texto": "📈 Crescimento acelerado", "cor": "up" }],
+      "resumo": "Especialidade em expansão com déficit histórico de profissionais. Alta complexidade e prestígio intelectual.",
+      "salario_faixa": "R$ 12k–40k",
+      "duracao": "2 anos CM + 2 anos",
+      "concorrencia": 3,
+      "cfm_ativos": "~9.000",
+      "crescimento_10a": "+52%",
+      "candidatos_vaga": "~10–25:1",
+      "mercado": "Déficit crítico de neurologistas no Brasil — especialmente fora do eixo SP-RJ. Envelhecimento da população aumenta casos de AVC, Parkinson e demências. Especialidade com alta empregabilidade.",
+      "areas": [
+        { "icon": "🧬", "titulo": "Neurologia geral", "descricao": "AVC, epilepsia, cefaleia, neuropatias periféricas." },
+        { "icon": "👴", "titulo": "Neurologia do envelhecimento", "descricao": "Alzheimer, Parkinson, demências vasculares." },
+        { "icon": "🔬", "titulo": "Neurologia vascular", "descricao": "AVC isquêmico e hemorrágico, trombose cerebral." },
+        { "icon": "⚡", "titulo": "Neurofisiologia", "descricao": "EEG, EMG, potenciais evocados." }
+      ],
+      "residencia": [
+        { "ano": "R1–R2", "titulo": "Clínica Médica (pré-req.)", "descricao": "Pré-requisito: 2 anos obrigatórios de CM." },
+        { "ano": "R3", "titulo": "Neurologia clínica", "descricao": "Semiologia neurológica, principais síndromes." },
+        { "ano": "R4", "titulo": "Aprofundamento", "descricao": "Neuroimagem, doenças do movimento, neurointensivismo." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 15, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-especializado", "pct": 30, "valor": "R$ 8k–13k" },
+        { "label": "Consultório estabelecido", "pct": 50, "valor": "R$ 14k–22k" },
+        { "label": "Sênior + procedimentos", "pct": 74, "valor": "R$ 25k–40k+" }
+      ],
+      "vantagens": ["Alta complexidade intelectual", "Déficit de profissionais = emprego garantido", "Crescimento forte", "Diversidade de patologias"],
+      "desafios": ["Salário menor que cirúrgicas", "4 anos de residência no total", "Plantões neurológicos exigentes", "Pouca intervenção cirúrgica"],
+      "alerta": { "tipo": "info", "texto": "Déficit de neurologistas fora de SP e RJ é crítico. Quem atua no interior tem posição garantida com salário muito competitivo." },
+      "relacionadas": ["psiquiatria", "geriatria", "cardiologia", "medicina-intensiva"]
+    },
+    {
+      "slug": "pediatria",
+      "nome": "Pediatria",
+      "icon": "👶",
+      "tags": ["crescimento", "qv"],
+      "badges": [{ "texto": "Alta demanda SUS", "cor": "blue" }],
+      "resumo": "Especialidade com alta demanda no SUS e forte vínculo com o paciente. Exige e oferece muito em termos humanos.",
+      "salario_faixa": "R$ 8k–25k",
+      "duracao": "2 anos",
+      "concorrencia": 2,
+      "cfm_ativos": "~48.000",
+      "crescimento_10a": "+15%",
+      "candidatos_vaga": "~5–15:1",
+      "mercado": "Mais de 48.000 pediatras no Brasil. Alta demanda constante, especialmente para atendimento de urgência. Subespecialidades pediátricas (neonatologia, intensivismo) têm remuneração muito superior.",
+      "areas": [
+        { "icon": "👶", "titulo": "Pediatria geral", "descricao": "Puericultura, desenvolvimento, doenças comuns da infância." },
+        { "icon": "🏥", "titulo": "Urgência pediátrica", "descricao": "Pronto-socorro, estabilização, emergências pediátricas." },
+        { "icon": "🧠", "titulo": "Neuropediatria", "descricao": "TDAH, epilepsia pediátrica, autismo." },
+        { "icon": "🍼", "titulo": "Neonatologia", "descricao": "UTI neonatal, prematuridade, doenças do recém-nascido." }
+      ],
+      "residencia": [
+        { "ano": "R1", "titulo": "Pediatria geral", "descricao": "Ambulatório, enfermaria, puericultura." },
+        { "ano": "R2", "titulo": "Urgência e subespecialidades", "descricao": "Pronto-socorro pediátrico, UTI pediátrica, neonatologia." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-formado", "pct": 25, "valor": "R$ 7k–10k" },
+        { "label": "Consultório estabelecido", "pct": 40, "valor": "R$ 10k–18k" },
+        { "label": "Subespecialidade", "pct": 62, "valor": "R$ 18k–30k" }
+      ],
+      "vantagens": ["Residência mais acessível", "Vínculo forte com famílias", "Alta vocação e satisfação", "Múltiplas subespecialidades"],
+      "desafios": ["Salário abaixo de cirúrgicas", "Plantões pesados na urgência", "Alta carga emocional", "Exige perfil vocacional forte"],
+      "alerta": { "tipo": "info", "texto": "Neonatologistas e intensivistas pediátricos têm remuneração muito superior à média da especialidade." },
+      "relacionadas": ["ginecologia", "medicina-familia", "psiquiatria", "neurologia"]
+    },
+    {
+      "slug": "clinica-medica",
+      "nome": "Clínica Médica",
+      "icon": "🩺",
+      "tags": ["qv", "crescimento"],
+      "badges": [{ "texto": "Porta de entrada", "cor": "blue" }],
+      "resumo": "Base de toda a medicina. Porta de entrada para subespecialidades e grande demanda no SUS e hospitais.",
+      "salario_faixa": "R$ 8k–25k",
+      "duracao": "2 anos",
+      "concorrencia": 2,
+      "cfm_ativos": "~57.000",
+      "crescimento_10a": "+18%",
+      "candidatos_vaga": "~5–12:1",
+      "mercado": "Especialidade com maior número absoluto de profissionais no Brasil. Alta presença no SUS, urgência e hospitais. Pré-requisito para cardiologia, neurologia, pneumologia, reumatologia e outras 10+ especialidades.",
+      "areas": [
+        { "icon": "🩺", "titulo": "Clínica geral", "descricao": "Consultas, diagnóstico, internação hospitalar." },
+        { "icon": "🏥", "titulo": "Medicina hospitalar", "descricao": "Hospitalista — especialidade em forte crescimento no Brasil." },
+        { "icon": "🚑", "titulo": "Urgência e emergência", "descricao": "Pronto-socorro, estabilização de pacientes críticos." },
+        { "icon": "🧓", "titulo": "Medicina interna", "descricao": "Doenças complexas, multimorbidade, paciente idoso." }
+      ],
+      "residencia": [
+        { "ano": "R1", "titulo": "Internato clínico", "descricao": "Enfermaria, ambulatório, diagnóstico diferencial." },
+        { "ano": "R2", "titulo": "Urgência e subespecialidades", "descricao": "UTI, pronto-socorro, rotações em subespecialidades." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Plantonista", "pct": 28, "valor": "R$ 7k–12k" },
+        { "label": "Hospitalista", "pct": 38, "valor": "R$ 10k–18k" },
+        { "label": "Consultório privado", "pct": 52, "valor": "R$ 14k–25k" }
+      ],
+      "vantagens": ["Base para diversas subespecialidades", "Residência menos concorrida", "Alta empregabilidade", "Medicina hospitalar em alta crescente"],
+      "desafios": ["Salário menor isoladamente", "Muito plantonismo no início", "Percebida como 'passagem' para outros"],
+      "alerta": { "tipo": "info", "texto": "Hospitalista é a nova tendência: clínico médico focado em internação hospitalar com agenda estruturada e salário competitivo." },
+      "relacionadas": ["cardiologia", "neurologia", "endocrinologia", "geriatria"]
+    },
+    {
+      "slug": "endocrinologia",
+      "nome": "Endocrinologia",
+      "icon": "⚗️",
+      "tags": ["crescimento", "qv"],
+      "badges": [{ "texto": "📈 Epidemia de diabetes", "cor": "up" }],
+      "resumo": "Diabetes e obesidade impulsionam demanda. Especialidade de consultório com ótima qualidade de vida.",
+      "salario_faixa": "R$ 10k–30k",
+      "duracao": "2 anos CM + 2 anos",
+      "concorrencia": 3,
+      "cfm_ativos": "~8.500",
+      "crescimento_10a": "+61%",
+      "candidatos_vaga": "~12–25:1",
+      "mercado": "Epidemia de diabetes tipo 2 e obesidade no Brasil gera demanda crescente. Especialidade de consultório com poucos plantões. Endocrinologia estética e emagrecimento em forte expansão.",
+      "areas": [
+        { "icon": "⚗️", "titulo": "Diabetes e metabolismo", "descricao": "DM1, DM2, obesidade, dislipidemia." },
+        { "icon": "🦋", "titulo": "Tireoide", "descricao": "Hipotireoidismo, hipertireoidismo, nódulos, câncer de tireoide." },
+        { "icon": "📏", "titulo": "Endocrinologia pediátrica", "descricao": "Crescimento, puberdade, diabetes infantil." },
+        { "icon": "💊", "titulo": "Suprarrenal e hipófise", "descricao": "Cushing, Addison, acromegalia, prolactinoma." }
+      ],
+      "residencia": [
+        { "ano": "R1–R2", "titulo": "Clínica Médica (pré-req.)", "descricao": "Pré-requisito obrigatório." },
+        { "ano": "R3", "titulo": "Endocrinologia clínica", "descricao": "Diabetes, tireoide, suprarrenal, hipófise." },
+        { "ano": "R4", "titulo": "Aprofundamento", "descricao": "Endocrinologia pediátrica, doenças raras, fertilidade." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-especializado", "pct": 28, "valor": "R$ 7k–12k" },
+        { "label": "Consultório estabelecido", "pct": 46, "valor": "R$ 13k–22k" },
+        { "label": "Sênior privado", "pct": 70, "valor": "R$ 22k–35k" }
+      ],
+      "vantagens": ["Qualidade de vida alta", "Poucos plantões", "Demanda crescente pela epidemia", "Vínculo longo com o paciente"],
+      "desafios": ["4 anos de residência no total", "Renda abaixo de cirúrgicas", "Tratamentos longos e de acompanhamento crônico"],
+      "alerta": { "tipo": "info", "texto": "Epidemia de obesidade e diabetes garante fila de espera em qualquer consultório de endocrinologia no Brasil." },
+      "relacionadas": ["clinica-medica", "cardiologia", "pediatria", "geriatria"]
+    },
+    {
+      "slug": "radiologia",
+      "nome": "Radiologia e Diagnóstico por Imagem",
+      "icon": "📡",
+      "tags": ["remuneracao", "qv", "concorrida"],
+      "badges": [{ "texto": "💰 Alta renda", "cor": "yellow" }, { "texto": "🤖 Impacto da IA", "cor": "blue" }],
+      "resumo": "Alta remuneração, baixo contato com paciente e transformação acelerada pela inteligência artificial.",
+      "salario_faixa": "R$ 18k–70k+",
+      "duracao": "3 anos",
+      "concorrencia": 4,
+      "cfm_ativos": "~12.000",
+      "crescimento_10a": "+35%",
+      "candidatos_vaga": "~15–40:1",
+      "mercado": "Telerradiologia em expansão acelerada. IA como ferramenta (não substituta). Alta demanda por laudos em todo o Brasil. Possibilidade real de trabalho 100% remoto.",
+      "areas": [
+        { "icon": "📡", "titulo": "Diagnóstico por imagem", "descricao": "Tomografia, ressonância, ultrassom, radiografia." },
+        { "icon": "🏥", "titulo": "Radiologia intervencionista", "descricao": "Procedimentos guiados por imagem. Alta renda." },
+        { "icon": "💻", "titulo": "Telerradiologia", "descricao": "Laudos remotos para clínicas e hospitais de todo o Brasil." },
+        { "icon": "🔬", "titulo": "Medicina nuclear", "descricao": "PET-CT, cintilografia, diagnóstico funcional." }
+      ],
+      "residencia": [
+        { "ano": "R1", "titulo": "Base em imagem", "descricao": "Radiografia, ultrassom, interpretação básica." },
+        { "ano": "R2", "titulo": "TC e RM", "descricao": "Tomografia computadorizada e ressonância magnética." },
+        { "ano": "R3", "titulo": "Especialização", "descricao": "Intervencionismo, neurorradiologia, mamografia, medicina nuclear." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-formado", "pct": 42, "valor": "R$ 12k–18k" },
+        { "label": "Telerradiologia", "pct": 60, "valor": "R$ 18k–30k" },
+        { "label": "Intervencionista sênior", "pct": 92, "valor": "R$ 40k–80k+" }
+      ],
+      "vantagens": ["Trabalho remoto possível", "Altos salários", "Sem plantões tradicionais", "Poucos processos judiciais", "IA como ferramenta de suporte"],
+      "desafios": ["Pouco contato com paciente", "Alto custo de equipamentos", "Concorrência crescente em laudos"],
+      "alerta": { "tipo": "info", "texto": "Telerradiologia permite trabalhar de qualquer lugar. Radiologistas laudam para hospitais de todo o Brasil sem sair de casa." },
+      "relacionadas": ["medicina-nuclear", "neurologia", "cardiologia", "ortopedia"]
+    },
+    {
+      "slug": "anestesiologia",
+      "nome": "Anestesiologia",
+      "icon": "💉",
+      "tags": ["remuneracao", "concorrida"],
+      "badges": [{ "texto": "💰 Alta renda", "cor": "yellow" }, { "texto": "5ª mais concorrida", "cor": "hot" }],
+      "resumo": "Entre as especialidades mais bem remuneradas do Brasil. Papel central em qualquer cirurgia.",
+      "salario_faixa": "R$ 18k–60k+",
+      "duracao": "3 anos",
+      "concorrencia": 4,
+      "cfm_ativos": "~22.000",
+      "crescimento_10a": "+29%",
+      "candidatos_vaga": "~15–35:1",
+      "mercado": "Peça central em qualquer hospital cirúrgico. Alta renda com plantões bem pagos. Sem necessidade de consultório próprio. Consultório de dor crônica em expansão.",
+      "areas": [
+        { "icon": "💉", "titulo": "Anestesia geral", "descricao": "Cirurgias de grande e médio porte." },
+        { "icon": "🩺", "titulo": "Anestesia regional", "descricao": "Raquidiana, peridural, bloqueios periféricos." },
+        { "icon": "🏥", "titulo": "UTI e cuidados críticos", "descricao": "Sedação, ventilação mecânica em UTI." },
+        { "icon": "💊", "titulo": "Dor crônica", "descricao": "Consultório de dor, procedimentos minimamente invasivos. Alta renda." }
+      ],
+      "residencia": [
+        { "ano": "R1", "titulo": "Base anestésica", "descricao": "ASA 1-2, anestesias de baixo risco, monitorização." },
+        { "ano": "R2", "titulo": "Cirurgias complexas", "descricao": "Neurocirurgia, cardíaca, trauma, obstetrícia." },
+        { "ano": "R3", "titulo": "Subespecialização", "descricao": "Pediátrica, obstétrica, dor crônica, intensivismo." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-formado", "pct": 42, "valor": "R$ 12k–18k" },
+        { "label": "Plantonista estabelecido", "pct": 62, "valor": "R$ 20k–32k" },
+        { "label": "Sênior + consultório de dor", "pct": 88, "valor": "R$ 35k–65k+" }
+      ],
+      "vantagens": ["Altíssima remuneração", "Sem necessidade de consultório", "Alta empregabilidade", "Qualidade de vida programável"],
+      "desafios": ["Sem vínculo com paciente", "Plantões estressantes", "Alta responsabilidade e risco", "Processos judiciais em alta"],
+      "alerta": { "tipo": "info", "texto": "Anestesiologistas com especialização em dor crônica têm um dos melhores salários/hora de toda a medicina." },
+      "relacionadas": ["cirurgia-geral", "ortopedia", "cardiologia", "medicina-intensiva"]
+    },
+    {
+      "slug": "otorrinolaringologia",
+      "nome": "Otorrinolaringologia",
+      "icon": "👂",
+      "tags": ["remuneracao", "qv", "concorrida"],
+      "badges": [{ "texto": "4ª mais concorrida", "cor": "hot" }, { "texto": "Alta renda cirúrgica", "cor": "yellow" }],
+      "resumo": "Especialidade cirúrgica com ótima qualidade de vida e alta renda. Forte mercado pediátrico e estético.",
+      "salario_faixa": "R$ 15k–50k",
+      "duracao": "3 anos",
+      "concorrencia": 4,
+      "cfm_ativos": "~9.500",
+      "crescimento_10a": "+33%",
+      "candidatos_vaga": "~15–51:1",
+      "mercado": "Média de 51,12 candidatos/vaga em 2024. Mercado forte em amígdalas, septo, ronco e cirurgia estética nasal. Fortemente demandada na pediatria.",
+      "areas": [
+        { "icon": "👂", "titulo": "Otologia", "descricao": "Perda auditiva, otites, cirurgia de ouvido." },
+        { "icon": "👃", "titulo": "Rinologia", "descricao": "Rinite, sinusite, cirurgia nasal e septo." },
+        { "icon": "🗣", "titulo": "Laringologia", "descricao": "Disfonia, câncer de laringe, tratamento da voz." },
+        { "icon": "✨", "titulo": "Rinoplastia estética", "descricao": "Alta renda no privado, mercado crescente e muito demandado." }
+      ],
+      "residencia": [
+        { "ano": "R1", "titulo": "Base clínica", "descricao": "Diagnóstico das principais síndromes otorrinológicas." },
+        { "ano": "R2", "titulo": "Cirurgia endoscópica", "descricao": "Sinusoscopia, cirurgia de amígdalas, ouvido." },
+        { "ano": "R3", "titulo": "Subespecialização", "descricao": "Rinoplastia, oncologia de cabeça e pescoço, otologia." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-formado", "pct": 34, "valor": "R$ 9k–14k" },
+        { "label": "Consultório estabelecido", "pct": 56, "valor": "R$ 16k–26k" },
+        { "label": "Estética + privado", "pct": 84, "valor": "R$ 30k–55k+" }
+      ],
+      "vantagens": ["Qualidade de vida alta", "Alta renda cirúrgica", "Mercado estético crescente", "Forte demanda pediátrica"],
+      "desafios": ["Muito concorrida", "Alta exigência técnica cirúrgica", "Poucos programas de residência no Brasil"],
+      "alerta": { "tipo": "info", "texto": "Rinoplastia estética é um dos procedimentos mais lucrativos no privado — tíquetes entre R$ 8k–20k por cirurgia." },
+      "relacionadas": ["dermatologia", "oftalmologia", "cirurgia-geral", "pediatria"]
+    },
+    {
+      "slug": "urologia",
+      "nome": "Urologia",
+      "icon": "🫁",
+      "tags": ["remuneracao", "concorrida"],
+      "badges": [{ "texto": "5ª mais buscada por pacientes", "cor": "blue" }],
+      "resumo": "Alta demanda crescente com envelhecimento da população. Forte em cirurgia robótica e oncologia urológica.",
+      "salario_faixa": "R$ 15k–50k",
+      "duracao": "3 anos",
+      "concorrencia": 4,
+      "cfm_ativos": "~13.000",
+      "crescimento_10a": "+30%",
+      "candidatos_vaga": "~20–92:1",
+      "mercado": "Quinta mais buscada por pacientes (11,8%). Registrou 92 candidatos/vaga no SES-GO 2024. Envelhecimento da população aumenta próstata, incontinência e oncologia urológica.",
+      "areas": [
+        { "icon": "🫁", "titulo": "Oncologia urológica", "descricao": "Próstata, rim, bexiga. Alta demanda no SUS e planos." },
+        { "icon": "⚙️", "titulo": "Cirurgia robótica", "descricao": "Prostatectomia robótica, nefrectomia laparoscópica." },
+        { "icon": "💊", "titulo": "Andrologia", "descricao": "Disfunção erétil, infertilidade masculina." },
+        { "icon": "🩺", "titulo": "Uroginecologia", "descricao": "Incontinência urinária, prolapso." }
+      ],
+      "residencia": [
+        { "ano": "R1", "titulo": "Base clínica e endoscopia", "descricao": "Cistoscopia, litotripsia, diagnóstico básico." },
+        { "ano": "R2", "titulo": "Cirurgia aberta e laparoscópica", "descricao": "Prostatectomia, nefrectomia, cirurgia vesical." },
+        { "ano": "R3", "titulo": "Oncologia e subespecialidades", "descricao": "Robótica, andrologia, transplante renal." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-formado", "pct": 36, "valor": "R$ 10k–15k" },
+        { "label": "Cirurgião estabelecido", "pct": 56, "valor": "R$ 18k–28k" },
+        { "label": "Robótica + oncologia", "pct": 84, "valor": "R$ 30k–55k+" }
+      ],
+      "vantagens": ["Alta renda cirúrgica", "Mercado crescente com envelhecimento", "Inovação tecnológica (robótica)", "Diversidade clínica e cirúrgica"],
+      "desafios": ["Residência muito concorrida", "Exige alta habilidade técnica", "Longa curva de aprendizado cirúrgico"],
+      "alerta": { "tipo": "warn", "texto": "Urologia foi a especialidade com maior concorrência do SES-GO 2024: 92 candidatos por vaga." },
+      "relacionadas": ["ginecologia", "cirurgia-geral", "oncologia", "geriatria"]
+    },
+    {
+      "slug": "gastroenterologia",
+      "nome": "Gastroenterologia",
+      "icon": "🫃",
+      "tags": ["crescimento", "remuneracao"],
+      "badges": [{ "texto": "📈 Crescimento constante", "cor": "up" }],
+      "resumo": "Especialidade em crescimento com forte demanda por endoscopia e alta prevalência de doenças digestivas.",
+      "salario_faixa": "R$ 12k–35k",
+      "duracao": "2 anos CM + 2 anos",
+      "concorrencia": 3,
+      "cfm_ativos": "~11.000",
+      "crescimento_10a": "+40%",
+      "candidatos_vaga": "~12–20:1",
+      "mercado": "Alta prevalência de doenças digestivas no Brasil. Endoscopia digestiva alta e colonoscopia são procedimentos muito demandados e bem remunerados. Mercado privado e SUS robustos.",
+      "areas": [
+        { "icon": "🔭", "titulo": "Endoscopia digestiva", "descricao": "EDA, colonoscopia, cápsula endoscópica." },
+        { "icon": "🫃", "titulo": "Gastroenterologia clínica", "descricao": "Refluxo, úlcera, SII, doenças inflamatórias intestinais." },
+        { "icon": "🫀", "titulo": "Hepatologia", "descricao": "Cirrose, hepatites virais, transplante hepático." },
+        { "icon": "🔬", "titulo": "Gastroenterologia oncológica", "descricao": "Câncer colorretal, gástrico e pancreático." }
+      ],
+      "residencia": [
+        { "ano": "R1–R2", "titulo": "Clínica Médica (pré-req.)", "descricao": "Pré-requisito obrigatório." },
+        { "ano": "R3", "titulo": "Gastroenterologia clínica", "descricao": "Doenças do tubo digestivo, fígado, pâncreas." },
+        { "ano": "R4", "titulo": "Endoscopia e subespecialidades", "descricao": "Endoscopia terapêutica, hepatologia avançada." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-especializado", "pct": 30, "valor": "R$ 9k–14k" },
+        { "label": "Endoscopista estabelecido", "pct": 50, "valor": "R$ 14k–22k" },
+        { "label": "Sênior + endoscopia", "pct": 74, "valor": "R$ 22k–38k+" }
+      ],
+      "vantagens": ["Procedimentos bem remunerados", "Alta prevalência de doenças", "Qualidade de vida razoável", "Forte em SUS e privado"],
+      "desafios": ["4 anos de residência no total", "Endoscopia repetitiva a longo prazo", "Alta concorrência nas capitais"],
+      "alerta": { "tipo": "info", "texto": "Endoscopistas bem treinados têm agenda lotada em qualquer cidade com mais de 100 mil habitantes." },
+      "relacionadas": ["clinica-medica", "cirurgia-geral", "oncologia", "hepatologia"]
+    },
+    {
+      "slug": "medicina-familia",
+      "nome": "Medicina de Família e Comunidade",
+      "icon": "🏡",
+      "tags": ["crescimento", "qv"],
+      "badges": [{ "texto": "📈 +163% em 10 anos", "cor": "up" }, { "texto": "Mais vagas no Brasil", "cor": "blue" }],
+      "resumo": "Maior crescimento em número de profissionais. Alta demanda pelo SUS e programas governamentais.",
+      "salario_faixa": "R$ 8k–20k",
+      "duracao": "2 anos",
+      "concorrencia": 1,
+      "cfm_ativos": "~18.000",
+      "crescimento_10a": "+163%",
+      "candidatos_vaga": "~2–8:1",
+      "mercado": "Especialidade com maior crescimento absoluto na última década (+163%). Programa Mais Médicos e ESF garantem posições em todo o Brasil. Déficit histórico enorme. APS privada em crescimento.",
+      "areas": [
+        { "icon": "🏡", "titulo": "Atenção Primária (UBS)", "descricao": "Consultas gerais, prevenção, rastreamentos, promoção de saúde." },
+        { "icon": "👨‍👩‍👧", "titulo": "Saúde da família (ESF)", "descricao": "Visitas domiciliares, comunidade, saúde coletiva." },
+        { "icon": "💻", "titulo": "Telemedicina", "descricao": "Atendimento remoto, consultas online, teleconsultoria." },
+        { "icon": "📋", "titulo": "Medicina baseada em evidências", "descricao": "Protocolos, coordenação do cuidado, multidisciplinaridade." }
+      ],
+      "residencia": [
+        { "ano": "R1", "titulo": "Atenção primária", "descricao": "UBS, consultas gerais, procedimentos básicos." },
+        { "ano": "R2", "titulo": "Saúde coletiva e comunidade", "descricao": "ESF, visitas domiciliares, saúde mental na APS." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "ESF/UBS (SUS)", "pct": 26, "valor": "R$ 7k–12k" },
+        { "label": "Programa federal", "pct": 34, "valor": "R$ 10k–14k" },
+        { "label": "Privado + telemedicina", "pct": 46, "valor": "R$ 12k–20k" }
+      ],
+      "vantagens": ["Residência muito acessível", "Emprego garantido no SUS", "Menor desgaste de plantões", "Foco em prevenção e vínculo", "Qualidade de vida alta"],
+      "desafios": ["Salário menor que outras especialidades", "Estrutura precária em muitas UBS", "Baixo prestígio histórico entre médicos", "Pouco procedimento técnico"],
+      "alerta": { "tipo": "info", "texto": "MFC no setor privado e telemedicina está valorizando a especialidade. Clínicas de APS privada pagam R$ 15k–20k." },
+      "relacionadas": ["psiquiatria", "pediatria", "geriatria", "clinica-medica"]
+    },
+    {
+      "slug": "cirurgia-geral",
+      "nome": "Cirurgia Geral",
+      "icon": "🔧",
+      "tags": ["concorrida", "crescimento"],
+      "badges": [{ "texto": "Porta de entrada cirúrgica", "cor": "blue" }],
+      "resumo": "Base para todas as subespecialidades cirúrgicas. Alta demanda em pronto-socorro e hospitais.",
+      "salario_faixa": "R$ 12k–40k",
+      "duracao": "2 anos",
+      "concorrencia": 3,
+      "cfm_ativos": "~35.000",
+      "crescimento_10a": "+22%",
+      "candidatos_vaga": "~8–20:1",
+      "mercado": "Pré-requisito para cirurgia digestiva, coloproctologia, cirurgia oncológica e bariátrica. Alta demanda em urgência, trauma e cirurgia bariátrica — mercado em explosão.",
+      "areas": [
+        { "icon": "🔧", "titulo": "Cirurgia de urgência", "descricao": "Trauma, abdome agudo, apendicite." },
+        { "icon": "⚖️", "titulo": "Cirurgia bariátrica", "descricao": "Mercado privado em explosão no Brasil — altíssima demanda." },
+        { "icon": "🎗", "titulo": "Cirurgia oncológica", "descricao": "Ressecções de cânceres do trato digestivo." },
+        { "icon": "🔭", "titulo": "Videolaparoscopia", "descricao": "Colecistectomia, hérnia, fundoplicatura." }
+      ],
+      "residencia": [
+        { "ano": "R1", "titulo": "Urgências cirúrgicas", "descricao": "Trauma, abdome agudo, cirurgias de emergência." },
+        { "ano": "R2", "titulo": "Cirurgias eletivas", "descricao": "Laparoscopia, hérnia, colecistectomia, oncologia." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Plantonista", "pct": 30, "valor": "R$ 8k–13k" },
+        { "label": "Cirurgião estabelecido", "pct": 50, "valor": "R$ 14k–22k" },
+        { "label": "Bariátrica + privado", "pct": 74, "valor": "R$ 22k–42k+" }
+      ],
+      "vantagens": ["Base para subespecialidades cirúrgicas", "Alta demanda em urgência", "Cirurgia bariátrica lucrativa", "Boa empregabilidade"],
+      "desafios": ["Plantões exaustivos", "Alta responsabilidade", "Burnout frequente em trauma", "Longa jornada de trabalho"],
+      "alerta": { "tipo": "info", "texto": "Cirurgia bariátrica é um dos mercados que mais cresce no Brasil — cirurgiões gerais com fellowship têm agenda lotada." },
+      "relacionadas": ["anestesiologia", "ortopedia", "urologia", "gastroenterologia"]
+    },
+    {
+      "slug": "geriatria",
+      "nome": "Geriatria",
+      "icon": "👴",
+      "tags": ["crescimento", "qv"],
+      "badges": [{ "texto": "📈 +113% em 10 anos", "cor": "up" }],
+      "resumo": "Uma das especialidades com maior crescimento. Envelhecimento do Brasil cria demanda explosiva e duradoura.",
+      "salario_faixa": "R$ 10k–28k",
+      "duracao": "2 anos CM + 1 ano",
+      "concorrencia": 2,
+      "cfm_ativos": "~4.500",
+      "crescimento_10a": "+113%",
+      "candidatos_vaga": "~5–15:1",
+      "mercado": "Brasil envelhece aceleradamente — até 2050, 1 em cada 5 brasileiros terá mais de 65 anos. Apenas ~4.500 geriatras para 30 milhões de idosos. Demanda muito superior à oferta por décadas.",
+      "areas": [
+        { "icon": "👴", "titulo": "Geriatria ambulatorial", "descricao": "Acompanhamento de pacientes crônicos e polimedicados." },
+        { "icon": "🏥", "titulo": "Geriatria hospitalar", "descricao": "Internação de idosos, síndrome de imobilismo." },
+        { "icon": "🧠", "titulo": "Psicogeriatria", "descricao": "Alzheimer, demências, depressão no idoso." },
+        { "icon": "🏠", "titulo": "Cuidados paliativos", "descricao": "Fim de vida, qualidade de vida terminal, suporte à família." }
+      ],
+      "residencia": [
+        { "ano": "R1–R2", "titulo": "Clínica Médica (pré-req.)", "descricao": "Pré-requisito obrigatório." },
+        { "ano": "R3", "titulo": "Geriatria clínica", "descricao": "Avaliação geriátrica ampla, polifarmácia, demências, reabilitação." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-especializado", "pct": 26, "valor": "R$ 7k–11k" },
+        { "label": "Ambulatório estabelecido", "pct": 40, "valor": "R$ 11k–18k" },
+        { "label": "Sênior + instituições", "pct": 62, "valor": "R$ 18k–28k" }
+      ],
+      "vantagens": ["Crescimento explosivo garantido", "Vínculo longo com pacientes", "Qualidade de vida alta", "Mercado privado crescendo"],
+      "desafios": ["Salário menor que cirúrgicas", "Casos complexos e desafiadores", "Carga emocional elevada", "Pouca intervenção técnica"],
+      "alerta": { "tipo": "info", "texto": "Déficit brutal: 1 geriatra para cada 6.600 idosos no Brasil. Quem escolhe geriatria hoje tem posição garantida por décadas." },
+      "relacionadas": ["neurologia", "cardiologia", "endocrinologia", "medicina-familia"]
+    },
+    {
+      "slug": "reumatologia",
+      "nome": "Reumatologia",
+      "icon": "🦾",
+      "tags": ["crescimento", "qv"],
+      "badges": [{ "texto": "📈 Crescimento acelerado", "cor": "up" }],
+      "resumo": "Especialidade de consultório com foco em doenças autoimunes. Qualidade de vida alta e boa demanda.",
+      "salario_faixa": "R$ 10k–28k",
+      "duracao": "2 anos CM + 2 anos",
+      "concorrencia": 3,
+      "cfm_ativos": "~3.500",
+      "crescimento_10a": "+48%",
+      "candidatos_vaga": "~10–18:1",
+      "mercado": "Apenas ~3.500 reumatologistas para alta prevalência de artrite, lúpus e fibromialgia. Biológicos e imunobiológicos abriram mercado de alto valor. Déficit relevante fora das capitais.",
+      "areas": [
+        { "icon": "🦾", "titulo": "Artrite e espondiloartrites", "descricao": "AR, espondilite anquilosante, artrite psoriásica." },
+        { "icon": "🔥", "titulo": "Doenças autoimunes", "descricao": "Lúpus, esclerodermia, miopatias inflamatórias." },
+        { "icon": "💊", "titulo": "Biológicos e imunobiológicos", "descricao": "Prescrição e acompanhamento de terapias modernas de alto custo." },
+        { "icon": "🩺", "titulo": "Fibromialgia e dor crônica", "descricao": "Alta prevalência, manejo multidisciplinar." }
+      ],
+      "residencia": [
+        { "ano": "R1–R2", "titulo": "Clínica Médica (pré-req.)", "descricao": "Pré-requisito obrigatório." },
+        { "ano": "R3–R4", "titulo": "Reumatologia clínica", "descricao": "Doenças autoimunes, artrites, vasculites, imunobiológicos." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-especializado", "pct": 26, "valor": "R$ 7k–11k" },
+        { "label": "Consultório estabelecido", "pct": 42, "valor": "R$ 12k–20k" },
+        { "label": "Sênior + biológicos", "pct": 66, "valor": "R$ 20k–30k+" }
+      ],
+      "vantagens": ["Qualidade de vida excelente", "Especialidade de consultório", "Poucos plantões", "Doenças intelectualmente desafiadoras"],
+      "desafios": ["4 anos de residência no total", "Salário moderado", "Tratamentos longos e caros (acesso difícil no SUS)"],
+      "alerta": { "tipo": "info", "texto": "O mercado de imunobiológicos remunerou bem reumatologistas que dominam estas terapias de alta complexidade." },
+      "relacionadas": ["clinica-medica", "ortopedia", "dermatologia", "neurologia"]
+    },
+    {
+      "slug": "medicina-do-trabalho",
+      "nome": "Medicina do Trabalho",
+      "icon": "⚙️",
+      "tags": ["crescimento", "qv"],
+      "badges": [{ "texto": "📈 +165% em 10 anos", "cor": "up" }, { "texto": "Zero plantão", "cor": "blue" }],
+      "resumo": "Segunda maior taxa de crescimento. Zero plantão, horário comercial e alta demanda corporativa.",
+      "salario_faixa": "R$ 10k–25k",
+      "duracao": "1 ano (especialização)",
+      "concorrencia": 1,
+      "cfm_ativos": "~22.000",
+      "crescimento_10a": "+165%",
+      "candidatos_vaga": "~2–5:1",
+      "mercado": "Segunda especialidade que mais cresceu no Brasil em 10 anos (+165%). Legislação trabalhista obriga empresas a terem médico do trabalho. Telemedicina ocupacional em expansão acelerada.",
+      "areas": [
+        { "icon": "🏭", "titulo": "Medicina ocupacional", "descricao": "PCMSO, ASO, saúde do trabalhador em empresas." },
+        { "icon": "⚙️", "titulo": "Ergonomia e saúde", "descricao": "Avaliação de ambientes, riscos ocupacionais." },
+        { "icon": "💻", "titulo": "Telemedicina ocupacional", "descricao": "Consultas e gestão de saúde remotas para empresas." },
+        { "icon": "🏥", "titulo": "Medicina do seguro e perícias", "descricao": "Perícias, saúde suplementar, INSS." }
+      ],
+      "residencia": [
+        { "ano": "R1", "titulo": "Medicina do Trabalho", "descricao": "Especialização de 1 ano ou residência de 2 anos após qualquer especialidade base." }
+      ],
+      "salarios": [
+        { "label": "Especialização/entrada", "pct": 22, "valor": "R$ 6k–10k" },
+        { "label": "Médico de empresa", "pct": 34, "valor": "R$ 9k–14k" },
+        { "label": "Consultor/gestor", "pct": 46, "valor": "R$ 13k–20k" },
+        { "label": "Sênior + perícias", "pct": 66, "valor": "R$ 18k–28k" }
+      ],
+      "vantagens": ["Zero plantão", "Horário comercial", "Alta demanda empresarial", "Qualidade de vida máxima", "Especialização rápida (1 ano)"],
+      "desafios": ["Prestígio menor entre médicos", "Trabalho mais administrativo", "Renda menor que cirúrgicas", "Pouco contato clínico direto"],
+      "alerta": { "tipo": "info", "texto": "Para quem prioriza qualidade de vida, medicina do trabalho é uma das melhores escolhas: sem plantão, horário comercial e salário estável." },
+      "relacionadas": ["medicina-familia", "psiquiatria", "ortopedia", "clinica-medica"]
+    },
+    {
+      "slug": "medicina-intensiva",
+      "nome": "Medicina Intensiva (UTI)",
+      "icon": "🏥",
+      "tags": ["remuneracao", "crescimento"],
+      "badges": [{ "texto": "💰 Alta renda por plantão", "cor": "yellow" }, { "texto": "Alta demanda", "cor": "blue" }],
+      "resumo": "Alta remuneração por plantão. Pandemia valorizou e profissionalizou a medicina intensiva no Brasil.",
+      "salario_faixa": "R$ 15k–50k",
+      "duracao": "2 anos CM + 1 ano",
+      "concorrencia": 3,
+      "cfm_ativos": "~7.000",
+      "crescimento_10a": "+55%",
+      "candidatos_vaga": "~8–18:1",
+      "mercado": "Pandemia de Covid-19 acelerou valorização e expansão das UTIs no Brasil. Alta renda por plantão. Déficit de intensivistas em hospitais secundários e terciários.",
+      "areas": [
+        { "icon": "🏥", "titulo": "UTI adulto", "descricao": "Pacientes críticos, ventilação mecânica, sedoanalgesia." },
+        { "icon": "👶", "titulo": "UTI pediátrica e neonatal", "descricao": "Especialização adicional em pediatria e neonatologia intensiva." },
+        { "icon": "🧠", "titulo": "Neurointensivismo", "descricao": "AVC grave, TCE, lesões neurológicas críticas." },
+        { "icon": "❤️", "titulo": "Cardio-intensivismo", "descricao": "Pós-op cardíaco, IAM complicado, choque cardiogênico." }
+      ],
+      "residencia": [
+        { "ano": "R1–R2", "titulo": "Clínica Médica (pré-req.)", "descricao": "Pré-requisito obrigatório." },
+        { "ano": "R3", "titulo": "Medicina Intensiva", "descricao": "UTI adulto, ventilação mecânica, instabilidade hemodinâmica." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-especializado", "pct": 36, "valor": "R$ 10k–16k" },
+        { "label": "Plantonista UTI", "pct": 54, "valor": "R$ 16k–25k" },
+        { "label": "Coordenador de UTI", "pct": 78, "valor": "R$ 25k–50k+" }
+      ],
+      "vantagens": ["Alta renda por plantão", "Expansão acelerada de UTIs", "Papel central em hospitais", "Desafio constante"],
+      "desafios": ["Burnout muito alto", "Mortalidade elevada pesa emocionalmente", "Plantões exaustivos", "Alta pressão decisória"],
+      "alerta": { "tipo": "warn", "texto": "Burnout é o principal risco da especialidade. Importante cuidar da saúde mental desde a residência." },
+      "relacionadas": ["anestesiologia", "cardiologia", "neurologia", "clinica-medica"]
+    },
+    {
+      "slug": "acupuntura",
+      "nome": "Acupuntura",
+      "icon": "📍",
+      "tags": ["qv", "crescimento"],
+      "badges": [{ "texto": "Especialidade integrativa", "cor": "blue" }],
+      "resumo": "Especialidade integrativa reconhecida pelo CFM. Consultório com horário flexível e demanda crescente por medicina complementar.",
+      "salario_faixa": "R$ 8k–18k",
+      "duracao": "2 anos",
+      "concorrencia": 1,
+      "cfm_ativos": "~8.200",
+      "crescimento_10a": "+35%",
+      "candidatos_vaga": "~2–5:1",
+      "mercado": "Reconhecida pelo CFM como especialidade médica. Crescimento impulsionado pela demanda por medicina integrativa, dor crônica e ansiedade. Consultório com baixo custo de operação.",
+      "areas": [
+        { "icon": "📍", "titulo": "Dor crônica", "descricao": "Lombalgia, cervicalgia, cefaleia — principal indicação clínica." },
+        { "icon": "🧘", "titulo": "Saúde mental", "descricao": "Ansiedade, insônia, estresse — demanda crescente pós-pandemia." },
+        { "icon": "🏃", "titulo": "Medicina esportiva integrada", "descricao": "Recuperação de atletas, desempenho, lesões." },
+        { "icon": "🌿", "titulo": "Oncologia integrativa", "descricao": "Suporte a efeitos colaterais de quimioterapia e radioterapia." }
+      ],
+      "residencia": [
+        { "ano": "R1", "titulo": "Fundamentos da acupuntura", "descricao": "Medicina tradicional chinesa, meridianos, pontos de acupuntura." },
+        { "ano": "R2", "titulo": "Prática clínica", "descricao": "Atendimento supervisionado, técnicas complementares, auriculoterapia." }
+      ],
+      "salarios": [
+        { "label": "Início de consultório", "pct": 22, "valor": "R$ 5k–9k" },
+        { "label": "Consultório estabelecido", "pct": 40, "valor": "R$ 9k–14k" },
+        { "label": "Clínica integrada sênior", "pct": 58, "valor": "R$ 14k–20k" },
+        { "label": "Sênior + outras integrativas", "pct": 70, "valor": "R$ 18k–25k+" }
+      ],
+      "vantagens": ["Qualidade de vida alta", "Baixo custo de instalação", "Horário flexível", "Complementar a outras especialidades"],
+      "desafios": ["Renda menor que especialidades procedimentais", "Pouco reconhecimento em hospitais", "Mercado fragmentado"],
+      "relacionadas": ["medicina-familia", "medicina-esportiva", "psiquiatria", "medicina-fisica-e-reabilitacao"]
+    },
+    {
+      "slug": "alergia-e-imunologia",
+      "nome": "Alergia e Imunologia",
+      "icon": "🤧",
+      "tags": ["crescimento", "qv"],
+      "badges": [{ "texto": "📈 Crescimento acelerado", "cor": "up" }],
+      "resumo": "Especialidade em forte expansão com aumento global de doenças alérgicas e autoimunes. Consultório com alta qualidade de vida.",
+      "salario_faixa": "R$ 16k–28k",
+      "duracao": "2 anos CM + 1 ano",
+      "concorrencia": 2,
+      "cfm_ativos": "~3.100",
+      "crescimento_10a": "+58%",
+      "candidatos_vaga": "~5–12:1",
+      "mercado": "Apenas ~3.100 alergistas para crescente epidemia de asma, rinite, dermatite e alergias alimentares. Imunoterapia e biológicos (dupilumabe) abriram mercado de alto valor. Déficit relevante em todo o Brasil.",
+      "areas": [
+        { "icon": "🤧", "titulo": "Alergia respiratória", "descricao": "Asma, rinite alérgica, polinose — altíssima prevalência no Brasil." },
+        { "icon": "🍓", "titulo": "Alergia alimentar", "descricao": "Alergias em crianças e adultos, imunoterapia oral." },
+        { "icon": "💊", "titulo": "Imunodeficiências", "descricao": "Imunodeficiências primárias, imunologia clínica." },
+        { "icon": "🧬", "titulo": "Biológicos e imunoterapia", "descricao": "Dupilumabe, omalizumabe — terapias de alto valor." }
+      ],
+      "residencia": [
+        { "ano": "R1–R2", "titulo": "Clínica Médica (pré-req.)", "descricao": "Pré-requisito obrigatório em muitos programas." },
+        { "ano": "R3", "titulo": "Alergia e Imunologia clínica", "descricao": "Testes cutâneos, imunoterapia, imunodeficiências." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-especializado", "pct": 32, "valor": "R$ 9k–14k" },
+        { "label": "Consultório estabelecido", "pct": 52, "valor": "R$ 14k–22k" },
+        { "label": "Biológicos + imunoterapia", "pct": 72, "valor": "R$ 20k–32k" }
+      ],
+      "vantagens": ["Qualidade de vida alta", "Déficit de profissionais", "Mercado de biológicos crescente", "Poucos plantões"],
+      "desafios": ["Renda menor que cirúrgicas", "Tratamentos de longa duração", "Acesso difícil a biológicos no SUS"],
+      "relacionadas": ["dermatologia", "pneumologia", "pediatria", "reumatologia"]
+    },
+    {
+      "slug": "angiologia",
+      "nome": "Angiologia e Cirurgia Vascular",
+      "icon": "🩸",
+      "tags": ["crescimento", "remuneracao"],
+      "badges": [{ "texto": "📈 Crescimento Alto", "cor": "up" }],
+      "resumo": "Especialidade cirúrgica com foco em doenças vasculares periféricas. Alta demanda pelo envelhecimento e epidemia de diabetes.",
+      "salario_faixa": "R$ 14k–35k",
+      "duracao": "3 anos",
+      "concorrencia": 2,
+      "cfm_ativos": "~3.100",
+      "crescimento_10a": "+45%",
+      "candidatos_vaga": "~5–12:1",
+      "mercado": "Envelhecimento da população e epidemia de diabetes geram alta demanda por tratamento de varizes, úlceras vasculares, aneurismas e isquemia. Procedimentos minimamente invasivos em expansão.",
+      "areas": [
+        { "icon": "🩸", "titulo": "Varizes e doença venosa", "descricao": "LASER endovascular, espuma, microcirurgia de varizes." },
+        { "icon": "🫀", "titulo": "Doença arterial periférica", "descricao": "Isquemia de membros, angioplastia, enxertos." },
+        { "icon": "⚙️", "titulo": "Endovascular", "descricao": "Aneurisma de aorta, endopróteses, stents." },
+        { "icon": "🏥", "titulo": "Acesso vascular", "descricao": "Fístulas para hemodiálise — alta demanda em nefrologia." }
+      ],
+      "residencia": [
+        { "ano": "R1", "titulo": "Base vascular", "descricao": "Anatomia vascular, diagnóstico, doppler, cirurgias básicas." },
+        { "ano": "R2", "titulo": "Cirurgia aberta e endovascular", "descricao": "Varizes, fístulas, bypass, angioplastia." },
+        { "ano": "R3", "titulo": "Cirurgia endovascular avançada", "descricao": "Aorta, carótida, procedimentos complexos." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-formado", "pct": 30, "valor": "R$ 9k–14k" },
+        { "label": "Cirurgião estabelecido", "pct": 50, "valor": "R$ 14k–24k" },
+        { "label": "Endovascular sênior", "pct": 72, "valor": "R$ 22k–38k+" }
+      ],
+      "vantagens": ["Crescimento garantido com envelhecimento", "Procedimentos bem remunerados", "Tecnologia endovascular em expansão"],
+      "desafios": ["Baixa concorrência de vagas mas difícil nos centros top", "Plantões vasculares exigentes", "Alto custo de equipamentos"],
+      "relacionadas": ["cirurgia-geral", "cardiologia", "nefrologia", "endocrinologia"]
+    },
+    {
+      "slug": "cirurgia-cardiovascular",
+      "nome": "Cirurgia Cardiovascular",
+      "icon": "🫀",
+      "tags": ["remuneracao"],
+      "badges": [{ "texto": "💰 Maior salário do Brasil", "cor": "yellow" }],
+      "resumo": "Entre as especialidades mais bem remuneradas. Alta complexidade técnica e longa formação. Mercado restrito e seleto.",
+      "salario_faixa": "R$ 25k–80k+",
+      "duracao": "7 anos total",
+      "concorrencia": 3,
+      "cfm_ativos": "~2.100",
+      "crescimento_10a": "+20%",
+      "candidatos_vaga": "~8–20:1",
+      "mercado": "Apenas ~2.100 cirurgiões cardiovasculares no Brasil. Alta remuneração por procedimento. Cirurgia robótica e minimamente invasiva em expansão. Demanda estável por doenças cardiovasculares.",
+      "areas": [
+        { "icon": "🫀", "titulo": "Cirurgia de revascularização", "descricao": "Ponte de safena, mamária — tratamento da doença coronária." },
+        { "icon": "🔧", "titulo": "Cirurgia valvar", "descricao": "Troca e plastia de válvulas cardíacas." },
+        { "icon": "🤖", "titulo": "Cirurgia minimamente invasiva", "descricao": "Abordagens toracoscópicas, robótica cardíaca." },
+        { "icon": "🏥", "titulo": "Transplante cardíaco", "descricao": "Insuficiência cardíaca terminal, assistência ventricular." }
+      ],
+      "residencia": [
+        { "ano": "R1–R2", "titulo": "Cirurgia Geral (pré-req.)", "descricao": "2 anos obrigatórios." },
+        { "ano": "R3–R5", "titulo": "Cirurgia Torácica e Cardiovascular", "descricao": "Circulação extracorpórea, valvas, coronárias." },
+        { "ano": "R6–R7", "titulo": "Aprofundamento", "descricao": "Transplante, dispositivos de assistência, congênita." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-formado", "pct": 45, "valor": "R$ 15k–25k" },
+        { "label": "Cirurgião estabelecido", "pct": 70, "valor": "R$ 28k–45k" },
+        { "label": "Sênior referência", "pct": 95, "valor": "R$ 50k–90k+" }
+      ],
+      "vantagens": ["Remuneração entre as mais altas", "Alta complexidade e desafio", "Mercado seleto e restrito", "Alto prestígio"],
+      "desafios": ["7 anos de formação", "Plantões exaustivos e longos", "Alta pressão e responsabilidade", "Burnout elevado"],
+      "alerta": { "tipo": "warn", "texto": "Uma das formações mais longas da medicina. Exige dedicação total por 7 anos antes de operar com autonomia." },
+      "relacionadas": ["cardiologia", "anestesiologia", "medicina-intensiva", "cirurgia-toracica"]
+    },
+    {
+      "slug": "cirurgia-da-mao",
+      "nome": "Cirurgia da Mão",
+      "icon": "🤲",
+      "tags": ["remuneracao", "qv"],
+      "badges": [{ "texto": "Alta especialização técnica", "cor": "blue" }],
+      "resumo": "Subespecialidade cirúrgica de alta precisão. Forte em trauma, síndrome do túnel do carpo e reconstrução.",
+      "salario_faixa": "R$ 18k–40k",
+      "duracao": "6 anos total",
+      "concorrencia": 2,
+      "cfm_ativos": "~2.000",
+      "crescimento_10a": "+25%",
+      "candidatos_vaga": "~5–12:1",
+      "mercado": "Especialidade de nicho com alta precisão técnica. Alta demanda em trauma de mão (acidentes de trabalho), síndrome do túnel do carpo e reconstrução de tendões.",
+      "areas": [
+        { "icon": "🤲", "titulo": "Microcirurgia e reimplante", "descricao": "Reimplante de dedos e mãos — alta complexidade técnica." },
+        { "icon": "⚙️", "titulo": "Trauma de mão", "descricao": "Fraturas, luxações, lacerações de tendões." },
+        { "icon": "🩺", "titulo": "Síndrome do túnel do carpo", "descricao": "Cirurgia muito demandada em trabalhadores." },
+        { "icon": "✨", "titulo": "Reconstrução e estética", "descricao": "Deformidades congênitas, reconstrução após trauma." }
+      ],
+      "residencia": [
+        { "ano": "R1–R2", "titulo": "Cirurgia Geral ou Ortopedia", "descricao": "Pré-requisito: cirurgia geral ou ortopedia." },
+        { "ano": "R3–R4", "titulo": "Aprofundamento em Ortopedia", "descricao": "Se via ortopedia, mais 2 anos de especialização." },
+        { "ano": "R5–R6", "titulo": "Fellowship em Cirurgia da Mão", "descricao": "Microcirurgia, reconstrução, trauma complexo." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-especializado", "pct": 36, "valor": "R$ 10k–16k" },
+        { "label": "Consultório estabelecido", "pct": 54, "valor": "R$ 16k–26k" },
+        { "label": "Microcirurgia + reconstrução", "pct": 76, "valor": "R$ 26k–45k+" }
+      ],
+      "vantagens": ["Alta precisão técnica", "Mercado de nicho com pouca concorrência", "Qualidade de vida programável", "Cirurgias de curta duração"],
+      "desafios": ["Formação muito longa", "Equipamentos caros (microscópio)", "Mercado concentrado nas capitais"],
+      "relacionadas": ["ortopedia", "cirurgia-geral", "cirurgia-plastica", "anestesiologia"]
+    },
+    {
+      "slug": "cirurgia-de-cabeca-e-pescoco",
+      "nome": "Cirurgia de Cabeça e Pescoço",
+      "icon": "🫁",
+      "tags": ["crescimento", "remuneracao"],
+      "badges": [{ "texto": "📈 Crescimento Alto", "cor": "up" }],
+      "resumo": "Especialidade oncológica cirúrgica. Alta complexidade e demanda crescente por câncer de cabeça e pescoço.",
+      "salario_faixa": "R$ 20k–50k",
+      "duracao": "6 anos total",
+      "concorrencia": 2,
+      "cfm_ativos": "~1.600",
+      "crescimento_10a": "+38%",
+      "candidatos_vaga": "~5–12:1",
+      "mercado": "Alta demanda por câncer de tireoide, laringe, glândulas salivares e linfomas cervicais. Especialidade oncológica com forte presença nos centros de referência.",
+      "areas": [
+        { "icon": "🦋", "titulo": "Tireoide e paratireoide", "descricao": "Tireoidectomia, paratireoidectomia — cirurgias muito frequentes." },
+        { "icon": "🗣", "titulo": "Laringe e faringe", "descricao": "Câncer de laringe, laringectomia, reconstrução." },
+        { "icon": "🫧", "titulo": "Glândulas salivares", "descricao": "Parótida, submandibular, tumores benignos e malignos." },
+        { "icon": "🔬", "titulo": "Linfomas cervicais", "descricao": "Diagnóstico e tratamento cirúrgico de massas cervicais." }
+      ],
+      "residencia": [
+        { "ano": "R1–R2", "titulo": "Cirurgia Geral (pré-req.)", "descricao": "Pré-requisito obrigatório." },
+        { "ano": "R3–R6", "titulo": "Cirurgia de Cabeça e Pescoço", "descricao": "Oncologia de cabeça e pescoço, reconstrução microcirúrgica." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-especializado", "pct": 38, "valor": "R$ 12k–18k" },
+        { "label": "Cirurgião estabelecido", "pct": 58, "valor": "R$ 18k–30k" },
+        { "label": "Centro de referência sênior", "pct": 82, "valor": "R$ 30k–55k+" }
+      ],
+      "vantagens": ["Alta demanda oncológica crescente", "Poucos profissionais no Brasil", "Alto prestígio técnico"],
+      "desafios": ["Formação muito longa", "Concentrada em centros oncológicos grandes", "Cirurgias complexas e longas"],
+      "relacionadas": ["otorrinolaringologia", "cirurgia-oncologica", "radiologia", "oncologia-clinica"]
+    },
+    {
+      "slug": "cirurgia-do-aparelho-digestivo",
+      "nome": "Cirurgia do Aparelho Digestivo",
+      "icon": "🫃",
+      "tags": ["remuneracao", "crescimento"],
+      "badges": [{ "texto": "Subespecialidade cirúrgica", "cor": "blue" }],
+      "resumo": "Subespecialidade cirúrgica de alta complexidade. Forte em bariátrica, oncologia digestiva e videolaparoscopia.",
+      "salario_faixa": "R$ 18k–50k",
+      "duracao": "6 anos total",
+      "concorrencia": 2,
+      "cfm_ativos": "~4.200",
+      "crescimento_10a": "+30%",
+      "candidatos_vaga": "~6–15:1",
+      "mercado": "Cirurgia bariátrica em explosão no Brasil — 70 mil procedimentos/ano. Oncologia digestiva em alta. Videolaparoscopia avançada e cirurgia robótica como diferenciais de mercado.",
+      "areas": [
+        { "icon": "⚖️", "titulo": "Cirurgia bariátrica e metabólica", "descricao": "Sleeve, bypass, cirurgia robótica — mercado privado em explosão." },
+        { "icon": "🔬", "titulo": "Oncologia digestiva", "descricao": "Câncer gástrico, colorretal, pancreático, hepático." },
+        { "icon": "🔭", "titulo": "Videolaparoscopia avançada", "descricao": "Colecistectomia, fundoplicatura, hérnia complexa." },
+        { "icon": "🫀", "titulo": "Transplante hepático", "descricao": "Cirurgia de fígado e transplante em centros de referência." }
+      ],
+      "residencia": [
+        { "ano": "R1–R2", "titulo": "Cirurgia Geral (pré-req.)", "descricao": "Pré-requisito obrigatório." },
+        { "ano": "R3–R6", "titulo": "Cirurgia do Aparelho Digestivo", "descricao": "Laparoscopia avançada, oncologia digestiva, bariátrica." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-especializado", "pct": 38, "valor": "R$ 12k–18k" },
+        { "label": "Cirurgião bariátrico", "pct": 60, "valor": "R$ 20k–32k" },
+        { "label": "Sênior oncológico", "pct": 82, "valor": "R$ 30k–55k+" }
+      ],
+      "vantagens": ["Mercado bariátrico em explosão", "Alta remuneração cirúrgica", "Videolaparoscopia valorizada"],
+      "desafios": ["6 anos de formação total", "Plantões cirúrgicos pesados", "Alta responsabilidade em oncologia"],
+      "relacionadas": ["cirurgia-geral", "gastroenterologia", "oncologia-clinica", "anestesiologia"]
+    },
+    {
+      "slug": "cirurgia-oncologica",
+      "nome": "Cirurgia Oncológica",
+      "icon": "🎗",
+      "tags": ["crescimento", "remuneracao"],
+      "badges": [{ "texto": "📈 Alta demanda oncológica", "cor": "up" }],
+      "resumo": "Especialidade em crescimento contínuo com o aumento da incidência de câncer no Brasil. Alta complexidade e impacto.",
+      "salario_faixa": "R$ 20k–55k",
+      "duracao": "7 anos total",
+      "concorrencia": 2,
+      "cfm_ativos": "~2.600",
+      "crescimento_10a": "+42%",
+      "candidatos_vaga": "~5–12:1",
+      "mercado": "700 mil novos casos de câncer/ano no Brasil (INCA). Crescimento contínuo garantido. Alta concentração em centros de referência com remuneração elevada.",
+      "areas": [
+        { "icon": "🎗", "titulo": "Oncologia cirúrgica geral", "descricao": "Ressecção de tumores de mama, tecidos moles, pele." },
+        { "icon": "🔬", "titulo": "Mama", "descricao": "Mastectomia, cirurgia conservadora, reconstrução imediata." },
+        { "icon": "🫃", "titulo": "Abdome e retroperitônio", "descricao": "Tumores hepáticos, pancreáticos, retroperitoneais." },
+        { "icon": "🦴", "titulo": "Sarcomas e tumor ósseo", "descricao": "Ressecção de tumores musculoesqueléticos malignos." }
+      ],
+      "residencia": [
+        { "ano": "R1–R2", "titulo": "Cirurgia Geral (pré-req.)", "descricao": "Pré-requisito obrigatório." },
+        { "ano": "R3–R7", "titulo": "Cirurgia Oncológica", "descricao": "Oncologia de sítios específicos, reconstrução, pesquisa." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-especializado", "pct": 40, "valor": "R$ 12k–18k" },
+        { "label": "Centro oncológico", "pct": 62, "valor": "R$ 22k–35k" },
+        { "label": "Referência sênior", "pct": 86, "valor": "R$ 35k–60k+" }
+      ],
+      "vantagens": ["Demanda crescente e garantida", "Alto impacto na vida dos pacientes", "Alta remuneração em centros de referência"],
+      "desafios": ["Longa formação (7 anos)", "Alta carga emocional", "Concentrada em grandes centros"],
+      "relacionadas": ["cirurgia-geral", "oncologia-clinica", "cirurgia-de-cabeca-e-pescoco", "mastologia"]
+    },
+    {
+      "slug": "cirurgia-pediatrica",
+      "nome": "Cirurgia Pediátrica",
+      "icon": "🧒",
+      "tags": ["crescimento"],
+      "badges": [{ "texto": "Nicho de alta especialização", "cor": "blue" }],
+      "resumo": "Especialidade de alto refinamento técnico. Cirurgia em recém-nascidos e crianças exige formação longa e dedicação especial.",
+      "salario_faixa": "R$ 18k–40k",
+      "duracao": "7 anos total",
+      "concorrencia": 2,
+      "cfm_ativos": "~1.900",
+      "crescimento_10a": "+22%",
+      "candidatos_vaga": "~5–10:1",
+      "mercado": "Apenas ~1.900 cirurgiões pediátricos no Brasil para uma população pediátrica de 50 milhões. Forte no SUS em hospitais de referência infantil.",
+      "areas": [
+        { "icon": "🧒", "titulo": "Cirurgia neonatal", "descricao": "Malformações congênitas, atresias, onfalocele." },
+        { "icon": "🏥", "titulo": "Cirurgia de urgência pediátrica", "descricao": "Apendicite, intussuscepção, trauma pediátrico." },
+        { "icon": "🔭", "titulo": "Laparoscopia pediátrica", "descricao": "Cirurgia minimamente invasiva em crianças." },
+        { "icon": "🎗", "titulo": "Cirurgia oncológica pediátrica", "descricao": "Tumores de Wilms, neuroblastoma, hepatoblastoma." }
+      ],
+      "residencia": [
+        { "ano": "R1–R2", "titulo": "Cirurgia Geral (pré-req.)", "descricao": "Pré-requisito obrigatório." },
+        { "ano": "R3–R7", "titulo": "Cirurgia Pediátrica", "descricao": "Cirurgia neonatal, minimamente invasiva, oncológica pediátrica." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-especializado", "pct": 36, "valor": "R$ 10k–15k" },
+        { "label": "Hospital infantil", "pct": 54, "valor": "R$ 15k–25k" },
+        { "label": "Centro de referência sênior", "pct": 76, "valor": "R$ 25k–42k+" }
+      ],
+      "vantagens": ["Alta vocação e satisfação profissional", "Déficit de profissionais", "Alta complexidade técnica", "Impacto enorme na vida das crianças"],
+      "desafios": ["Formação muito longa (7 anos)", "Alta carga emocional", "Salário mais baixo que adulto"],
+      "relacionadas": ["pediatria", "cirurgia-geral", "anestesiologia", "neonatologia"]
+    },
+    {
+      "slug": "cirurgia-plastica",
+      "nome": "Cirurgia Plástica",
+      "icon": "✨",
+      "tags": ["remuneracao", "concorrida", "crescimento"],
+      "badges": [{ "texto": "💰 Alta renda estética", "cor": "yellow" }, { "texto": "📈 Maior mercado do mundo", "cor": "up" }],
+      "resumo": "Brasil é o maior mercado de cirurgia plástica do mundo. Alta renda no privado, concorrência crescente e mercado em boom.",
+      "salario_faixa": "R$ 22k–80k+",
+      "duracao": "5 anos total",
+      "concorrencia": 4,
+      "cfm_ativos": "~6.300",
+      "crescimento_10a": "+52%",
+      "candidatos_vaga": "~15–35:1",
+      "mercado": "Brasil é o 1º ou 2º maior mercado de cirurgia plástica estética do mundo (ISAPS). Alta demanda por mamoplastia, rinoplastia, lipoaspiração e body sculpting. Mercado privado em crescimento acelerado.",
+      "areas": [
+        { "icon": "✨", "titulo": "Cirurgia estética", "descricao": "Rinoplastia, mamoplastia, abdominoplastia, lipoaspiração." },
+        { "icon": "🔬", "titulo": "Cirurgia reconstrutiva", "descricao": "Reconstrução pós-mastectomia, queimados, malformações." },
+        { "icon": "🤲", "titulo": "Microcirurgia", "descricao": "Retalhos livres, reconstrução de extremidades." },
+        { "icon": "🧒", "titulo": "Plástica pediátrica", "descricao": "Fenda palatina, hemangiomas, malformações vasculares." }
+      ],
+      "residencia": [
+        { "ano": "R1–R2", "titulo": "Cirurgia Geral (pré-req.)", "descricao": "Pré-requisito obrigatório." },
+        { "ano": "R3–R5", "titulo": "Cirurgia Plástica", "descricao": "Estética, reconstrutiva, microcirurgia, queimados." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-especializado", "pct": 40, "valor": "R$ 12k–20k" },
+        { "label": "Consultório em crescimento", "pct": 62, "valor": "R$ 22k–40k" },
+        { "label": "Sênior consolidado", "pct": 90, "valor": "R$ 50k–100k+" }
+      ],
+      "vantagens": ["Maior mercado mundial", "Altíssima renda no privado", "Diversidade estética e reconstrutiva", "Muito demandada"],
+      "desafios": ["5 anos de formação", "Alta concorrência nas capitais", "Custo alto de marketing e instalação", "Alto risco de processos judiciais"],
+      "alerta": { "tipo": "warn", "texto": "Cirurgia plástica tem uma das maiores taxas de processos judiciais. Gestão de expectativas é essencial." },
+      "relacionadas": ["dermatologia", "otorrinolaringologia", "cirurgia-geral", "mastologia"]
+    },
+    {
+      "slug": "cirurgia-toracica",
+      "nome": "Cirurgia Torácica",
+      "icon": "🫁",
+      "tags": ["remuneracao"],
+      "badges": [{ "texto": "Alta especialização técnica", "cor": "blue" }],
+      "resumo": "Especialidade de alta complexidade técnica. Cirurgia de pulmão, esôfago e mediastino com forte demanda oncológica.",
+      "salario_faixa": "R$ 22k–50k",
+      "duracao": "6 anos total",
+      "concorrencia": 2,
+      "cfm_ativos": "~1.800",
+      "crescimento_10a": "+25%",
+      "candidatos_vaga": "~5–10:1",
+      "mercado": "Forte demanda por câncer de pulmão (principal causa de morte oncológica no Brasil). VATS (videotoracoscopia) revolucionou a especialidade. Poucos centros de referência no país.",
+      "areas": [
+        { "icon": "🫁", "titulo": "Cirurgia pulmonar", "descricao": "Lobectomia, pneumonectomia, ressecção de metástases." },
+        { "icon": "🍽", "titulo": "Cirurgia esofágica", "descricao": "Esofagectomia, megaesôfago, câncer esofágico." },
+        { "icon": "🔭", "titulo": "VATS (videotoracoscopia)", "descricao": "Abordagem minimamente invasiva — padrão atual." },
+        { "icon": "🏥", "titulo": "Mediastino e pleura", "descricao": "Tumores mediastinais, mesotelioma, derrame pleural." }
+      ],
+      "residencia": [
+        { "ano": "R1–R2", "titulo": "Cirurgia Geral (pré-req.)", "descricao": "Pré-requisito obrigatório." },
+        { "ano": "R3–R6", "titulo": "Cirurgia Torácica", "descricao": "VATS, cirurgia pulmonar, esofágica, mediastinal." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-especializado", "pct": 40, "valor": "R$ 14k–20k" },
+        { "label": "Centro de referência", "pct": 62, "valor": "R$ 22k–35k" },
+        { "label": "Sênior oncológico", "pct": 84, "valor": "R$ 35k–55k+" }
+      ],
+      "vantagens": ["Alta remuneração", "Poucos profissionais no Brasil", "VATS como diferencial técnico", "Alta demanda oncológica"],
+      "desafios": ["Formação longa (6 anos)", "Concentrada em grandes centros", "Cirurgias longas e complexas"],
+      "relacionadas": ["pneumologia", "oncologia-clinica", "cirurgia-cardiovascular", "anestesiologia"]
+    },
+    {
+      "slug": "cirurgia-vascular",
+      "nome": "Cirurgia Vascular",
+      "icon": "🩸",
+      "tags": ["crescimento", "remuneracao"],
+      "badges": [{ "texto": "📈 Crescimento Alto", "cor": "up" }],
+      "resumo": "Alta demanda impulsionada pelo diabetes e envelhecimento. Endovascular em forte expansão com alto valor de procedimento.",
+      "salario_faixa": "R$ 18k–45k",
+      "duracao": "6 anos total",
+      "concorrencia": 2,
+      "cfm_ativos": "~5.200",
+      "crescimento_10a": "+40%",
+      "candidatos_vaga": "~6–15:1",
+      "mercado": "Epidemia de diabetes aumenta demanda por amputações evitadas, revascularização e tratamento de pé diabético. Aneurisma de aorta, endopróteses e acesso vascular são pilares da especialidade.",
+      "areas": [
+        { "icon": "🩸", "titulo": "Cirurgia arterial", "descricao": "Bypass, endarterectomia, aneurisma de aorta." },
+        { "icon": "⚡", "titulo": "Endovascular", "descricao": "Angioplastia, stent, EVAR — menos invasivo, alta demanda." },
+        { "icon": "🦶", "titulo": "Pé diabético", "descricao": "Revascularização, amputações conservadoras — alta prevalência." },
+        { "icon": "🌀", "titulo": "Varizes e doença venosa", "descricao": "LASER endovenoso, escleroterapia ecoguiada." }
+      ],
+      "residencia": [
+        { "ano": "R1–R2", "titulo": "Cirurgia Geral (pré-req.)", "descricao": "Pré-requisito obrigatório." },
+        { "ano": "R3–R6", "titulo": "Cirurgia Vascular e Endovascular", "descricao": "Arterial, venosa, endovascular, pé diabético." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-especializado", "pct": 36, "valor": "R$ 12k–18k" },
+        { "label": "Cirurgião estabelecido", "pct": 56, "valor": "R$ 18k–28k" },
+        { "label": "Endovascular sênior", "pct": 78, "valor": "R$ 28k–48k+" }
+      ],
+      "vantagens": ["Crescimento garantido com envelhecimento", "Alta renda por procedimento endovascular", "Diversidade técnica"],
+      "desafios": ["Formação longa (6 anos)", "Plantões vasculares de urgência", "Alto custo de sala endovascular"],
+      "relacionadas": ["angiologia", "cardiologia", "endocrinologia", "cirurgia-geral"]
+    },
+    {
+      "slug": "coloproctologia",
+      "nome": "Coloproctologia",
+      "icon": "🔭",
+      "tags": ["crescimento", "remuneracao"],
+      "badges": [{ "texto": "Alta demanda procedimentos", "cor": "blue" }],
+      "resumo": "Especialidade em crescimento com forte demanda por câncer colorretal, doenças do cólon e procedimentos endoscópicos.",
+      "salario_faixa": "R$ 16k–40k",
+      "duracao": "6 anos total",
+      "concorrencia": 2,
+      "cfm_ativos": "~4.800",
+      "crescimento_10a": "+35%",
+      "candidatos_vaga": "~6–15:1",
+      "mercado": "Câncer colorretal é o 2º mais prevalente no Brasil (INCA). Alta demanda por colonoscopia diagnóstica e terapêutica. Doença inflamatória intestinal em crescimento.",
+      "areas": [
+        { "icon": "🔭", "titulo": "Colonoscopia terapêutica", "descricao": "Polipectomia, mucosectomia — procedimentos bem remunerados." },
+        { "icon": "🎗", "titulo": "Oncologia colorretal", "descricao": "Câncer de reto e cólon — alta demanda e complexidade." },
+        { "icon": "🏥", "titulo": "Doenças inflamatórias", "descricao": "Crohn, retocolite ulcerativa — crescimento no Brasil." },
+        { "icon": "🩺", "titulo": "Proctologia ambulatorial", "descricao": "Hemorroidas, fissuras, fístulas — alta demanda SUS e privado." }
+      ],
+      "residencia": [
+        { "ano": "R1–R2", "titulo": "Cirurgia Geral (pré-req.)", "descricao": "Pré-requisito obrigatório." },
+        { "ano": "R3–R6", "titulo": "Coloproctologia", "descricao": "Oncologia colorretal, endoscopia terapêutica, proctologia." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-especializado", "pct": 34, "valor": "R$ 10k–16k" },
+        { "label": "Endoscopista + cirurgião", "pct": 54, "valor": "R$ 18k–26k" },
+        { "label": "Sênior oncológico", "pct": 76, "valor": "R$ 26k–42k+" }
+      ],
+      "vantagens": ["Alta demanda oncológica", "Procedimentos bem remunerados", "Diversidade clínica e cirúrgica"],
+      "desafios": ["Formação longa (6 anos)", "Estigma social do trabalho proctológico", "Competição com gastroenterologistas em endoscopia"],
+      "relacionadas": ["cirurgia-geral", "gastroenterologia", "oncologia-clinica", "anestesiologia"]
+    },
+    {
+      "slug": "endoscopia",
+      "nome": "Endoscopia Digestiva",
+      "icon": "🔭",
+      "tags": ["remuneracao", "crescimento"],
+      "badges": [{ "texto": "Procedimento muito remunerado", "cor": "yellow" }],
+      "resumo": "Área de atuação complementar a gastroenterologia e cirurgia. Alta remuneração por procedimento e forte demanda.",
+      "salario_faixa": "R$ 16k–40k",
+      "duracao": "2 anos CM + 2 anos",
+      "concorrencia": 2,
+      "cfm_ativos": "~7.800",
+      "crescimento_10a": "+38%",
+      "candidatos_vaga": "~6–15:1",
+      "mercado": "Alta demanda por EDA e colonoscopia para rastreamento de câncer. Endoscopia terapêutica (CPRE, mucosectomia, POEM) em forte expansão. Boa remuneração por procedimento.",
+      "areas": [
+        { "icon": "🔭", "titulo": "EDA e colonoscopia", "descricao": "Diagnóstico do trato digestivo alto e baixo." },
+        { "icon": "⚙️", "titulo": "Endoscopia terapêutica", "descricao": "Polipectomia, hemostasia, mucosectomia, POEM." },
+        { "icon": "🫃", "titulo": "CPRE", "descricao": "Colangio-pancreatografia endoscópica retrógrada — alta complexidade." },
+        { "icon": "💻", "titulo": "Cápsula endoscópica", "descricao": "Diagnóstico do intestino delgado — crescimento recente." }
+      ],
+      "residencia": [
+        { "ano": "R1–R2", "titulo": "Clínica Médica ou Cirurgia Geral", "descricao": "Pré-requisito variável por programa." },
+        { "ano": "R3–R4", "titulo": "Gastroenterologia ou Endoscopia", "descricao": "Treinamento em endoscopia diagnóstica e terapêutica." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Endoscopista iniciante", "pct": 34, "valor": "R$ 10k–16k" },
+        { "label": "Estabelecido", "pct": 54, "valor": "R$ 16k–26k" },
+        { "label": "Endoscopia terapêutica sênior", "pct": 76, "valor": "R$ 26k–42k+" }
+      ],
+      "vantagens": ["Procedimentos bem remunerados", "Horário mais controlado", "Fila de pacientes garantida", "Complementa gastroenterologia"],
+      "desafios": ["Trabalho repetitivo a longo prazo", "Necessidade de grande volume de exames", "Concorrência com gastroenterologistas"],
+      "relacionadas": ["gastroenterologia", "coloproctologia", "cirurgia-do-aparelho-digestivo", "clinica-medica"]
+    },
+    {
+      "slug": "genetica-medica",
+      "nome": "Genética Médica",
+      "icon": "🧬",
+      "tags": ["crescimento"],
+      "badges": [{ "texto": "📈 Futuro da medicina", "cor": "up" }],
+      "resumo": "Especialidade do futuro. Revolução genômica e diagnóstico molecular estão transformando toda a medicina.",
+      "salario_faixa": "R$ 14k–30k",
+      "duracao": "3 anos",
+      "concorrencia": 1,
+      "cfm_ativos": "~820",
+      "crescimento_10a": "+65%",
+      "candidatos_vaga": "~3–8:1",
+      "mercado": "Apenas ~820 geneticistas médicos no Brasil — déficit crítico. Expansão do sequenciamento genômico, doenças raras e medicina de precisão. Parceria crescente com oncologia, cardiologia e neurologia.",
+      "areas": [
+        { "icon": "🧬", "titulo": "Doenças raras e síndromes", "descricao": "Diagnóstico de doenças genéticas raras, aconselhamento." },
+        { "icon": "🔬", "titulo": "Oncogenética", "descricao": "Predisposição hereditária ao câncer (BRCA, Lynch)." },
+        { "icon": "👶", "titulo": "Genética clínica pediátrica", "descricao": "Cromossomopatias, malformações, atraso do desenvolvimento." },
+        { "icon": "💊", "titulo": "Farmacogenômica", "descricao": "Medicina de precisão, resposta individual a medicamentos." }
+      ],
+      "residencia": [
+        { "ano": "R1", "titulo": "Base clínica em genética", "descricao": "Citogenética, diagnóstico molecular, síndromes." },
+        { "ano": "R2", "titulo": "Aconselhamento e subespecialidades", "descricao": "Aconselhamento genético, oncogenética, genética metabólica." },
+        { "ano": "R3", "titulo": "Genômica clínica", "descricao": "Sequenciamento de exoma/genoma, medicina de precisão." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-especializado", "pct": 28, "valor": "R$ 8k–13k" },
+        { "label": "Consultório + indústria", "pct": 48, "valor": "R$ 14k–22k" },
+        { "label": "Sênior + pesquisa/biotech", "pct": 70, "valor": "R$ 20k–35k+" }
+      ],
+      "vantagens": ["Especialidade do futuro", "Déficit crítico de profissionais", "Intersecção com toda a medicina", "Pesquisa e inovação"],
+      "desafios": ["Salário moderado no início", "Poucos centros de formação", "Pouco procedimento técnico"],
+      "alerta": { "tipo": "info", "texto": "Com apenas 820 geneticistas para 215 milhões de brasileiros, é a especialidade com maior déficit proporcional do Brasil." },
+      "relacionadas": ["oncologia-clinica", "neurologia", "pediatria", "endocrinologia"]
+    },
+    {
+      "slug": "hematologia",
+      "nome": "Hematologia e Hemoterapia",
+      "icon": "🩸",
+      "tags": ["crescimento", "remuneracao"],
+      "badges": [{ "texto": "📈 Oncohematologia em alta", "cor": "up" }],
+      "resumo": "Oncohematologia em expansão acelerada. Tratamentos de alto custo (CAR-T, biológicos) aumentam valor da especialidade.",
+      "salario_faixa": "R$ 16k–40k",
+      "duracao": "2 anos CM + 2–3 anos",
+      "concorrencia": 2,
+      "cfm_ativos": "~5.100",
+      "crescimento_10a": "+45%",
+      "candidatos_vaga": "~6–15:1",
+      "mercado": "Oncohematologia (leucemias, linfomas, mieloma) em expansão com novas terapias: CAR-T, imunobiológicos, inibidores de checkpoint. Hemocentros e bancos de sangue sempre demandam especialistas.",
+      "areas": [
+        { "icon": "🩸", "titulo": "Oncohematologia", "descricao": "Leucemias, linfomas, mieloma múltiplo, transplante de medula." },
+        { "icon": "🏥", "titulo": "Hemoterapia", "descricao": "Banco de sangue, hemoderivados, aférese." },
+        { "icon": "💊", "titulo": "Coagulopatias", "descricao": "Hemofilia, tromboses, coagulação intravascular." },
+        { "icon": "🔬", "titulo": "Hematologia benigna", "descricao": "Anemia, doenças falciformes, talassemias." }
+      ],
+      "residencia": [
+        { "ano": "R1–R2", "titulo": "Clínica Médica (pré-req.)", "descricao": "Pré-requisito obrigatório." },
+        { "ano": "R3–R4", "titulo": "Hematologia e Hemoterapia", "descricao": "Oncohematologia, transfusão, coagulopatias." },
+        { "ano": "R5", "titulo": "Transplante de medula óssea", "descricao": "Fellowship opcional em centros de transplante." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-especializado", "pct": 32, "valor": "R$ 10k–16k" },
+        { "label": "Hematologista estabelecido", "pct": 52, "valor": "R$ 16k–26k" },
+        { "label": "Oncohematologia + TMO", "pct": 76, "valor": "R$ 26k–45k+" }
+      ],
+      "vantagens": ["Terapias inovadoras (CAR-T)", "Alta demanda oncológica", "Crescimento acelerado", "Pouco plantão clínico direto"],
+      "desafios": ["Alta carga emocional em oncologia", "Formação longa", "Concentrada em centros de referência"],
+      "relacionadas": ["oncologia-clinica", "clinica-medica", "medicina-intensiva", "pediatria"]
+    },
+    {
+      "slug": "homeopatia",
+      "nome": "Homeopatia",
+      "icon": "🌿",
+      "tags": ["qv"],
+      "badges": [{ "texto": "Medicina integrativa", "cor": "blue" }],
+      "resumo": "Especialidade integrativa com foco em qualidade de vida. Consultório com baixo custo e perfil vocacional forte.",
+      "salario_faixa": "R$ 6k–15k",
+      "duracao": "2 anos",
+      "concorrencia": 1,
+      "cfm_ativos": "~4.800",
+      "crescimento_10a": "+10%",
+      "candidatos_vaga": "~2–5:1",
+      "mercado": "Demanda por medicina integrativa crescendo. Porém, crescimento menor comparado a outras especialidades. Cobertura por planos de saúde limitada. Forte base de pacientes fiéis no setor privado.",
+      "areas": [
+        { "icon": "🌿", "titulo": "Clínica geral homeopática", "descricao": "Atendimento holístico, doenças crônicas, prevenção." },
+        { "icon": "👶", "titulo": "Homeopatia pediátrica", "descricao": "Alta demanda por alternativa a antibióticos na infância." },
+        { "icon": "🧘", "titulo": "Saúde mental integrativa", "descricao": "Ansiedade, insônia, transtornos leves." },
+        { "icon": "🔬", "titulo": "Integração com medicina convencional", "descricao": "Suporte a pacientes oncológicos e crônicos." }
+      ],
+      "residencia": [
+        { "ano": "R1", "titulo": "Fundamentos da homeopatia", "descricao": "Matéria médica, repertorização, semiologia homeopática." },
+        { "ano": "R2", "titulo": "Prática clínica", "descricao": "Atendimento supervisionado, casos crônicos, crianças." }
+      ],
+      "salarios": [
+        { "label": "Início de consultório", "pct": 18, "valor": "R$ 4k–7k" },
+        { "label": "Consultório estabelecido", "pct": 30, "valor": "R$ 7k–11k" },
+        { "label": "Base fiel de pacientes", "pct": 45, "valor": "R$ 10k–16k" },
+        { "label": "Sênior + integrativo", "pct": 58, "valor": "R$ 14k–20k" }
+      ],
+      "vantagens": ["Qualidade de vida máxima", "Baixo custo de instalação", "Vínculo forte com pacientes", "Horário totalmente flexível"],
+      "desafios": ["Renda significativamente menor que outras especialidades", "Cobertura restrita por planos", "Evidência científica controversa", "Baixo prestígio acadêmico"],
+      "relacionadas": ["medicina-familia", "acupuntura", "medicina-preventiva", "psiquiatria"]
+    },
+    {
+      "slug": "infectologia",
+      "nome": "Infectologia",
+      "icon": "🦠",
+      "tags": ["crescimento"],
+      "badges": [{ "texto": "📈 Pós-pandemia valorizada", "cor": "up" }],
+      "resumo": "Pandemia de Covid-19 valorizou e projetou a infectologia. Alta demanda em hospitais e crescimento de resistência antimicrobiana.",
+      "salario_faixa": "R$ 14k–30k",
+      "duracao": "2 anos CM + 2 anos",
+      "concorrencia": 2,
+      "cfm_ativos": "~4.900",
+      "crescimento_10a": "+48%",
+      "candidatos_vaga": "~6–15:1",
+      "mercado": "Pandemia projetou infectologistas como referência nacional. Alta demanda hospitalar para controle de infecção e antimicrobianos. HIV, fungos emergentes e resistência bacteriana são desafios crescentes.",
+      "areas": [
+        { "icon": "🦠", "titulo": "Infectologia hospitalar", "descricao": "Controle de infecção, CCIH, antimicrobianos — muito demandado." },
+        { "icon": "💊", "titulo": "HIV e DSTs", "descricao": "Acompanhamento de PVHIV, profilaxia PrEP/PEP." },
+        { "icon": "🏝", "titulo": "Doenças tropicais", "descricao": "Dengue, leishmaniose, febre amarela, Chagas." },
+        { "icon": "🔬", "titulo": "Resistência antimicrobiana", "descricao": "Superbactérias, antimicrobianos de último recurso." }
+      ],
+      "residencia": [
+        { "ano": "R1–R2", "titulo": "Clínica Médica (pré-req.)", "descricao": "Pré-requisito obrigatório." },
+        { "ano": "R3–R4", "titulo": "Infectologia clínica", "descricao": "Doenças infecciosas, HIV, tropicais, controle hospitalar." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-especializado", "pct": 28, "valor": "R$ 8k–13k" },
+        { "label": "Hospital estabelecido", "pct": 46, "valor": "R$ 14k–22k" },
+        { "label": "Referência sênior", "pct": 66, "valor": "R$ 20k–32k" }
+      ],
+      "vantagens": ["Alta empregabilidade hospitalar", "Pandemia aumentou reconhecimento", "Diversidade de patologias", "Forte atuação SUS"],
+      "desafios": ["Salário abaixo de procedimentais", "Plantões hospitalares intensos", "Alta carga emocional em casos graves"],
+      "relacionadas": ["clinica-medica", "pneumologia", "medicina-intensiva", "medicina-preventiva"]
+    },
+    {
+      "slug": "mastologia",
+      "nome": "Mastologia",
+      "icon": "🎗",
+      "tags": ["crescimento", "remuneracao"],
+      "badges": [{ "texto": "📈 Câncer de mama em alta", "cor": "up" }],
+      "resumo": "Especialidade em crescimento com alta demanda por câncer de mama — o mais prevalente entre mulheres no Brasil.",
+      "salario_faixa": "R$ 16k–38k",
+      "duracao": "6 anos total",
+      "concorrencia": 2,
+      "cfm_ativos": "~3.600",
+      "crescimento_10a": "+45%",
+      "candidatos_vaga": "~5–12:1",
+      "mercado": "Câncer de mama é o mais prevalente entre mulheres no Brasil (INCA). Rastreamento por mamografia e ultrassom geram demanda crescente. Cirurgia oncoplástica e reconstrução imediata valorizando a especialidade.",
+      "areas": [
+        { "icon": "🎗", "titulo": "Oncologia mamária", "descricao": "Câncer de mama, mastectomia, cirurgia conservadora." },
+        { "icon": "✨", "titulo": "Oncoplastia", "descricao": "Cirurgia oncológica com reconstrução estética imediata." },
+        { "icon": "🔬", "titulo": "Biópsia e diagnóstico", "descricao": "PAAF, core-biopsy, biópsia estereotáxica." },
+        { "icon": "🩺", "titulo": "Doenças benignas", "descricao": "Fibroadenoma, cistos, mastopatia fibrocística." }
+      ],
+      "residencia": [
+        { "ano": "R1–R2", "titulo": "Cirurgia Geral (pré-req.)", "descricao": "Pré-requisito obrigatório." },
+        { "ano": "R3–R6", "titulo": "Mastologia", "descricao": "Oncologia mamária, cirurgia oncoplástica, diagnóstico por imagem." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-especializado", "pct": 34, "valor": "R$ 10k–16k" },
+        { "label": "Mastologista estabelecido", "pct": 54, "valor": "R$ 16k–26k" },
+        { "label": "Centro oncológico sênior", "pct": 76, "valor": "R$ 26k–42k+" }
+      ],
+      "vantagens": ["Alta demanda oncológica crescente", "Oncoplastia como diferencial de mercado", "Forte no SUS e privado"],
+      "desafios": ["Formação longa (6 anos)", "Alta carga emocional oncológica", "Concentrada em centros de referência"],
+      "relacionadas": ["cirurgia-oncologica", "oncologia-clinica", "cirurgia-plastica", "radiologia"]
+    },
+    {
+      "slug": "medicina-de-emergencia",
+      "nome": "Medicina de Emergência",
+      "icon": "🚑",
+      "tags": ["crescimento", "remuneracao"],
+      "badges": [{ "texto": "📈 Nova especialidade em alta", "cor": "up" }, { "texto": "Alta demanda", "cor": "blue" }],
+      "resumo": "Nova especialidade médica reconhecida pelo CFM. Alta demanda e remuneração, especialmente em pronto-socorros de referência.",
+      "salario_faixa": "R$ 15k–40k",
+      "duracao": "3 anos",
+      "concorrencia": 2,
+      "cfm_ativos": "~14.200",
+      "crescimento_10a": "+68%",
+      "candidatos_vaga": "~5–15:1",
+      "mercado": "Especialidade recém-reconhecida pelo CFM com forte crescimento. Alta demanda em pronto-socorros hospitalares, SAMU e serviços de urgência. Remuneração por plantão muito competitiva.",
+      "areas": [
+        { "icon": "🚑", "titulo": "Pronto-socorro hospitalar", "descricao": "Triagem, atendimento de urgência e emergência." },
+        { "icon": "⚡", "titulo": "Suporte avançado de vida", "descricao": "PCR, intubação, acesso vascular de emergência." },
+        { "icon": "🏥", "titulo": "Medicina intensiva de emergência", "descricao": "Estabilização de pacientes críticos antes da UTI." },
+        { "icon": "🚁", "titulo": "Medicina pré-hospitalar", "descricao": "SAMU, remoção aeromédica, resgate." }
+      ],
+      "residencia": [
+        { "ano": "R1", "titulo": "Fundamentos de emergência", "descricao": "Triagem, suporte de vida, emergências clínicas." },
+        { "ano": "R2", "titulo": "Trauma e complexidades", "descricao": "Trauma, politrauma, emergências cirúrgicas." },
+        { "ano": "R3", "titulo": "Subespecialidades de emergência", "descricao": "Pediátrica, obstétrica, toxicologia, pré-hospitalar." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Plantonista iniciante", "pct": 34, "valor": "R$ 9k–15k" },
+        { "label": "Emergencista estabelecido", "pct": 54, "valor": "R$ 15k–25k" },
+        { "label": "Coordenador/referência", "pct": 74, "valor": "R$ 25k–42k+" }
+      ],
+      "vantagens": ["Alta demanda constante", "Boa remuneração por plantão", "Diversidade de casos", "Especialidade em estruturação"],
+      "desafios": ["Plantões muito intensos", "Burnout elevado", "Alta pressão decisória", "Exposição constante a situações críticas"],
+      "relacionadas": ["medicina-intensiva", "anestesiologia", "clinica-medica", "cirurgia-geral"]
+    },
+    {
+      "slug": "medicina-de-trafego",
+      "nome": "Medicina de Tráfego",
+      "icon": "🚗",
+      "tags": ["qv"],
+      "badges": [{ "texto": "Zero plantão", "cor": "blue" }],
+      "resumo": "Especialidade com foco em aptidão para dirigir. Horário comercial, sem plantão e baixa exigência clínica.",
+      "salario_faixa": "R$ 8k–18k",
+      "duracao": "2 anos",
+      "concorrencia": 1,
+      "cfm_ativos": "~2.100",
+      "crescimento_10a": "+15%",
+      "candidatos_vaga": "~2–5:1",
+      "mercado": "Obrigação legal de exame médico para CNH garante demanda estável. Clínicas de medicina de tráfego são franquias de baixo custo operacional. Complementar a outras especialidades.",
+      "areas": [
+        { "icon": "🚗", "titulo": "Exames de aptidão para CNH", "descricao": "Avaliação de motoristas para habilitação — base da especialidade." },
+        { "icon": "🚛", "titulo": "Motoristas profissionais", "descricao": "Caminhoneiros, taxistas, transporte escolar — regulado pelo CONTRAN." },
+        { "icon": "📋", "titulo": "Peritos e juntas médicas", "descricao": "Recurso de CNH, laudos periciais para DETRAN." },
+        { "icon": "🏥", "titulo": "Saúde do motorista", "descricao": "Prevenção de doenças que afetam a capacidade de dirigir." }
+      ],
+      "residencia": [
+        { "ano": "R1", "titulo": "Legislação e fundamentos", "descricao": "Código de trânsito, resoluções CONTRAN, semiologia para condutores." },
+        { "ano": "R2", "titulo": "Prática clínica em tráfego", "descricao": "Avaliação de aptidão, toxicologia, clínicas especializadas." }
+      ],
+      "salarios": [
+        { "label": "Início", "pct": 20, "valor": "R$ 5k–8k" },
+        { "label": "Clínica estabelecida", "pct": 32, "valor": "R$ 8k–12k" },
+        { "label": "Franquia de clínicas", "pct": 46, "valor": "R$ 12k–18k" },
+        { "label": "Sênior + perito", "pct": 60, "valor": "R$ 16k–22k" }
+      ],
+      "vantagens": ["Zero plantão", "Horário comercial rígido", "Baixo custo de instalação", "Baixo estresse clínico"],
+      "desafios": ["Renda moderada", "Trabalho repetitivo", "Pouco reconhecimento acadêmico", "Pouco contato clínico"],
+      "relacionadas": ["medicina-do-trabalho", "medicina-legal", "medicina-preventiva", "medicina-familia"]
+    },
+    {
+      "slug": "medicina-esportiva",
+      "nome": "Medicina Esportiva",
+      "icon": "🏃",
+      "tags": ["crescimento", "qv"],
+      "badges": [{ "texto": "📈 Crescimento com wellness", "cor": "up" }],
+      "resumo": "Crescimento impulsionado pela cultura fitness e esporte de alto rendimento. Qualidade de vida e horário programável.",
+      "salario_faixa": "R$ 12k–30k",
+      "duracao": "3 anos",
+      "concorrencia": 2,
+      "cfm_ativos": "~4.100",
+      "crescimento_10a": "+55%",
+      "candidatos_vaga": "~5–12:1",
+      "mercado": "Cultura fitness em explosão no Brasil. Alta demanda em times esportivos, clínicas de performance e saúde do exercício. Medicina antienvelhecimento e performance como mercado privado crescente.",
+      "areas": [
+        { "icon": "⚽", "titulo": "Esporte de alto rendimento", "descricao": "Times de futebol, clubes, seleções — atuação em campo." },
+        { "icon": "🏋️", "titulo": "Prescrição de exercício", "descricao": "Ergometria, prescrição clínica de atividade física." },
+        { "icon": "🦴", "titulo": "Lesões esportivas", "descricao": "Diagnóstico e tratamento de lesões musculoesqueléticas." },
+        { "icon": "🌿", "titulo": "Medicina antienvelhecimento", "descricao": "Performance, longevidade, suplementação — mercado privado." }
+      ],
+      "residencia": [
+        { "ano": "R1", "titulo": "Fundamentos do exercício", "descricao": "Fisiologia, ergometria, nutrição esportiva." },
+        { "ano": "R2", "titulo": "Clínica esportiva", "descricao": "Lesões, reabilitação, medicina do atleta." },
+        { "ano": "R3", "titulo": "Alto rendimento", "descricao": "Atuação em times, subespecialidades, doping." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Clínica iniciante", "pct": 28, "valor": "R$ 8k–12k" },
+        { "label": "Consultório estabelecido", "pct": 46, "valor": "R$ 12k–20k" },
+        { "label": "Time profissional + privado", "pct": 68, "valor": "R$ 20k–35k+" }
+      ],
+      "vantagens": ["Qualidade de vida alta", "Cultura fitness valoriza a especialidade", "Horário programável", "Setor privado em crescimento"],
+      "desafios": ["Salário moderado fora do alto rendimento", "Concorrência com fisioterapeutas e educadores físicos", "Mercado ainda em estruturação"],
+      "relacionadas": ["ortopedia", "fisiatria", "endocrinologia", "nutrologia"]
+    },
+    {
+      "slug": "medicina-fisica-e-reabilitacao",
+      "nome": "Medicina Física e Reabilitação",
+      "icon": "♿",
+      "tags": ["crescimento", "qv"],
+      "badges": [{ "texto": "📈 Crescimento alto", "cor": "up" }],
+      "resumo": "Fisiatria em forte crescimento com envelhecimento e aumento de AVCs, sequelas neurológicas e musculoesqueléticas.",
+      "salario_faixa": "R$ 12k–26k",
+      "duracao": "4 anos",
+      "concorrencia": 2,
+      "cfm_ativos": "~4.100",
+      "crescimento_10a": "+52%",
+      "candidatos_vaga": "~5–12:1",
+      "mercado": "Aumento de sequelas de AVC, TCE e ortopedia geram alta demanda por reabilitação. Medicina de reabilitação oncológica em crescimento. Qualidade de vida programável e trabalho multidisciplinar.",
+      "areas": [
+        { "icon": "🧠", "titulo": "Reabilitação neurológica", "descricao": "AVC, TCE, lesão medular, Parkinson." },
+        { "icon": "🦴", "titulo": "Reabilitação musculoesquelética", "descricao": "Pós-cirúrgico, artrite, amputações." },
+        { "icon": "♿", "titulo": "Reabilitação pediátrica", "descricao": "Paralisia cerebral, mielomeningocele, sequelas neonatais." },
+        { "icon": "💊", "titulo": "Dor crônica e eletromiografia", "descricao": "EMG, bloqueios, infiltrações guiadas." }
+      ],
+      "residencia": [
+        { "ano": "R1–R2", "titulo": "Base clínica em reabilitação", "descricao": "Neurológica, musculoesquelética, eletroterapia." },
+        { "ano": "R3–R4", "titulo": "Subespecialidades", "descricao": "Pediátrica, oncológica, dor crônica, eletromiografia." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-especializado", "pct": 28, "valor": "R$ 8k–12k" },
+        { "label": "Clínica estabelecida", "pct": 44, "valor": "R$ 12k–20k" },
+        { "label": "Sênior + procedimentos", "pct": 64, "valor": "R$ 18k–28k+" }
+      ],
+      "vantagens": ["Qualidade de vida alta", "Trabalho multidisciplinar gratificante", "Alta demanda com envelhecimento", "Horário programável"],
+      "desafios": ["Salário moderado", "4 anos de formação", "Pouco reconhecimento em hospitais gerais"],
+      "relacionadas": ["neurologia", "ortopedia", "medicina-esportiva", "geriatria"]
+    },
+    {
+      "slug": "medicina-legal",
+      "nome": "Medicina Legal e Perícia Médica",
+      "icon": "⚖️",
+      "tags": ["qv"],
+      "badges": [{ "texto": "Concurso público estável", "cor": "blue" }],
+      "resumo": "Especialidade vinculada ao serviço público. Estabilidade, horário comercial e sem plantões clínicos.",
+      "salario_faixa": "R$ 12k–30k",
+      "duracao": "3 anos",
+      "concorrencia": 1,
+      "cfm_ativos": "~3.100",
+      "crescimento_10a": "+18%",
+      "candidatos_vaga": "~3–8:1",
+      "mercado": "Atuação predominante em institutos médico-legais (IML), perícias do INSS, justiça e seguradoras. Concurso público garante estabilidade. Crescimento em perícias trabalhistas e de seguros.",
+      "areas": [
+        { "icon": "⚖️", "titulo": "Tanatologia", "descricao": "Necropsias, determinação de causa mortis — base da especialidade." },
+        { "icon": "🏛", "titulo": "Perícia judicial", "descricao": "Perito do juízo, assistente técnico, laudos judiciais." },
+        { "icon": "📋", "titulo": "Perícia previdenciária (INSS)", "descricao": "Avaliação de incapacidade laboral, benefícios." },
+        { "icon": "🔬", "titulo": "Sexologia forense", "descricao": "Crimes sexuais, lesões corporais, maus-tratos." }
+      ],
+      "residencia": [
+        { "ano": "R1", "titulo": "Tanatologia e traumatologia forense", "descricao": "Necropsias, diagnóstico de lesões, documentação." },
+        { "ano": "R2", "titulo": "Clínica forense e perícias", "descricao": "Sexologia forense, perícias do vivo, lesões corporais." },
+        { "ano": "R3", "titulo": "Perícia judicial e previdenciária", "descricao": "INSS, juízo, seguradoras, documentação médico-legal." }
+      ],
+      "salarios": [
+        { "label": "Concurso público base", "pct": 30, "valor": "R$ 8k–14k" },
+        { "label": "IML/Perito efetivo", "pct": 46, "valor": "R$ 12k–18k" },
+        { "label": "Perito judicial + seguro", "pct": 60, "valor": "R$ 16k–24k" },
+        { "label": "Sênior + laudos privados", "pct": 76, "valor": "R$ 22k–32k+" }
+      ],
+      "vantagens": ["Estabilidade no serviço público", "Sem plantões clínicos", "Horário comercial", "Sem contato com pacientes vivos em muitos cargos"],
+      "desafios": ["Exposição a situações de violência e morte", "Salário menor que clínicas privadas", "Concurso público exige preparação"],
+      "relacionadas": ["medicina-do-trabalho", "psiquiatria", "medicina-preventiva", "clinica-medica"]
+    },
+    {
+      "slug": "medicina-nuclear",
+      "nome": "Medicina Nuclear",
+      "icon": "☢️",
+      "tags": ["crescimento", "remuneracao"],
+      "badges": [{ "texto": "📈 PET-CT em expansão", "cor": "up" }],
+      "resumo": "Especialidade de imagem funcional. PET-CT e cintilografia em forte expansão com crescimento da oncologia no Brasil.",
+      "salario_faixa": "R$ 18k–45k",
+      "duracao": "4 anos",
+      "concorrencia": 2,
+      "cfm_ativos": "~1.300",
+      "crescimento_10a": "+55%",
+      "candidatos_vaga": "~5–12:1",
+      "mercado": "Apenas ~1.300 médicos nucleares no Brasil — déficit relevante. PET-CT é padrão em oncologia. Tireoidectomia com radioiodo e tratamentos nucleares em expansão.",
+      "areas": [
+        { "icon": "☢️", "titulo": "PET-CT oncológico", "descricao": "Estadiamento, resposta ao tratamento, recorrência tumoral." },
+        { "icon": "🦋", "titulo": "Terapia com radioiodo", "descricao": "Câncer de tireoide, hipertireoidismo — muito demandado." },
+        { "icon": "🫀", "titulo": "Cintilografia cardíaca", "descricao": "Perfusão miocárdica, viabilidade miocárdica." },
+        { "icon": "🦴", "titulo": "Cintilografia óssea", "descricao": "Metástases ósseas, fraturas de stress." }
+      ],
+      "residencia": [
+        { "ano": "R1–R2", "titulo": "Base em medicina nuclear", "descricao": "Física nuclear, radiofármacos, cintilografia básica." },
+        { "ano": "R3–R4", "titulo": "PET-CT e terapias", "descricao": "PET oncológico, radioiodoterapia, terapia com lutetium." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-especializado", "pct": 36, "valor": "R$ 12k–18k" },
+        { "label": "Centro estabelecido", "pct": 56, "valor": "R$ 18k–28k" },
+        { "label": "Referência sênior", "pct": 80, "valor": "R$ 28k–50k+" }
+      ],
+      "vantagens": ["PET-CT em expansão acelerada", "Poucos profissionais no Brasil", "Alta renda por procedimento", "Sem contato direto prolongado com paciente"],
+      "desafios": ["Concentrada em grandes centros", "Exposição à radiação (controlada)", "Poucos programas de formação"],
+      "relacionadas": ["radiologia", "oncologia-clinica", "endocrinologia", "cardiologia"]
+    },
+    {
+      "slug": "medicina-preventiva",
+      "nome": "Medicina Preventiva e Social",
+      "icon": "🛡",
+      "tags": ["qv", "crescimento"],
+      "badges": [{ "texto": "Saúde pública e gestão", "cor": "blue" }],
+      "resumo": "Especialidade voltada à saúde coletiva, epidemiologia e gestão em saúde. Crescimento em saúde digital e corporativa.",
+      "salario_faixa": "R$ 10k–25k",
+      "duracao": "3 anos",
+      "concorrencia": 1,
+      "cfm_ativos": "~3.200",
+      "crescimento_10a": "+28%",
+      "candidatos_vaga": "~3–8:1",
+      "mercado": "Saúde digital, healthtech e gestão em saúde criando novas posições para preventivistas. Vigilância epidemiológica, secretarias de saúde e gestão de planos de saúde como principais destinos.",
+      "areas": [
+        { "icon": "📊", "titulo": "Epidemiologia e vigilância", "descricao": "Monitoramento de doenças, surtos, dados populacionais." },
+        { "icon": "🏥", "titulo": "Gestão em saúde", "descricao": "Diretoria técnica, secretarias municipais e estaduais." },
+        { "icon": "💻", "titulo": "Saúde digital e healthtech", "descricao": "Telemedicina, dados em saúde, startups de saúde." },
+        { "icon": "🏢", "titulo": "Saúde corporativa", "descricao": "Programas de bem-estar em empresas, operadoras de planos." }
+      ],
+      "residencia": [
+        { "ano": "R1", "titulo": "Epidemiologia e saúde pública", "descricao": "Bioestatística, vigilância, políticas de saúde." },
+        { "ano": "R2", "titulo": "Gestão e saúde coletiva", "descricao": "SUS, gestão hospitalar, controle de doenças." },
+        { "ano": "R3", "titulo": "Aplicações práticas", "descricao": "Saúde digital, corporativa ou serviços especializados." }
+      ],
+      "salarios": [
+        { "label": "Setor público base", "pct": 22, "valor": "R$ 6k–10k" },
+        { "label": "Gestão pública estabelecida", "pct": 36, "valor": "R$ 10k–16k" },
+        { "label": "Healthtech/startups", "pct": 50, "valor": "R$ 14k–22k" },
+        { "label": "Diretor técnico sênior", "pct": 68, "valor": "R$ 20k–30k+" }
+      ],
+      "vantagens": ["Sem plantões", "Impacto populacional enorme", "Crescimento em saúde digital", "Qualidade de vida alta"],
+      "desafios": ["Renda menor que especialidades clínicas", "Estrutura pública precária", "Pouco prestígio entre médicos"],
+      "relacionadas": ["medicina-familia", "infectologia", "medicina-do-trabalho", "geriatria"]
+    },
+    {
+      "slug": "nefrologia",
+      "nome": "Nefrologia",
+      "icon": "🫘",
+      "tags": ["crescimento"],
+      "badges": [{ "texto": "📈 Epidemia de DRC", "cor": "up" }],
+      "resumo": "Epidemia silenciosa de doença renal crônica garante crescimento contínuo. Alta demanda por hemodiálise no Brasil.",
+      "salario_faixa": "R$ 16k–35k",
+      "duracao": "2 anos CM + 2 anos",
+      "concorrencia": 2,
+      "cfm_ativos": "~7.200",
+      "crescimento_10a": "+42%",
+      "candidatos_vaga": "~6–15:1",
+      "mercado": "Brasil tem ~140 mil pacientes em hemodiálise e 10–15 milhões com DRC. Epidemia de diabetes e hipertensão alimenta demanda crescente. Transplante renal e diálise peritoneal em expansão.",
+      "areas": [
+        { "icon": "🫘", "titulo": "Hemodiálise", "descricao": "Principal forma de terapia renal substitutiva — muito demandada." },
+        { "icon": "💧", "titulo": "Diálise peritoneal", "descricao": "Alternativa domiciliar à hemodiálise — mercado em crescimento." },
+        { "icon": "🔬", "titulo": "Nefrologia clínica", "descricao": "Glomerulonefrites, nefropatia diabética, hipertensão." },
+        { "icon": "🏥", "titulo": "Transplante renal", "descricao": "Acompanhamento pré e pós-transplante." }
+      ],
+      "residencia": [
+        { "ano": "R1–R2", "titulo": "Clínica Médica (pré-req.)", "descricao": "Pré-requisito obrigatório." },
+        { "ano": "R3–R4", "titulo": "Nefrologia clínica", "descricao": "Hemodiálise, DRC, glomerulopatias, transplante." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-especializado", "pct": 30, "valor": "R$ 9k–14k" },
+        { "label": "Clínica de hemodiálise", "pct": 50, "valor": "R$ 14k–22k" },
+        { "label": "Sênior + transplante", "pct": 72, "valor": "R$ 22k–38k+" }
+      ],
+      "vantagens": ["Alta empregabilidade em clínicas de diálise", "Crescimento garantido", "Boa qualidade de vida", "Demanda presente em todo o Brasil"],
+      "desafios": ["Trabalho em clínicas de diálise pode ser repetitivo", "4 anos de residência total", "Alta prevalência de óbito na base de pacientes"],
+      "relacionadas": ["clinica-medica", "cardiologia", "endocrinologia", "medicina-intensiva"]
+    },
+    {
+      "slug": "neurocirurgia",
+      "nome": "Neurocirurgia",
+      "icon": "🧠",
+      "tags": ["remuneracao"],
+      "badges": [{ "texto": "💰 Alta remuneração", "cor": "yellow" }, { "texto": "Maior prestígio técnico", "cor": "blue" }],
+      "resumo": "A especialidade de maior prestígio técnico na medicina. Formação extremamente longa e casos de altíssima complexidade.",
+      "salario_faixa": "R$ 25k–80k+",
+      "duracao": "8 anos total",
+      "concorrencia": 3,
+      "cfm_ativos": "~4.900",
+      "crescimento_10a": "+25%",
+      "candidatos_vaga": "~8–20:1",
+      "mercado": "Alta demanda por trauma cranioencefálico, tumor cerebral e tratamento da coluna vertebral. Neurocirurgia endoscópica e estereotaxia em crescimento.",
+      "areas": [
+        { "icon": "🧠", "titulo": "Neurooncologia cirúrgica", "descricao": "Tumores cerebrais, meningiomas, glioblastomas." },
+        { "icon": "🦴", "titulo": "Cirurgia da coluna", "descricao": "Hérnia de disco, espondilolistese, tumores vertebrais." },
+        { "icon": "🚑", "titulo": "Trauma cranioencefálico", "descricao": "Hematomas, fraturas, lesão medular traumática." },
+        { "icon": "🔬", "titulo": "Neurocirurgia funcional", "descricao": "Estimulação cerebral profunda (Parkinson), dor crônica." }
+      ],
+      "residencia": [
+        { "ano": "R1–R2", "titulo": "Cirurgia Geral (pré-req.)", "descricao": "Pré-requisito obrigatório." },
+        { "ano": "R3–R8", "titulo": "Neurocirurgia", "descricao": "Trauma, tumores, coluna, endoscopia, estereotaxia." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-formado", "pct": 46, "valor": "R$ 15k–25k" },
+        { "label": "Cirurgião estabelecido", "pct": 70, "valor": "R$ 30k–50k" },
+        { "label": "Referência sênior", "pct": 95, "valor": "R$ 55k–100k+" }
+      ],
+      "vantagens": ["Altíssimo prestígio", "Remuneração entre as mais altas", "Casos de máxima complexidade", "Pioneirismo tecnológico"],
+      "desafios": ["8 anos de formação — a mais longa da medicina", "Burnout extremamente alto", "Alta pressão decisória", "Plantões longuíssimos"],
+      "alerta": { "tipo": "warn", "texto": "A formação mais longa de toda a medicina. Avalie profundamente antes de escolher — o custo pessoal é alto." },
+      "relacionadas": ["neurologia", "anestesiologia", "medicina-intensiva", "ortopedia"]
+    },
+    {
+      "slug": "nutrologia",
+      "nome": "Nutrologia",
+      "icon": "🥗",
+      "tags": ["crescimento", "qv"],
+      "badges": [{ "texto": "📈 Wellness em alta", "cor": "up" }],
+      "resumo": "Especialidade em forte crescimento com cultura de saúde, emagrecimento e nutrição clínica. Mercado privado em explosão.",
+      "salario_faixa": "R$ 12k–30k",
+      "duracao": "3 anos",
+      "concorrencia": 2,
+      "cfm_ativos": "~6.200",
+      "crescimento_10a": "+68%",
+      "candidatos_vaga": "~5–12:1",
+      "mercado": "Cultura wellness, emagrecimento e novas drogas (semaglutida) transformaram a nutrologia. Alta demanda no privado. Nutrição parenteral em hospitais e nutrição esportiva complementam a especialidade.",
+      "areas": [
+        { "icon": "⚖️", "titulo": "Obesidade e emagrecimento", "descricao": "Semaglutida, ozempic, tratamento multidisciplinar da obesidade." },
+        { "icon": "🏋️", "titulo": "Nutrição esportiva", "descricao": "Performance, suplementação, composição corporal." },
+        { "icon": "🏥", "titulo": "Nutrição clínica e hospitalar", "descricao": "Nutrição enteral, parenteral, pacientes críticos." },
+        { "icon": "🧓", "titulo": "Nutrição do idoso", "descricao": "Sarcopenia, desnutrição, suplementação no envelhecimento." }
+      ],
+      "residencia": [
+        { "ano": "R1", "titulo": "Base em nutrologia", "descricao": "Macronutrientes, micronutrientes, nutrição clínica básica." },
+        { "ano": "R2", "titulo": "Obesidade e clínica", "descricao": "Tratamento da obesidade, emagrecimento, nutrição parenteral." },
+        { "ano": "R3", "titulo": "Subespecialidades", "descricao": "Esportiva, pediátrica, oncológica, geriátrica." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-especializado", "pct": 28, "valor": "R$ 8k–13k" },
+        { "label": "Consultório privado", "pct": 46, "valor": "R$ 13k–22k" },
+        { "label": "Emagrecimento + longevidade", "pct": 68, "valor": "R$ 20k–35k+" }
+      ],
+      "vantagens": ["Explosão do mercado wellness", "Qualidade de vida alta", "Consultório de baixo custo", "Poucos plantões"],
+      "desafios": ["Concorrência com nutricionistas não médicos", "Mercado ainda em regulamentação", "Renda variável conforme especialização"],
+      "relacionadas": ["endocrinologia", "medicina-esportiva", "gastroenterologia", "geriatria"]
+    },
+    {
+      "slug": "oncologia-clinica",
+      "nome": "Oncologia Clínica",
+      "icon": "🎗",
+      "tags": ["crescimento", "remuneracao"],
+      "badges": [{ "texto": "📈 700k casos/ano no Brasil", "cor": "up" }],
+      "resumo": "Crescimento contínuo garantido. Novas terapias (inibidores de checkpoint, CAR-T) transformaram e valorizaram a especialidade.",
+      "salario_faixa": "R$ 18k–50k",
+      "duracao": "2 anos CM + 2 anos",
+      "concorrencia": 3,
+      "cfm_ativos": "~7.800",
+      "crescimento_10a": "+55%",
+      "candidatos_vaga": "~10–20:1",
+      "mercado": "700 mil novos casos de câncer/ano no Brasil (INCA). Imunoterapia, terapias-alvo e CAR-T abriram mercado de alto valor. Demanda em centros oncológicos privados e públicos crescente.",
+      "areas": [
+        { "icon": "💊", "titulo": "Quimioterapia e imunoterapia", "descricao": "Protocolos de tratamento sistêmico do câncer." },
+        { "icon": "🎯", "titulo": "Terapias-alvo e CAR-T", "descricao": "Tratamentos de precisão — a fronteira da oncologia." },
+        { "icon": "🏥", "titulo": "Oncologia hospitalar", "descricao": "Interconsulta, emergências oncológicas, internação." },
+        { "icon": "🕊", "titulo": "Cuidados paliativos", "descricao": "Qualidade de vida em fim de vida — crescimento contínuo." }
+      ],
+      "residencia": [
+        { "ano": "R1–R2", "titulo": "Clínica Médica (pré-req.)", "descricao": "Pré-requisito obrigatório." },
+        { "ano": "R3–R4", "titulo": "Oncologia Clínica", "descricao": "Sólidos, hematológicos, terapias-alvo, ensaios clínicos." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-especializado", "pct": 34, "valor": "R$ 10k–16k" },
+        { "label": "Centro oncológico", "pct": 56, "valor": "R$ 18k–28k" },
+        { "label": "Sênior + ensaios clínicos", "pct": 80, "valor": "R$ 30k–55k+" }
+      ],
+      "vantagens": ["Crescimento contínuo garantido", "Inovação terapêutica constante", "Alto impacto e prestígio", "Ensaios clínicos como diferencial"],
+      "desafios": ["Alta carga emocional", "Pacientes em fim de vida", "4 anos de formação", "Concentrada em grandes centros"],
+      "relacionadas": ["hematologia", "cirurgia-oncologica", "radioterapia", "cuidados-paliativos"]
+    },
+    {
+      "slug": "patologia",
+      "nome": "Patologia",
+      "icon": "🔬",
+      "tags": ["qv"],
+      "badges": [{ "texto": "Base de todo diagnóstico", "cor": "blue" }],
+      "resumo": "Especialidade base de toda a medicina diagnóstica. Laudos histopatológicos e citopatológicos — trabalho de retaguarda de alto valor.",
+      "salario_faixa": "R$ 14k–35k",
+      "duracao": "4 anos",
+      "concorrencia": 1,
+      "cfm_ativos": "~4.900",
+      "crescimento_10a": "+28%",
+      "candidatos_vaga": "~3–8:1",
+      "mercado": "Patologia digital e IA começando a transformar a especialidade. Alta demanda em diagnóstico oncológico. Pouco contato com pacientes — laudo é o produto final.",
+      "areas": [
+        { "icon": "🔬", "titulo": "Histopatologia cirúrgica", "descricao": "Diagnóstico de biópsias e peças cirúrgicas." },
+        { "icon": "🎗", "titulo": "Patologia oncológica", "descricao": "Diagnóstico de tumores, margens cirúrgicas." },
+        { "icon": "💧", "titulo": "Citopatologia", "descricao": "Papanicolau, PAAF, citologia aspirativa." },
+        { "icon": "🤖", "titulo": "Patologia digital", "descricao": "IA, digitalização de lâminas, telepatoloia." }
+      ],
+      "residencia": [
+        { "ano": "R1–R2", "titulo": "Histopatologia geral", "descricao": "Técnica, semiologia histológica, órgãos principais." },
+        { "ano": "R3–R4", "titulo": "Patologia oncológica e especializada", "descricao": "Tumores, imunoistoquímica, biologia molecular." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-especializado", "pct": 30, "valor": "R$ 9k–14k" },
+        { "label": "Laboratório estabelecido", "pct": 50, "valor": "R$ 14k–22k" },
+        { "label": "Referência oncológica", "pct": 74, "valor": "R$ 22k–38k+" }
+      ],
+      "vantagens": ["Sem contato direto com paciente", "Horário programável", "IA como aliada", "Alta demanda oncológica"],
+      "desafios": ["Trabalho em laboratório pode ser solitário", "Baixo reconhecimento público", "Telepatologia ainda em estruturação"],
+      "relacionadas": ["radiologia", "oncologia-clinica", "medicina-nuclear", "genetica-medica"]
+    },
+    {
+      "slug": "patologia-clinica",
+      "nome": "Patologia Clínica / Medicina Laboratorial",
+      "icon": "🧪",
+      "tags": ["qv"],
+      "badges": [{ "texto": "Bastidor do diagnóstico", "cor": "blue" }],
+      "resumo": "Especialidade que suporta todo o diagnóstico médico. Gestão de laboratórios e medicina de precisão em transformação.",
+      "salario_faixa": "R$ 14k–35k",
+      "duracao": "4 anos",
+      "concorrencia": 1,
+      "cfm_ativos": "~6.800",
+      "crescimento_10a": "+30%",
+      "candidatos_vaga": "~3–8:1",
+      "mercado": "Gestão de laboratórios clínicos, genômica e medicina de precisão transformando a especialidade. Alta demanda em grandes redes laboratoriais (Fleury, DASA, Hermes Pardini).",
+      "areas": [
+        { "icon": "🧪", "titulo": "Bioquímica e hematologia laboratorial", "descricao": "Exames de rotina — base de qualquer laboratório clínico." },
+        { "icon": "🦠", "titulo": "Microbiologia e parasitologia", "descricao": "Culturas, antibiograma, diagnóstico de infecções." },
+        { "icon": "🧬", "titulo": "Biologia molecular e genômica", "descricao": "PCR, sequenciamento, diagnóstico de precisão." },
+        { "icon": "📊", "titulo": "Gestão de laboratório", "descricao": "Diretoria técnica, acreditação (PALC), controle de qualidade." }
+      ],
+      "residencia": [
+        { "ano": "R1–R2", "titulo": "Bases laboratoriais", "descricao": "Bioquímica, hematologia, microbiologia clínica." },
+        { "ano": "R3–R4", "titulo": "Subespecialidades e gestão", "descricao": "Biologia molecular, imunologia, gestão de laboratório." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Laboratorista", "pct": 30, "valor": "R$ 9k–14k" },
+        { "label": "Especialista em lab.", "pct": 50, "valor": "R$ 14k–22k" },
+        { "label": "Diretor técnico sênior", "pct": 74, "valor": "R$ 22k–38k+" }
+      ],
+      "vantagens": ["Sem plantão clínico", "Horário comercial", "Gestão e inovação tecnológica", "Grandes redes laboratoriais"],
+      "desafios": ["Sem contato com pacientes", "Carreira fortemente vinculada a laboratórios privados", "Baixo reconhecimento público"],
+      "relacionadas": ["patologia", "genetica-medica", "infectologia", "medicina-preventiva"]
+    },
+    {
+      "slug": "pneumologia",
+      "nome": "Pneumologia",
+      "icon": "🫁",
+      "tags": ["crescimento"],
+      "badges": [{ "texto": "📈 Pandemia valorizou", "cor": "up" }],
+      "resumo": "Pandemia de Covid-19 projetou a pneumologia. Alta demanda por asma, DPOC e síndrome pós-Covid.",
+      "salario_faixa": "R$ 14k–35k",
+      "duracao": "2 anos CM + 2 anos",
+      "concorrencia": 2,
+      "cfm_ativos": "~7.800",
+      "crescimento_10a": "+48%",
+      "candidatos_vaga": "~6–15:1",
+      "mercado": "Covid-19 aumentou visibilidade e demanda pela pneumologia. Asma, DPOC e síndrome pós-Covid aumentaram base de pacientes. Broncoscopia e sono em expansão.",
+      "areas": [
+        { "icon": "🫁", "titulo": "Pneumologia clínica", "descricao": "Asma, DPOC, pneumonias, interstícios." },
+        { "icon": "💤", "titulo": "Medicina do sono", "descricao": "Apneia do sono — mercado privado em explosão." },
+        { "icon": "🔭", "titulo": "Broncoscopia", "descricao": "Diagnóstico e terapêutica endobrônquica." },
+        { "icon": "🏥", "titulo": "Terapia intensiva respiratória", "descricao": "Ventilação mecânica — alta demanda pós-pandemia." }
+      ],
+      "residencia": [
+        { "ano": "R1–R2", "titulo": "Clínica Médica (pré-req.)", "descricao": "Pré-requisito obrigatório." },
+        { "ano": "R3–R4", "titulo": "Pneumologia clínica", "descricao": "Asma, DPOC, interstícios, broncoscopia, sono." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-especializado", "pct": 28, "valor": "R$ 8k–13k" },
+        { "label": "Consultório estabelecido", "pct": 46, "valor": "R$ 14k–22k" },
+        { "label": "Medicina do sono + broncoscopia", "pct": 68, "valor": "R$ 20k–36k+" }
+      ],
+      "vantagens": ["Pandemia projetou a especialidade", "Medicina do sono como nicho lucrativo", "Alta empregabilidade", "Boa qualidade de vida"],
+      "desafios": ["4 anos de formação", "Salário moderado sem procedimentos", "Concorrência com intensivistas em ventilação"],
+      "relacionadas": ["cardiologia", "medicina-intensiva", "infectologia", "alergia-e-imunologia"]
+    },
+    {
+      "slug": "radioterapia",
+      "nome": "Radioterapia",
+      "icon": "☢️",
+      "tags": ["crescimento", "remuneracao"],
+      "badges": [{ "texto": "📈 Oncologia em alta", "cor": "up" }],
+      "resumo": "Especialidade oncológica de alta tecnologia. Radioterapia estereotáxica e IMRT transformaram o tratamento do câncer.",
+      "salario_faixa": "R$ 18k–45k",
+      "duracao": "4 anos",
+      "concorrencia": 2,
+      "cfm_ativos": "~2.600",
+      "crescimento_10a": "+48%",
+      "candidatos_vaga": "~6–15:1",
+      "mercado": "700 mil novos casos de câncer/ano garantem demanda crescente. Radioterapia estereotáxica (SBRT/SABR), IMRT e radioterapia guiada por imagem são tecnologias de ponta em expansão.",
+      "areas": [
+        { "icon": "☢️", "titulo": "Radioterapia externa", "descricao": "IMRT, VMAT — tratamento de alta precisão e conformação." },
+        { "icon": "🎯", "titulo": "Radioterapia estereotáxica", "descricao": "SBRT, Gamma Knife — alta dose em lesões pequenas." },
+        { "icon": "💉", "titulo": "Braquiterapia", "descricao": "Câncer de próstata, colo uterino, mama." },
+        { "icon": "🔬", "titulo": "Radioterapia oncológica clínica", "descricao": "Planejamento e acompanhamento de tratamentos." }
+      ],
+      "residencia": [
+        { "ano": "R1–R2", "titulo": "Fundamentos oncológicos", "descricao": "Física médica, planejamento de radioterapia, radiobiologia." },
+        { "ano": "R3–R4", "titulo": "Radioterapia clínica", "descricao": "IMRT, braquiterapia, SBRT, tumores de sítios específicos." }
+      ],
+      "salarios": [
+        { "label": "Residência", "pct": 14, "valor": "R$ 3.300–4k" },
+        { "label": "Recém-especializado", "pct": 36, "valor": "R$ 12k–18k" },
+        { "label": "Centro oncológico", "pct": 56, "valor": "R$ 18k–28k" },
+        { "label": "Referência em estereotaxia", "pct": 80, "valor": "R$ 28k–50k+" }
+      ],
+      "vantagens": ["Alta tecnologia", "Crescimento oncológico garantido", "Poucos profissionais no Brasil", "Menor contato com pacientes em crise"],
+      "desafios": ["Concentrada em centros oncológicos grandes", "Exposição à radiação (controlada)", "Poucos programas de formação"],
+      "relacionadas": ["oncologia-clinica", "medicina-nuclear", "cirurgia-oncologica", "fisica-medica"]
+    }
+  ]
+}

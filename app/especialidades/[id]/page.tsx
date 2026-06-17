@@ -1,8 +1,10 @@
 import { supabase } from '@/lib/supabase'
 import descriptionsData from '@/data/descriptions.json'
 import dmbData from '@/data/dmb_data.json'
+import videosData from '@/data/videos.json'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import VideosEspecialidade from '@/components/VideosEspecialidade'
 
 const PRE_REQ: Record<number, string> = {
   1:'Acesso direto',2:'Acesso direto',3:'Acesso direto',4:'Cirurgia Geral',5:'Clínica Médica',
@@ -64,6 +66,9 @@ export default async function EspecialidadePage({ params }: { params: Promise<{ 
     .select('especialistas, por_100k_hab, pct_mulheres, media_idade, pct_capital, pct_sudeste, pct_55_plus')
     .eq('id', id)
     .single()
+
+  const videos = (videosData as Array<{ youtubeId: string; especialidadeId: number; medico: string | null }>)
+    .filter(v => v.especialidadeId === id)
 
   const prev = id > 1 ? descriptions.find(d => d.id === id - 1) : null
   const next = id < 55 ? descriptions.find(d => d.id === id + 1) : null
@@ -127,6 +132,8 @@ export default async function EspecialidadePage({ params }: { params: Promise<{ 
               {sectionTitle('🕐', 'Rotina típica')}
               <p style={{ fontSize: 14, color: '#374151', lineHeight: 1.7, margin: 0 }}>{desc.rotina_tipica}</p>
             </>)}
+
+            <VideosEspecialidade videos={videos} />
 
             {dmbSpec && dmbSpec.salario_min > 0 && (
               <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 16, padding: 24, display: 'flex', alignItems: 'center', gap: 16, marginBottom: 16 }}>

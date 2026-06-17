@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 75" fill="none">
+  <!-- Balão vermelho (menor, atrás/cima) -->
+  <rect x="8" y="4" width="38" height="28" rx="10" fill="#E63946"/>
+  <!-- Balão azul (maior, frente/baixo) -->
+  <rect x="4" y="22" width="48" height="34" rx="11" fill="#1D6FE8"/>
+  <!-- Pontinha do balão azul (cauda) -->
+  <path d="M14 56 L8 70 L26 58" fill="#1D6FE8"/>
+  <!-- Três pontos brancos -->
+  <circle cx="16" cy="39" r="3.2" fill="white"/>
+  <circle cx="28" cy="39" r="3.2" fill="white"/>
+  <circle cx="40" cy="39" r="3.2" fill="white"/>
+  <!-- Texto Med Escolha -->
+  <text x="68" y="34" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="24" fill="#1B2E5E" letter-spacing="-0.5">Med Escolha</text>
+  <!-- Subtexto -->
+  <text x="70" y="52" font-family="Arial, sans-serif" font-weight="400" font-size="12" fill="#9CA3AF">por amo medicina</text>
+</svg>

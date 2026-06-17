@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import NavBar from "@/components/NavBar";
+import NavBarCondicional from "@/components/NavBarCondicional";
 
 const hankFont = localFont({
   src: [
@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className={`${hankFont.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col" style={{ fontFamily: 'var(--font-hank), Arial, sans-serif' }}>
-        <NavBar />
+        <NavBarCondicional />
         {children}
       </body>
     </html>
