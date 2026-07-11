@@ -29,7 +29,8 @@ export default function LoginForm() {
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault()
-    if (!email.trim() || !senha || !isLoaded) return
+    if (!isLoaded) { setErro('Autenticação carregando, aguarde e tente novamente.'); return }
+    if (!email.trim() || !senha) return
     setLoading(true)
     setErro(null)
 
