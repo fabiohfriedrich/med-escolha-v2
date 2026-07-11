@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, Suspense } from 'react'
+import { useUser } from '@clerk/nextjs'
 import { createSupabaseBrowser } from '@/lib/supabase-browser'
 import { useRouter, useSearchParams } from 'next/navigation'
 
@@ -16,16 +17,18 @@ function PerfilContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const supabase = createSupabaseBrowser()
+  const { user, isLoaded } = useUser()
 
   const tabParam = searchParams.get('tab') as Tab | null
   const [tab, setTab] = useState<Tab>(tabParam === 'resultados' ? 'resultados' : 'dados')
-  const [loading, setLoading] = useState(true)
   const [salvando, setSalvando] = useState(false)
   const [mensagem, setMensagem] = useState<{ tipo: 'ok' | 'erro'; texto: string } | null>(null)
 
   const [nome, setNome] = useState('')
   const [telefone, setTelefone] = useState('')
   const [email, setEmail] = useState('')
+  const [emailPendenteId, setEmailPendenteId] = useState<string | null>(null)
+  const [codigoEmail, setCodigoEmail] = useState('')
 
   const [resultados, setResultados] = useState<Resultado[]>([])
   const [loadingResultados, setLoadingResultados] = useState(false)
@@ -35,17 +38,17 @@ function PerfilContent() {
   const [confirmarSenha, setConfirmarSenha] = useState('')
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => {
-      if (!data.user) { router.replace('/login'); return }
-      setNome(data.user.user_metadata?.full_name ?? '')
-      setTelefone(data.user.user_metadata?.phone ?? '')
-      setEmail(data.user.email ?? '')
-      setLoading(false)
-      buscarResultados(data.user.email ?? '')
-    })
-  }, [])
+    if (!isLoaded) return
+    if (!user) { router.replace('/login'); return }
+    const emailAtual = user.primaryEmailAddress?.emailAddress ?? ''
+    setNome([user.firstName, user.lastName].filter(Boolean).join(' '))
+    setTelefone((user.unsafeMetadata?.phone as string) ?? '')
+    setEmail(emailAtual)
+    buscarResultados(emailAtual)
+  }, [isLoaded, user])
 
   async function buscarResultados(userEmail: string) {
+    if (!userEmail) return
     setLoadingResultados(true)
     const { data } = await supabase
       .from('resultados')
@@ -58,25 +61,48 @@ function PerfilContent() {
 
   async function salvarDados(e: React.FormEvent) {
     e.preventDefault()
+    if (!user) return
     setSalvando(true)
     setMensagem(null)
 
-    const updates: Record<string, unknown> = {
-      data: { full_name: nome, phone: telefone },
-    }
-    if (email !== (await supabase.auth.getUser()).data.user?.email) {
-      updates.email = email
-    }
+    try {
+      const [firstName, ...resto] = nome.trim().split(' ')
+      await user.update({ firstName, lastName: resto.join(' ') || undefined })
+      await user.updateMetadata({ unsafeMetadata: { ...user.unsafeMetadata, phone: telefone } })
 
-    const { error } = await supabase.auth.updateUser(updates as Parameters<typeof supabase.auth.updateUser>[0])
-    setSalvando(false)
-    if (error) {
-      setMensagem({ tipo: 'erro', texto: 'Erro ao salvar: ' + error.message })
-    } else {
-      setMensagem({ tipo: 'ok', texto: email !== (await supabase.auth.getUser()).data.user?.email
-        ? 'Dados salvos! Confirme o novo e-mail na sua caixa de entrada.'
-        : 'Dados salvos com sucesso!' })
+      const emailAtual = user.primaryEmailAddress?.emailAddress ?? ''
+      const emailNovo = email.toLowerCase().trim()
+      if (emailNovo !== emailAtual) {
+        const novoEmail = await user.createEmailAddress({ email: emailNovo })
+        await novoEmail.prepareVerification({ strategy: 'email_code' })
+        setEmailPendenteId(novoEmail.id)
+        setMensagem({ tipo: 'ok', texto: 'Dados salvos! Enviamos um código para confirmar o novo e-mail — digite-o abaixo.' })
+      } else {
+        setMensagem({ tipo: 'ok', texto: 'Dados salvos com sucesso!' })
+      }
+    } catch {
+      setMensagem({ tipo: 'erro', texto: 'Erro ao salvar os dados. Tente novamente.' })
     }
+    setSalvando(false)
+  }
+
+  async function confirmarNovoEmail(e: React.FormEvent) {
+    e.preventDefault()
+    if (!user || !emailPendenteId) return
+    setSalvando(true)
+    setMensagem(null)
+    try {
+      const emailObj = user.emailAddresses.find(e => e.id === emailPendenteId)
+      if (!emailObj) throw new Error('e-mail não encontrado')
+      await emailObj.attemptVerification({ code: codigoEmail })
+      await user.update({ primaryEmailAddressId: emailObj.id })
+      setEmailPendenteId(null)
+      setCodigoEmail('')
+      setMensagem({ tipo: 'ok', texto: 'E-mail confirmado e atualizado com sucesso!' })
+    } catch {
+      setMensagem({ tipo: 'erro', texto: 'Código inválido ou expirado.' })
+    }
+    setSalvando(false)
   }
 
   async function trocarSenha(e: React.FormEvent) {
@@ -89,31 +115,21 @@ function PerfilContent() {
       setMensagem({ tipo: 'erro', texto: 'As senhas não coincidem.' })
       return
     }
+    if (!user) return
     setSalvando(true)
     setMensagem(null)
 
-    const { data: { user } } = await supabase.auth.getUser()
-    const { error: reautError } = await supabase.auth.signInWithPassword({
-      email: user?.email ?? '',
-      password: senhaAtual,
-    })
-    if (reautError) {
-      setSalvando(false)
-      setMensagem({ tipo: 'erro', texto: 'Senha atual incorreta.' })
-      return
-    }
-
-    const { error } = await supabase.auth.updateUser({ password: novaSenha })
-    setSalvando(false)
-    if (error) {
-      setMensagem({ tipo: 'erro', texto: 'Erro ao trocar senha: ' + error.message })
-    } else {
+    try {
+      await user.updatePassword({ currentPassword: senhaAtual, newPassword: novaSenha })
       setMensagem({ tipo: 'ok', texto: 'Senha alterada com sucesso!' })
       setSenhaAtual(''); setNovaSenha(''); setConfirmarSenha('')
+    } catch {
+      setMensagem({ tipo: 'erro', texto: 'Senha atual incorreta ou nova senha inválida.' })
     }
+    setSalvando(false)
   }
 
-  if (loading) {
+  if (!isLoaded || !user) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="w-8 h-8 border-4 border-blue-700 border-t-transparent rounded-full animate-spin" />
@@ -192,7 +208,7 @@ function PerfilContent() {
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                 />
-                <p className="text-xs text-gray-400 mt-1">Ao alterar o e-mail, você receberá uma confirmação.</p>
+                <p className="text-xs text-gray-400 mt-1">Ao alterar o e-mail, você receberá um código de confirmação.</p>
               </div>
               <button
                 type="submit"
@@ -200,6 +216,31 @@ function PerfilContent() {
                 className="w-full bg-blue-700 text-white font-bold py-3.5 rounded-xl hover:bg-blue-800 transition disabled:opacity-60 text-sm"
               >
                 {salvando ? 'Salvando...' : 'Salvar alterações'}
+              </button>
+            </form>
+          )}
+
+          {/* Confirmação de troca de e-mail */}
+          {tab === 'dados' && emailPendenteId && (
+            <form onSubmit={confirmarNovoEmail} className="space-y-3 mt-6 pt-6 border-t border-gray-100">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-1">Código de confirmação do novo e-mail</label>
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  required
+                  className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 tracking-widest"
+                  placeholder="000000"
+                  value={codigoEmail}
+                  onChange={e => setCodigoEmail(e.target.value)}
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={salvando || codigoEmail.length < 4}
+                className="w-full bg-blue-700 text-white font-bold py-3 rounded-xl hover:bg-blue-800 transition disabled:opacity-60 text-sm"
+              >
+                Confirmar e-mail
               </button>
             </form>
           )}

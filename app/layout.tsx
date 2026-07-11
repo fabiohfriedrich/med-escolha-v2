@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import NavBarCondicional from "@/components/NavBarCondicional";
+import ForcarTrocaSenha from "@/components/ForcarTrocaSenha";
+import PostHogIdentify from "@/components/PostHogIdentify";
 
 const hankFont = localFont({
   src: [
@@ -25,11 +28,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className={`${hankFont.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col" style={{ fontFamily: 'var(--font-hank), Arial, sans-serif' }}>
-        <NavBarCondicional />
-        {children}
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="pt-BR" className={`${hankFont.variable} h-full antialiased`}>
+        <body className="min-h-full flex flex-col" style={{ fontFamily: 'var(--font-hank), Arial, sans-serif' }}>
+          <ForcarTrocaSenha />
+          <PostHogIdentify />
+          <NavBarCondicional />
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

@@ -1,14 +1,14 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { createSupabaseBrowser } from '@/lib/supabase-browser'
+import { useClerk } from '@clerk/nextjs'
 
 export default function LogoutButton() {
   const router = useRouter()
+  const { signOut } = useClerk()
 
   async function handleLogout() {
-    const supabase = createSupabaseBrowser()
-    await supabase.auth.signOut()
+    await signOut()
     router.push('/login')
     router.refresh()
   }

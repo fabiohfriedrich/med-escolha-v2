@@ -1,14 +1,18 @@
-import { createServerClient } from '@supabase/ssr'
-import { NextRequest, NextResponse } from 'next/server'
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
+import { NextResponse } from 'next/server'
 import { verifySessionToken } from '@/app/api/admin/login/route'
 
-// Rotas que exigem sessão Supabase válida
-const PROTECTED_PREFIXES = ['/teste', '/resultado', '/perfil']
+// Rotas que exigem sessão Clerk válida
+const isProtectedRoute = createRouteMatcher(['/teste(.*)', '/resultado(.*)', '/perfil(.*)'])
+// Rotas liberadas mesmo para quem está com troca de senha pendente
+const isExemptFromForcedPasswordChange = createRouteMatcher([
+  '/criar-senha', '/login', '/esqueci-senha', '/sso-callback', '/api(.*)',
+])
 
-export async function proxy(request: NextRequest) {
+export default clerkMiddleware(async (auth, request) => {
   const { pathname } = request.nextUrl
 
-  // ── Proteção do painel admin (token HMAC assinado) ──
+  // ── Proteção do painel admin (token HMAC assinado, independente do Clerk) ──
   if (pathname.startsWith('/admin')) {
     if (pathname === '/admin/login') return NextResponse.next()
     const jwtSecret = process.env.ADMIN_JWT_SECRET
@@ -23,40 +27,21 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // ── Só protege rotas que realmente exigem login ──
-  const isProtected = PROTECTED_PREFIXES.some(p => pathname.startsWith(p))
-  if (!isProtected) return NextResponse.next()
-
-  // ── Proteção via Supabase Auth ──
-  let supabaseResponse = NextResponse.next({ request })
-
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll()
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
-          supabaseResponse = NextResponse.next({ request })
-          cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options)
-          )
-        },
-      },
+  // ── Força troca de senha temporária antes de liberar qualquer página logada ──
+  // Requer o claim `metadata` habilitado em Clerk Dashboard > Sessions > Customize session token
+  const { userId, sessionClaims } = await auth()
+  if (userId && !isExemptFromForcedPasswordChange(request)) {
+    const metadata = sessionClaims?.metadata as { mustChangePassword?: boolean } | undefined
+    if (metadata?.mustChangePassword) {
+      return NextResponse.redirect(new URL('/criar-senha', request.url))
     }
-  )
-
-  const { data: { user } } = await supabase.auth.getUser()
-
-  if (!user) {
-    return NextResponse.redirect(new URL('/login', request.url))
   }
 
-  return supabaseResponse
-}
+  // ── Proteção via Clerk ──
+  if (isProtectedRoute(request)) {
+    await auth.protect({ unauthenticatedUrl: new URL('/login', request.url).toString() })
+  }
+})
 
 export const config = {
   matcher: ['/((?!_next/static|_next/image|.*\\.svg|.*\\.ico|.*\\.png).*)'],

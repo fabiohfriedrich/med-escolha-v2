@@ -2,26 +2,28 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { createSupabaseBrowser } from '@/lib/supabase-browser'
+import { useUser } from '@clerk/nextjs'
 
 export default function CriarSenhaPage() {
   const router = useRouter()
+  const { user, isLoaded } = useUser()
+  const [senhaTemporaria, setSenhaTemporaria] = useState('')
   const [senha, setSenha] = useState('')
   const [confirmar, setConfirmar] = useState('')
   const [loading, setLoading] = useState(false)
   const [erro, setErro] = useState<string | null>(null)
-  const [nomeUsuario, setNomeUsuario] = useState('')
 
   useEffect(() => {
-    const supabase = createSupabaseBrowser()
-    supabase.auth.getUser().then(({ data }) => {
-      if (!data.user) {
-        router.replace('/login?erro=link_invalido')
-      } else {
-        setNomeUsuario(data.user.user_metadata?.full_name ?? data.user.email ?? '')
-      }
-    })
-  }, [router])
+    if (!isLoaded) return
+    if (!user) {
+      router.replace('/login')
+      return
+    }
+    // Se não há troca de senha pendente, não há o que fazer aqui
+    if (!user.publicMetadata?.mustChangePassword) {
+      router.replace('/')
+    }
+  }, [isLoaded, user, router])
 
   async function handleDefinirSenha(e: React.FormEvent) {
     e.preventDefault()
@@ -33,22 +35,36 @@ export default function CriarSenhaPage() {
       setErro('As senhas não coincidem.')
       return
     }
+    if (!user) return
 
     setLoading(true)
     setErro(null)
-    const supabase = createSupabaseBrowser()
-    const { error } = await supabase.auth.updateUser({ password: senha })
 
-    if (error) {
-      setErro('Não foi possível definir a senha. Tente novamente ou solicite um novo link.')
+    try {
+      await user.updatePassword({ currentPassword: senhaTemporaria, newPassword: senha })
+    } catch {
+      setErro('Senha temporária incorreta, ou a nova senha não atende aos requisitos mínimos.')
       setLoading(false)
       return
     }
 
-    await fetch('/api/marcar-senha-criada', { method: 'POST' })
+    const res = await fetch('/api/marcar-senha-criada', { method: 'POST' })
+    if (!res.ok) {
+      setErro('Senha alterada, mas houve um erro ao concluir o cadastro. Recarregue a página.')
+      setLoading(false)
+      return
+    }
 
     router.push('/')
     router.refresh()
+  }
+
+  if (!isLoaded || !user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="w-8 h-8 border-4 border-blue-700 border-t-transparent rounded-full animate-spin" />
+      </div>
+    )
   }
 
   return (
@@ -62,20 +78,31 @@ export default function CriarSenhaPage() {
             </svg>
           </div>
           <h1 className="text-3xl font-extrabold text-blue-900">Med Escolha</h1>
-          {nomeUsuario && (
-            <p className="text-gray-500 mt-1 text-sm">
-              Bem-vindo, <span className="font-semibold text-blue-700">{nomeUsuario.split(' ')[0]}</span>!
-            </p>
-          )}
+          <p className="text-gray-500 mt-1 text-sm">
+            Bem-vindo, <span className="font-semibold text-blue-700">{(user.firstName ?? user.primaryEmailAddress?.emailAddress ?? '').split(' ')[0]}</span>!
+          </p>
         </div>
 
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-          <h2 className="text-lg font-extrabold text-gray-900 mb-1">Criar sua senha</h2>
+          <h2 className="text-lg font-extrabold text-gray-900 mb-1">Crie sua senha definitiva</h2>
           <p className="text-gray-500 text-sm mb-6">
-            Defina uma senha segura para acessar sua conta do Med Escolha. Use pelo menos 8 caracteres.
+            Você acessou com uma senha temporária. Por segurança, defina agora uma senha só sua para continuar.
           </p>
 
           <form onSubmit={handleDefinirSenha} className="space-y-4">
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-1">Senha temporária (recebida por e-mail)</label>
+              <input
+                type="password"
+                autoComplete="current-password"
+                required
+                className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="••••••••"
+                value={senhaTemporaria}
+                onChange={e => { setSenhaTemporaria(e.target.value); setErro(null) }}
+              />
+            </div>
+
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-1">Nova senha</label>
               <input
@@ -103,7 +130,6 @@ export default function CriarSenhaPage() {
               />
             </div>
 
-            {/* indicador de força da senha */}
             {senha.length > 0 && (
               <div>
                 <div className="flex gap-1 mb-1">
@@ -132,7 +158,7 @@ export default function CriarSenhaPage() {
 
             <button
               type="submit"
-              disabled={loading || senha.length < 8 || senha !== confirmar}
+              disabled={loading || senha.length < 8 || senha !== confirmar || !senhaTemporaria}
               className="w-full bg-blue-700 text-white font-bold py-3.5 rounded-xl hover:bg-blue-800 transition disabled:opacity-50 text-sm"
             >
               {loading ? 'Salvando...' : 'Definir senha e entrar →'}
