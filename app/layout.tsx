@@ -20,6 +20,9 @@ const hankFont = localFont({
 export const metadata: Metadata = {
   title: "Med Escolha — Teste de Compatibilidade com Especialidades Médicas",
   description: "Descubra quais especialidades médicas combinam com o seu perfil. 95 questões, 55 especialidades, dados do DMB 2025.",
+  verification: {
+    google: "A21jS3GfGAecYFL7cPysCBvjCLWP-DLjVBcUkDHj8G0",
+  },
 };
 
 export default function RootLayout({
