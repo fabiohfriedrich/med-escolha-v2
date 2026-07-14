@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import posthog from 'posthog-js'
 import { createSupabaseBrowser } from '@/lib/supabase-browser'
 
 // TODO: substitua pela URL real do produto na Hotmart
@@ -252,6 +253,7 @@ function LandingPage() {
               href={HOTMART_URL}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => posthog.capture('compra_iniciada', { origem: 'hero' })}
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl text-base font-black transition-transform hover:scale-105 active:scale-100"
               style={{ background: '#2563eb', color: '#fff', boxShadow: '0 8px 24px rgba(37,99,235,0.4)' }}
             >
@@ -391,6 +393,7 @@ function LandingPage() {
             href={HOTMART_URL}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => posthog.capture('compra_iniciada', { origem: 'footer' })}
             className="inline-flex items-center gap-2 px-10 py-4 rounded-2xl text-base font-black transition-transform hover:scale-105 active:scale-100"
             style={{ background: '#2563eb', color: '#fff', boxShadow: '0 8px 24px rgba(37,99,235,0.5)' }}
           >

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import posthog from 'posthog-js'
 import c04aData from '@/data/c04a_valores.json'
 import c04bData from '@/data/c04b_perguntas.json'
 import specialtiesData from '@/data/specialties.json'
@@ -124,6 +125,7 @@ export default function Quiz({ onComplete, emailPreenchido = '', nomePreenchido 
       if (!info.nome.trim()) e.nome = 'Digite seu nome'
       if (!info.email.trim() || !info.email.includes('@')) e.email = 'Digite um email válido'
       if (Object.keys(e).length) { setErrors(e); return }
+      posthog.capture('quiz_iniciado', { tipo: 'completo' })
     }
     if (step === 2 && blocoIdx < blocos.length - 1) {
       setBlocoIdx(b => b + 1)
@@ -154,6 +156,7 @@ export default function Quiz({ onComplete, emailPreenchido = '', nomePreenchido 
   }
 
   function submit() {
+    posthog.capture('quiz_completo', { tipo: 'completo' })
     onComplete({
       nome: info.nome,
       email: info.email,

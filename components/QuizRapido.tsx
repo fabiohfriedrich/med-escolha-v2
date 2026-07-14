@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import posthog from 'posthog-js'
 
 const SPECS: Record<string, { nome: string; icon: string; salario: string; dur: string; tags: string[] }> = {
   'dermatologia':       { nome: 'Dermatologia',                     icon: '🔬', salario: 'R$ 15k–60k+', dur: '3 anos',          tags: ['Qualidade de vida', 'Alta renda', 'Consultório próprio'] },
@@ -254,10 +255,6 @@ export default function QuizRapido() {
     setCurrent(c => c - 1)
   }
 
-  function showResult() {
-    setStep('result')
-  }
-
   const top3 = Object.entries(scores)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 3)
@@ -265,6 +262,12 @@ export default function QuizRapido() {
       const max = Object.values(scores).reduce((a, b) => Math.max(a, b), 1)
       return { id, spec: SPECS[id], pct: Math.min(99, Math.round((sc / (max * 1.05)) * 100)) }
     })
+
+  function showResult() {
+    posthog.capture('quiz_completo', { tipo: 'rapido' })
+    posthog.capture('resultado_visualizado', { tipo: 'rapido', especialidade_top1: top3[0]?.spec?.nome })
+    setStep('result')
+  }
 
   const dims = calcDims(scores)
 
@@ -288,7 +291,7 @@ export default function QuizRapido() {
               </div>
             ))}
           </div>
-          <button onClick={() => setStep('quiz')} style={btnPrimary}>Começar o quiz →</button>
+          <button onClick={() => { posthog.capture('quiz_iniciado', { tipo: 'rapido' }); setStep('quiz') }} style={btnPrimary}>Começar o quiz →</button>
           <p style={{ fontSize: 12, color: '#9ca3af', marginTop: 10 }}>+3.200 médicos já descobriram sua especialidade ideal</p>
         </div>
       </div>

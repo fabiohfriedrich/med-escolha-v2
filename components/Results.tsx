@@ -1,7 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import posthog from 'posthog-js'
 import { MatchResult } from '@/lib/scoring'
 import descriptionsData from '@/data/descriptions.json'
 import c04bData from '@/data/c04b_perguntas.json'
@@ -137,6 +138,15 @@ export default function Results({ result, answers, resultId, onRestart, hideRest
   const { ranking, perfil } = result
   const top3 = ranking.slice(0, 3)
   const displayed = showAll ? ranking : ranking.slice(0, 20)
+
+  useEffect(() => {
+    posthog.capture('resultado_visualizado', {
+      tipo: 'completo',
+      resultado_id: resultId,
+      especialidade_top1: (top3[0] as any)?.nome,
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const jungSelected: string[] = answers?.jung || perfil.jung || []
   const eiResult = resolveAxis(jungSelected, JUNG_MAP.EI.E, JUNG_MAP.EI.I) === 'A' ? 'E' : 'I'
