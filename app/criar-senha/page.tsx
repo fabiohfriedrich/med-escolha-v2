@@ -55,6 +55,10 @@ export default function CriarSenhaPage() {
       return
     }
 
+    // Atualiza o cache do usuário no navegador — sem isso, o ForcarTrocaSenha
+    // ainda vê mustChangePassword desatualizado e manda de volta pra cá.
+    await user.reload()
+
     router.push('/')
     router.refresh()
   }
