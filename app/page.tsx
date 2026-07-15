@@ -1,9 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import posthog from 'posthog-js'
-import { createSupabaseBrowser } from '@/lib/supabase-browser'
+import { useUser } from '@clerk/nextjs'
 
 // TODO: substitua pela URL real do produto na Hotmart
 const HOTMART_URL = 'https://pay.hotmart.com/Y86347681C?off=y014gd40&checkoutMode=10&bid=1781225502432'
@@ -415,33 +414,11 @@ function LandingPage() {
 // ─── Página principal — detecta auth e decide o que renderizar ─────────────────
 
 export default function Home() {
-  const [loggedIn, setLoggedIn] = useState<boolean | null>(null)
+  const { isLoaded, isSignedIn } = useUser()
 
-  useEffect(() => {
-    const supabase = createSupabaseBrowser()
-    supabase.auth.getSession().then(async ({ data }) => {
-      if (!data.session) { setLoggedIn(false); return }
+  // A troca de senha obrigatória (primeiro acesso) já é forçada globalmente
+  // pelo componente ForcarTrocaSenha, com base no metadata do Clerk.
+  if (!isLoaded) return null
 
-      // Verifica se é primeiro acesso — se sim, força troca de senha
-      const email = data.session.user.email?.toLowerCase()
-      if (email) {
-        const { data: comprador } = await supabase
-          .from('compradores')
-          .select('primeiro_acesso')
-          .eq('email', email)
-          .single()
-
-        if (comprador?.primeiro_acesso) {
-          window.location.href = '/criar-senha'
-          return
-        }
-      }
-
-      setLoggedIn(true)
-    })
-  }, [])
-
-  if (loggedIn === null) return null
-
-  return loggedIn ? <Dashboard /> : <LandingPage />
+  return isSignedIn ? <Dashboard /> : <LandingPage />
 }
