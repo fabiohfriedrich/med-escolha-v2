@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { clerkClient } from '@clerk/nextjs/server'
+import { getSupabaseAdmin } from '@/lib/supabase-admin'
 
 export async function POST(req: NextRequest) {
   const { email, senha } = await req.json()
@@ -12,12 +13,28 @@ export async function POST(req: NextRequest) {
   // Busca o usuário no Clerk pelo email
   const { data: usuarios } = await client.users.getUserList({ emailAddress: [emailLower] })
   const user = usuarios[0]
-  if (!user) return NextResponse.json({ error: 'Usuário não encontrado no sistema de autenticação' }, { status: 404 })
 
   try {
-    await client.users.updateUser(user.id, { password: senha })
+    if (user) {
+      await client.users.updateUser(user.id, { password: senha })
+    } else {
+      // Sem conta no Clerk (ex: falha silenciosa na criação via webhook da Hotmart) — cria agora
+      const { data: comprador } = await getSupabaseAdmin()
+        .from('compradores')
+        .select('nome')
+        .eq('email', emailLower)
+        .maybeSingle()
+
+      const nome = comprador?.nome ?? ''
+      await client.users.createUser({
+        emailAddress: [emailLower],
+        firstName: nome.split(' ')[0] || undefined,
+        lastName: nome.split(' ').slice(1).join(' ') || undefined,
+        password: senha,
+      })
+    }
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Erro ao atualizar senha'
+    const message = err instanceof Error ? err.message : 'Erro ao salvar senha'
     return NextResponse.json({ error: message }, { status: 500 })
   }
 
