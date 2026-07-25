@@ -5,6 +5,7 @@ import "./globals.css";
 import NavBarCondicional from "@/components/NavBarCondicional";
 import ForcarTrocaSenha from "@/components/ForcarTrocaSenha";
 import PostHogIdentify from "@/components/PostHogIdentify";
+import AnalyticsPixels from "@/components/AnalyticsPixels";
 
 const hankFont = localFont({
   src: [
@@ -34,6 +35,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="pt-BR" className={`${hankFont.variable} h-full antialiased`}>
         <body className="min-h-full flex flex-col" style={{ fontFamily: 'var(--font-hank), Arial, sans-serif' }}>
+          <AnalyticsPixels />
           <ForcarTrocaSenha />
           <PostHogIdentify />
           <NavBarCondicional />
