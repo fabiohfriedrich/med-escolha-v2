@@ -1,8 +1,8 @@
 import Link from 'next/link'
 
 export const metadata = {
-  title: 'Ferramentas Gratuitas para Médicos | Med Escolha',
-  description: 'Planilha financeira e guia de Instagram gratuitos pra te ajudar a estruturar o início da carreira médica.',
+  title: 'Kit de Carreira | Med Escolha',
+  description: 'Planilha financeira e guia de Instagram exclusivos pra quem já fez o Med Escolha, pra te ajudar a estruturar o início da carreira médica.',
 }
 
 const FERRAMENTAS = [
@@ -35,13 +35,13 @@ export default function FerramentasPage() {
       <div style={{ background: 'linear-gradient(135deg, #0f2d5e 0%, #1e4d8c 100%)', color: 'white', padding: '56px 24px 48px' }}>
         <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center' }}>
           <div style={{ display: 'inline-block', background: 'rgba(255,255,255,.12)', border: '1px solid rgba(255,255,255,.2)', borderRadius: 20, padding: '4px 14px', fontSize: 12, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase' as const, marginBottom: 16 }}>
-            🛠️ Ferramentas · Med Escolha
+            🧰 Kit de Carreira · Med Escolha
           </div>
           <h1 style={{ fontSize: 36, fontWeight: 900, lineHeight: 1.2, marginBottom: 16 }}>
-            Ferramentas gratuitas pra começar bem a carreira
+            Seu Kit de Carreira Med Escolha
           </h1>
           <p style={{ fontSize: 16, opacity: 0.85, lineHeight: 1.6, maxWidth: 520, margin: '0 auto' }}>
-            Além de descobrir sua especialidade, o Med Escolha te ajuda a estruturar os primeiros passos da carreira médica.
+            Recursos exclusivos pra quem já fez o teste, pra você estruturar os primeiros passos da carreira médica.
           </p>
         </div>
       </div>

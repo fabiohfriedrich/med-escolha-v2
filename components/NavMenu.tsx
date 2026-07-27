@@ -38,7 +38,7 @@ export default function NavMenu() {
         <span>Especialidades</span>
       </a>
 
-      {/* Bônus */}
+      {/* Kit de Carreira */}
       <a href="/ferramentas"
         className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition ${
           pathname.startsWith('/ferramentas')
@@ -48,7 +48,7 @@ export default function NavMenu() {
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
           <path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
         </svg>
-        <span>Bônus</span>
+        <span>Kit de Carreira</span>
       </a>
 
       {/* Meu Perfil */}
