@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import DownloadGate from './DownloadGate'
 
 export const metadata = {
   title: 'Planilha Financeira para Início de Carreira Médica | Med Escolha',
@@ -52,7 +51,15 @@ export default function PlanilhaFinanceiraPage() {
           </div>
         </div>
 
-        <DownloadGate />
+        <div style={{ textAlign: 'center' as const }}>
+          <a
+            href="/api/downloads/planilha-financeira"
+            download
+            style={{ display: 'inline-block', background: '#059669', color: 'white', fontWeight: 700, fontSize: 14, padding: '14px 32px', borderRadius: 10, textDecoration: 'none' }}
+          >
+            ⬇️ Baixar planilha (.xlsx)
+          </a>
+        </div>
 
         <p style={{ fontSize: 12, color: '#94a3b8', textAlign: 'center' as const, marginTop: 16 }}>
           Arquivo .xlsx compatível com Excel e Google Sheets.

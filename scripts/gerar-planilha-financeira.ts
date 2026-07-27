@@ -85,6 +85,6 @@ const resumo = XLSX.utils.aoa_to_sheet([
 resumo['!cols'] = [{ wch: 30 }, { wch: 16 }]
 XLSX.utils.book_append_sheet(wb, resumo, 'Resumo')
 
-const outPath = path.join(__dirname, '..', 'public', 'downloads', 'planilha-financeira-medico.xlsx')
+const outPath = path.join(__dirname, '..', 'assets', 'downloads', 'planilha-financeira-medico.xlsx')
 XLSX.writeFile(wb, outPath)
 console.log('Planilha gerada em', outPath)

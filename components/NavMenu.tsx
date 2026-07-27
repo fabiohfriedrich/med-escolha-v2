@@ -38,6 +38,19 @@ export default function NavMenu() {
         <span>Especialidades</span>
       </a>
 
+      {/* Bônus */}
+      <a href="/ferramentas"
+        className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition ${
+          pathname.startsWith('/ferramentas')
+            ? 'bg-blue-700 text-white'
+            : 'text-blue-200 hover:text-white hover:bg-blue-800'
+        }`}>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
+        </svg>
+        <span>Bônus</span>
+      </a>
+
       {/* Meu Perfil */}
       <a href="/perfil"
         className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition ${

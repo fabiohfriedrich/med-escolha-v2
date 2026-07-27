@@ -3,7 +3,7 @@
 import { usePathname } from 'next/navigation'
 import NavBar from './NavBar'
 
-const PUBLIC_PREFIXES = ['/guias', '/quiz-rapido', '/ebooks', '/ferramentas']
+const PUBLIC_PREFIXES = ['/guias', '/quiz-rapido', '/ebooks']
 
 export default function NavBarCondicional() {
   const path = usePathname()

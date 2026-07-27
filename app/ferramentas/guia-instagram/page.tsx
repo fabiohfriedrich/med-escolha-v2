@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import PdfGate from './PdfGate'
+import BaixarPdfButton from './BaixarPdfButton'
 
 export const metadata = {
   title: 'Guia de Instagram para Médicos | Med Escolha',
@@ -96,7 +96,7 @@ export default function GuiaInstagramPage() {
 
         {/* Download */}
         <div style={{ textAlign: 'center' as const }}>
-          <PdfGate />
+          <BaixarPdfButton />
         </div>
       </div>
     </div>
