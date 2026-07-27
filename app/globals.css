@@ -25,3 +25,7 @@ body {
   color: #111827;
   font-family: var(--font-hank), Arial, Helvetica, sans-serif;
 }
+
+@media print {
+  nav { display: none !important; }
+}

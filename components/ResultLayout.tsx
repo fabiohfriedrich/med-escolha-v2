@@ -69,7 +69,6 @@ export default function ResultLayout({ result, answers, resultadoId, onRestart }
           nome={result.perfil.nome}
           email={result.perfil.email}
           resultadoId={resultadoId}
-          top3={result.ranking.slice(0, 3)}
         />
       )}
     </div>

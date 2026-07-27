@@ -4,8 +4,9 @@ import { useState, useEffect, Suspense } from 'react'
 import { useUser } from '@clerk/nextjs'
 import { createSupabaseBrowser } from '@/lib/supabase-browser'
 import { useRouter, useSearchParams } from 'next/navigation'
+import PostTest from '@/components/PostTest'
 
-type Tab = 'dados' | 'senha' | 'resultados'
+type Tab = 'dados' | 'senha' | 'resultados' | 'cronograma'
 
 type Resultado = {
   id: string
@@ -139,7 +140,7 @@ function PerfilContent() {
 
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-4">
-      <div className="max-w-lg mx-auto">
+      <div className={tab === 'cronograma' ? 'max-w-3xl mx-auto' : 'max-w-lg mx-auto'}>
 
         <div className="mb-6">
           <h1 className="text-2xl font-extrabold text-blue-900">Meu Perfil</h1>
@@ -151,6 +152,7 @@ function PerfilContent() {
           {([
             { key: 'dados', label: 'Dados pessoais' },
             { key: 'resultados', label: `Meus testes${resultados.length > 0 ? ` (${resultados.length})` : ''}` },
+            { key: 'cronograma', label: '🗓️ Meu cronograma' },
             { key: 'senha', label: 'Trocar senha' },
           ] as { key: Tab; label: string }[]).map(t => (
             <button
@@ -165,6 +167,22 @@ function PerfilContent() {
           ))}
         </div>
 
+        {tab === 'cronograma' && (
+          resultados.length === 0 ? (
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 text-center py-10">
+              <p className="text-gray-400 text-sm mb-4">Faça seu primeiro teste pra começar seu cronograma.</p>
+              <a href="/teste" className="inline-block bg-blue-700 text-white text-sm font-bold px-6 py-3 rounded-xl hover:bg-blue-800 transition">
+                Fazer meu primeiro teste →
+              </a>
+            </div>
+          ) : (
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+              <PostTest nome={nome || 'colega'} email={email} resultadoId={resultados[0].id} />
+            </div>
+          )
+        )}
+
+        {tab !== 'cronograma' && (
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
 
           {mensagem && (
@@ -352,6 +370,7 @@ function PerfilContent() {
             </form>
           )}
         </div>
+        )}
 
         <div className="mt-4 text-center">
           <a href="/" className="text-sm text-blue-600 hover:text-blue-800">← Voltar ao início</a>

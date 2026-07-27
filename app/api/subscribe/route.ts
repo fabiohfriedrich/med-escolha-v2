@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 export async function POST(request: NextRequest) {
   const raw = await request.json()
   const email = typeof raw.email === 'string' ? raw.email.toLowerCase().trim() : ''
+  const utmCampaign = typeof raw.utmCampaign === 'string' ? raw.utmCampaign : 'comparador_especialidades'
 
   if (!email || !email.includes('@')) {
     return NextResponse.json({ error: 'E-mail inválido' }, { status: 400 })
@@ -30,7 +31,7 @@ export async function POST(request: NextRequest) {
         send_welcome_email: true,
         utm_source: 'comparador',
         utm_medium: 'isca_digital',
-        utm_campaign: 'comparador_especialidades',
+        utm_campaign: utmCampaign,
       }),
     }
   )
