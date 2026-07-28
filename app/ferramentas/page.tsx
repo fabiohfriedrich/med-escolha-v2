@@ -19,14 +19,13 @@ const FERRAMENTAS = [
   },
   {
     slug: 'curso-ia',
-    externalUrl: 'https://www.youtube.com/@amo.medicina',
     titulo: 'Curso IA na Medicina: da teoria à prática',
-    subtitulo: 'Curso completo sobre uso de inteligência artificial no dia a dia clínico, também no canal do Amo Medicina',
+    subtitulo: 'Curso completo sobre uso de inteligência artificial no dia a dia clínico, assista direto aqui',
     icon: '🤖',
     cor: '#2563eb',
     corFundo: '#eff6ff',
-    tag: 'Assista no YouTube',
-    destaques: ['12h em vídeo', 'Templates de prompt prontos', 'Vendido separadamente por R$ 497'],
+    tag: '4 aulas em vídeo',
+    destaques: ['Assista direto no site', 'Acesso vitalício', 'Vendido separadamente por R$ 497'],
   },
   {
     slug: 'planilha-financeira',
