@@ -6,6 +6,7 @@ import posthog from 'posthog-js'
 import { MatchResult } from '@/lib/scoring'
 import descriptionsData from '@/data/descriptions.json'
 import c04bData from '@/data/c04b_perguntas.json'
+import ShareCard from './ShareCard'
 
 const DESCRIPTIONS = (descriptionsData as any).specialties as Array<{
   id: number; nome: string; descricao: string; rotina_tipica: string
@@ -134,6 +135,7 @@ export default function Results({ result, answers, resultId, onRestart, hideRest
   const [showAll, setShowAll] = useState(false)
   const [printing, setPrinting] = useState(false)
   const [openId, setOpenId] = useState<number | null>(null)
+  const [showShareCard, setShowShareCard] = useState(false)
 
   const { ranking, perfil } = result
   const top3 = ranking.slice(0, 3)
@@ -194,12 +196,22 @@ export default function Results({ result, answers, resultId, onRestart, hideRest
           <p className="text-blue-300 text-xs font-bold uppercase tracking-widest mb-2">Med Escolha · por Amo Medicina</p>
           <h1 className="text-3xl font-extrabold mb-1">{perfil.nome}</h1>
           <p className="text-blue-200 text-sm mb-6">{new Date().toLocaleDateString('pt-BR', { day:'2-digit', month:'long', year:'numeric' })}</p>
-          <button onClick={downloadPDF} disabled={printing}
-            className="inline-flex items-center gap-2 bg-teal-400 hover:bg-teal-300 text-blue-900 font-bold px-6 py-3 rounded-xl transition disabled:opacity-60 text-sm">
-            {printing ? '⏳ Gerando PDF...' : '📄 Baixar resultado completo em PDF'}
-          </button>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <button onClick={downloadPDF} disabled={printing}
+              className="inline-flex items-center gap-2 bg-teal-400 hover:bg-teal-300 text-blue-900 font-bold px-6 py-3 rounded-xl transition disabled:opacity-60 text-sm">
+              {printing ? '⏳ Gerando PDF...' : '📄 Baixar resultado completo em PDF'}
+            </button>
+            <button onClick={() => { setShowShareCard(true); posthog.capture('resultado_compartilhar_aberto') }}
+              className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold px-6 py-3 rounded-xl transition text-sm">
+              📤 Compartilhar resultado
+            </button>
+          </div>
         </div>
       </div>
+
+      {showShareCard && (
+        <ShareCard nome={perfil.nome} top3={top3} onClose={() => setShowShareCard(false)} />
+      )}
 
       <div className="max-w-3xl mx-auto px-4 py-8 space-y-10">
 

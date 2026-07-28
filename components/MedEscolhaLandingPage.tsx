@@ -71,6 +71,8 @@ export default function MedEscolhaLandingPage() {
                 <p className={styles.ctaFriction} style={{ marginTop: 12 }}>
                   já tem acesso?{' '}
                   <Link href="/login" style={{ color: 'var(--teal)', fontWeight: 700, textDecoration: 'underline' }}>entrar</Link>
+                  {' '}·{' '}
+                  <Link href="/comparar" style={{ color: 'var(--teal)', fontWeight: 700, textDecoration: 'underline' }}>comparar 2 especialidades grátis</Link>
                 </p>
               </div>
             </div>
@@ -690,6 +692,11 @@ export default function MedEscolhaLandingPage() {
             <details className={styles.faqItem}>
               <summary>o med escolha é só mais um quiz online?</summary>
               <div className={styles.faqAnswer}>não. é o match da especialidade médica. 95 perguntas em 6 eixos, cruzadas com as 55 especialidades reconhecidas no Brasil e dados reais do DMB 2025, ranking ordenado, narrativa explicando o porquê de cada match. quiz é o que você já fez antes e não fechou nada.</div>
+            </details>
+
+            <details className={styles.faqItem}>
+              <summary>dá pra ver alguma coisa antes de comprar?</summary>
+              <div className={styles.faqAnswer}>dá. o <Link href="/comparar" style={{ color: 'var(--teal-dark)', fontWeight: 700 }}>comparador de especialidades</Link> é gratuito: você escolhe duas especialidades e vê salário, tempo de residência, saturação e crescimento projetado lado a lado, com os mesmos dados do DMB 2025 usados no match completo.</div>
             </details>
 
             <details className={styles.faqItem}>
