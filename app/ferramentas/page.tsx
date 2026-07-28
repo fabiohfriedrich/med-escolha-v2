@@ -1,11 +1,33 @@
 import Link from 'next/link'
 
 export const metadata = {
-  title: 'Kit de Carreira | Med Escolha',
-  description: 'Planilha financeira e guia de Instagram exclusivos pra quem já fez o Med Escolha, pra te ajudar a estruturar o início da carreira médica.',
+  title: 'Bônus | Med Escolha',
+  description: 'Acervo de lives, curso de IA na Medicina, planilha financeira e guia de Instagram: os 4 bônus de quem já fez o Med Escolha.',
 }
 
 const FERRAMENTAS = [
+  {
+    slug: 'lives',
+    externalUrl: 'https://www.youtube.com/@amo.medicina',
+    titulo: 'Acervo com 50+ lives de especialistas',
+    subtitulo: 'Lives gravadas com médicos especialistas de várias áreas, direto no canal do Amo Medicina no YouTube',
+    icon: '🎥',
+    cor: '#dc2626',
+    corFundo: '#fef2f2',
+    tag: 'Assista no YouTube',
+    destaques: ['50+ lives gravadas', 'Lives novas entram automaticamente', 'Acesso vitalício'],
+  },
+  {
+    slug: 'curso-ia',
+    externalUrl: 'https://www.youtube.com/@amo.medicina',
+    titulo: 'Curso IA na Medicina: da teoria à prática',
+    subtitulo: 'Curso completo sobre uso de inteligência artificial no dia a dia clínico, também no canal do Amo Medicina',
+    icon: '🤖',
+    cor: '#2563eb',
+    corFundo: '#eff6ff',
+    tag: 'Assista no YouTube',
+    destaques: ['12h em vídeo', 'Templates de prompt prontos', 'Vendido separadamente por R$ 497'],
+  },
   {
     slug: 'planilha-financeira',
     titulo: 'Planilha financeira para início de carreira',
@@ -35,13 +57,13 @@ export default function FerramentasPage() {
       <div style={{ background: 'linear-gradient(135deg, #0f2d5e 0%, #1e4d8c 100%)', color: 'white', padding: '56px 24px 48px' }}>
         <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center' }}>
           <div style={{ display: 'inline-block', background: 'rgba(255,255,255,.12)', border: '1px solid rgba(255,255,255,.2)', borderRadius: 20, padding: '4px 14px', fontSize: 12, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase' as const, marginBottom: 16 }}>
-            🧰 Kit de Carreira · Med Escolha
+            🎁 Bônus · Med Escolha
           </div>
           <h1 style={{ fontSize: 36, fontWeight: 900, lineHeight: 1.2, marginBottom: 16 }}>
-            Seu Kit de Carreira Med Escolha
+            Seus bônus Med Escolha
           </h1>
           <p style={{ fontSize: 16, opacity: 0.85, lineHeight: 1.6, maxWidth: 520, margin: '0 auto' }}>
-            Recursos exclusivos pra quem já fez o teste, pra você estruturar os primeiros passos da carreira médica.
+            Os 4 bônus de quem já fez o teste: acervo de lives, curso de IA na Medicina, planilha financeira e guia de Instagram.
           </p>
         </div>
       </div>
@@ -49,8 +71,8 @@ export default function FerramentasPage() {
       {/* Cards */}
       <div style={{ maxWidth: 800, margin: '0 auto', padding: '48px 24px 80px' }}>
         <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 20 }}>
-          {FERRAMENTAS.map((f) => (
-            <Link key={f.slug} href={`/ferramentas/${f.slug}`} style={{ textDecoration: 'none' }}>
+          {FERRAMENTAS.map((f) => {
+            const cardContent = (
               <div style={{ background: 'white', borderRadius: 16, overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,0,0,.06)', transition: 'box-shadow .2s', cursor: 'pointer', border: '1px solid #e5e7eb' }}>
                 <div style={{ display: 'flex', gap: 0 }}>
                   <div style={{ width: 6, background: f.cor, flexShrink: 0 }} />
@@ -84,8 +106,18 @@ export default function FerramentasPage() {
                   </div>
                 </div>
               </div>
-            </Link>
-          ))}
+            )
+
+            return f.externalUrl ? (
+              <a key={f.slug} href={f.externalUrl} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                {cardContent}
+              </a>
+            ) : (
+              <Link key={f.slug} href={`/ferramentas/${f.slug}`} style={{ textDecoration: 'none' }}>
+                {cardContent}
+              </Link>
+            )
+          })}
         </div>
 
         {/* CTA */}

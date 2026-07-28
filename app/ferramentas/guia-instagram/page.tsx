@@ -35,7 +35,7 @@ export default function GuiaInstagramPage() {
       <div style={{ background: 'linear-gradient(135deg, #4c1d95 0%, #7c3aed 100%)', color: 'white', padding: '56px 24px 48px' }}>
         <div style={{ maxWidth: 760, margin: '0 auto' }}>
           <div className="print:hidden" style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
-            <Link href="/ferramentas" style={{ color: 'rgba(255,255,255,.6)', fontSize: 13, textDecoration: 'none' }}>← Kit de Carreira</Link>
+            <Link href="/ferramentas" style={{ color: 'rgba(255,255,255,.6)', fontSize: 13, textDecoration: 'none' }}>← Bônus</Link>
           </div>
           <div className="print:hidden" style={{ display: 'inline-block', background: 'rgba(255,255,255,.12)', border: '1px solid rgba(255,255,255,.2)', borderRadius: 20, padding: '4px 14px', fontSize: 12, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase' as const, marginBottom: 16 }}>
             📱 Guia gratuito · Med Escolha

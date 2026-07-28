@@ -34,7 +34,7 @@ const ITEMS: Item[] = [
   },
   {
     href: '/ferramentas',
-    label: 'Kit de Carreira',
+    label: 'Bônus',
     match: (p) => p.startsWith('/ferramentas'),
     icon: (
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
