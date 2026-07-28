@@ -101,6 +101,13 @@ export default function FerramentasPage() {
           </a>
         </div>
       </div>
+
+      {/* Footer mínimo */}
+      <div style={{ textAlign: 'center', padding: '0 24px 40px', color: '#94a3b8', fontSize: 13 }}>
+        <a href="/privacidade" style={{ color: '#6b7280', textDecoration: 'none' }}>Privacidade</a>
+        &nbsp;·&nbsp;
+        <a href="/termos" style={{ color: '#6b7280', textDecoration: 'none' }}>Termos</a>
+      </div>
     </div>
   )
 }

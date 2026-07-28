@@ -13,14 +13,15 @@ export default function NavBar() {
 
   return (
     <nav className="text-white sticky top-0 z-50 shadow-md" style={{ background: '#0f2d5e' }}>
-      <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
-        <a href="/" className="flex items-center">
+      <div className="relative max-w-6xl mx-auto px-4 md:px-6 h-14 flex items-center justify-between">
+        <a href="/" className="flex items-center shrink-0">
           <Image
             src="/med-escolha-logo-dark.svg"
             alt="Med Escolha"
-            width={160}
-            height={49}
+            width={140}
+            height={43}
             priority
+            className="w-[120px] md:w-[160px] h-auto"
           />
         </a>
         <NavMenu />

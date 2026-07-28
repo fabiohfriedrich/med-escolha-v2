@@ -1599,6 +1599,10 @@
   filter: brightness(0) invert(1);
 }
 .siteFooter p { margin-bottom: 6px; }
+.siteFooterLinks { margin-top: 12px; display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
+.siteFooterLinks a { color: rgba(255,255,255,0.6); text-decoration: underline; }
+.siteFooterLinks a:hover { color: rgba(255,255,255,0.9); }
+.siteFooterLinks span { color: rgba(255,255,255,0.3); }
 
 /* ============ UTILITIES ============ */
 .textCenter { text-align: center; }

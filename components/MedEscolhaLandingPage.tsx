@@ -768,6 +768,11 @@ export default function MedEscolhaLandingPage() {
           <img src="/med-escolha-logo-dark.svg" alt="Med Escolha" />
           <p>med escolha 2.0, por amo medicina.</p>
           <p>compra processada via Hotmart. garantia de 7 dias.</p>
+          <div className={styles.siteFooterLinks}>
+            <a href="/privacidade">política de privacidade</a>
+            <span>·</span>
+            <a href="/termos">termos de uso</a>
+          </div>
         </div>
       </footer>
 

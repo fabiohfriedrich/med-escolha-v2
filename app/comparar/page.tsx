@@ -63,6 +63,10 @@ export default function ComparadorPage() {
       <div style={{ textAlign: 'center', padding: '24px 24px 40px', color: '#94a3b8', fontSize: 13 }}>
         Dados: DMB 2025 · FMUSP/AMB &nbsp;·&nbsp;{' '}
         <a href="/" style={{ color: '#60a5fa', textDecoration: 'none' }}>Med Escolha 2.0</a>
+        &nbsp;·&nbsp;
+        <a href="/privacidade" style={{ color: '#60a5fa', textDecoration: 'none' }}>Privacidade</a>
+        &nbsp;·&nbsp;
+        <a href="/termos" style={{ color: '#60a5fa', textDecoration: 'none' }}>Termos</a>
       </div>
     </div>
   )
