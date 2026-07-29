@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { currentUser } from '@clerk/nextjs/server'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
+import { temAcessoPrevia } from '@/lib/indicacoes-preview'
 
 const META_INDICACOES = 3
 
@@ -32,6 +33,6 @@ export async function GET() {
     codigo: comprador.codigo_indicacao,
     confirmadas,
     meta: META_INDICACOES,
-    desbloqueado: confirmadas >= META_INDICACOES,
+    desbloqueado: confirmadas >= META_INDICACOES || temAcessoPrevia(email),
   })
 }

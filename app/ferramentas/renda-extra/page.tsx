@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { currentUser } from '@clerk/nextjs/server'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
+import { temAcessoPrevia } from '@/lib/indicacoes-preview'
 import BaixarPdfButton from './BaixarPdfButton'
 
 export const metadata = {
@@ -62,8 +63,8 @@ export default async function RendaExtraPage() {
   const user = await currentUser()
   const email = user?.primaryEmailAddress?.emailAddress?.toLowerCase().trim()
 
-  let desbloqueado = false
-  if (email) {
+  let desbloqueado = temAcessoPrevia(email)
+  if (!desbloqueado && email) {
     const supabase = getSupabaseAdmin()
     const { data: comprador } = await supabase
       .from('compradores')
