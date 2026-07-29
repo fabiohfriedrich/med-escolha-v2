@@ -1,7 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse, after } from 'next/server'
 import { z } from 'zod'
 import { calcularMatch, QuizAnswers } from '@/lib/scoring'
 import { supabase } from '@/lib/supabase'
+import { sendResultEmail } from '@/lib/email'
 
 const QuizSchema = z.object({
   nome: z.string().min(1).max(200).trim(),
@@ -52,6 +53,25 @@ export async function POST(req: NextRequest) {
 
     // Incrementa o contador de testes do comprador
     await supabase.rpc('incrementar_teste', { p_email: answers.email })
+
+    // Envia o e-mail do resultado em background (não atrasa a resposta pro usuário).
+    // O cron diário serve de rede de segurança caso esse envio falhe.
+    after(async () => {
+      try {
+        await sendResultEmail({
+          resultadoId: data.id,
+          nome: answers.nome,
+          email: answers.email,
+          ranking: result.ranking,
+        })
+        await supabase
+          .from('resultados')
+          .update({ email_enviado: true, email_enviado_at: new Date().toISOString() })
+          .eq('id', data.id)
+      } catch (emailErr) {
+        console.error('[submit] Erro ao enviar email de resultado:', emailErr)
+      }
+    })
 
     return NextResponse.json({ result, id: data.id })
   } catch (err) {
