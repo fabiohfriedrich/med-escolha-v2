@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { capturarRefDaUrl, comCodigoIndicacao } from '@/lib/referral'
 
 type Specialty = { id: number; nome: string }
 
@@ -98,6 +99,12 @@ export default function ComparadorClient({ specialties }: { specialties: Special
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [checkoutUrl, setCheckoutUrl] = useState(HOTMART_URL)
+
+  useEffect(() => {
+    capturarRefDaUrl()
+    setCheckoutUrl(comCodigoIndicacao(HOTMART_URL))
+  }, [])
 
   const specA = specialties.find(s => s.id === a)
   const specB = specialties.find(s => s.id === b)
@@ -406,7 +413,7 @@ export default function ComparadorClient({ specialties }: { specialties: Special
         <p style={{ fontSize: 14, color: '#bfdbfe', marginBottom: 20 }}>
           95 questões, ranking personalizado, dados do DMB 2025 e vídeos com especialistas.
         </p>
-        <a href={HOTMART_URL} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', background: '#f59e0b', color: '#1c1917', textDecoration: 'none', borderRadius: 12, padding: '14px 32px', fontSize: 16, fontWeight: 900 }}>
+        <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', background: '#f59e0b', color: '#1c1917', textDecoration: 'none', borderRadius: 12, padding: '14px 32px', fontSize: 16, fontWeight: 900 }}>
           Quero fazer o teste completo →
         </a>
         <p style={{ fontSize: 12, color: '#93c5fd', marginTop: 12 }}>R$ 149 · acesso imediato · 95 questões</p>

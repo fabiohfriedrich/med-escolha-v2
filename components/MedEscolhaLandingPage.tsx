@@ -6,6 +6,7 @@ import { Poppins } from 'next/font/google'
 import posthog from 'posthog-js'
 import styles from './MedEscolhaLanding.module.css'
 import MatchesCounter from './MatchesCounter'
+import { capturarRefDaUrl, comCodigoIndicacao } from '@/lib/referral'
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -21,6 +22,7 @@ function track(origem: string) {
 
 export default function MedEscolhaLandingPage() {
   const [stickyVisible, setStickyVisible] = useState(false)
+  const [checkoutUrl, setCheckoutUrl] = useState(HOTMART_URL)
 
   useEffect(() => {
     const showAfter = 700
@@ -31,6 +33,11 @@ export default function MedEscolhaLandingPage() {
     window.addEventListener('scroll', onScroll, { passive: true })
     onScroll()
     return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  useEffect(() => {
+    capturarRefDaUrl()
+    setCheckoutUrl(comCodigoIndicacao(HOTMART_URL))
   }, [])
 
   return (
@@ -613,7 +620,7 @@ export default function MedEscolhaLandingPage() {
               <div className={styles.totalInstallments}>ou em até 12x de R$ 14,90 no cartão</div>
             </div>
             <div className={`${styles.ctaBlock} ${styles.mt3}`}>
-              <a href={HOTMART_URL} target="_blank" rel="noopener noreferrer" className={`${styles.btn} ${styles.btnLarge} ${styles.btnUppercase}`} onClick={() => track('oferta')}>quero garantir meu acesso, R$ 149</a>
+              <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" className={`${styles.btn} ${styles.btnLarge} ${styles.btnUppercase}`} onClick={() => track('oferta')}>quero garantir meu acesso, R$ 149</a>
               <p className={styles.ctaFriction} style={{ color: 'var(--text-soft)' }}>compra 100% protegida. 7 dias de garantia. acesso imediato.</p>
             </div>
           </div>
@@ -801,7 +808,7 @@ export default function MedEscolhaLandingPage() {
           <p className={styles.lead}><strong>R$ 149 à vista. ou 12x de R$ 14,90 no cartão.</strong></p>
 
           <div className={`${styles.ctaBlock} ${styles.mt4}`}>
-            <a href={HOTMART_URL} target="_blank" rel="noopener noreferrer" className={`${styles.btn} ${styles.btnLarge} ${styles.btnUppercase}`} onClick={() => track('cta_final')}>quero definir minha especialidade agora</a>
+            <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" className={`${styles.btn} ${styles.btnLarge} ${styles.btnUppercase}`} onClick={() => track('cta_final')}>quero definir minha especialidade agora</a>
             <p className={styles.ctaFriction}>7 dias de garantia. acesso imediato.</p>
             <p className={styles.ctaFriction} style={{ marginTop: 8 }}>
               já tem acesso?{' '}
@@ -837,7 +844,7 @@ export default function MedEscolhaLandingPage() {
             <span className={styles.stickyProduct}>match da especialidade médica</span>
             <span className={styles.stickyPrice}>R$ 149 ou 12x R$ 14,90</span>
           </div>
-          <a href={HOTMART_URL} target="_blank" rel="noopener noreferrer" className={`${styles.btn} ${styles.stickyCtaBtn} ${styles.btnUppercase}`} onClick={() => track('sticky')}>garantir acesso</a>
+          <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" className={`${styles.btn} ${styles.stickyCtaBtn} ${styles.btnUppercase}`} onClick={() => track('sticky')}>garantir acesso</a>
         </div>
       </div>
     </div>

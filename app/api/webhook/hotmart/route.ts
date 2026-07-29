@@ -53,6 +53,33 @@ function emailComSenhaHtml(titulo: string, subtitulo: string, senhaTemporaria: s
 </body></html>`
 }
 
+async function registrarIndicacao(codigoOrigem: string, emailIndicado: string, transactionId: string) {
+  if (!codigoOrigem) return
+  try {
+    const supabaseAdmin = getSupabaseAdmin()
+    const { data: referrer } = await supabaseAdmin
+      .from('compradores')
+      .select('email')
+      .eq('codigo_indicacao', codigoOrigem)
+      .maybeSingle()
+
+    if (!referrer || referrer.email === emailIndicado) return
+
+    const { error } = await supabaseAdmin
+      .from('indicacoes')
+      .insert({ codigo_indicacao: codigoOrigem, email_indicado: emailIndicado, hotmart_transaction_id: transactionId })
+
+    // Ignora erro de unicidade (e-mail já indicado antes) — qualquer outro erro é logado
+    if (error && error.code !== '23505') {
+      console.error('[webhook] Erro ao registrar indicação:', error)
+    } else if (!error) {
+      console.log(`[webhook] Indicação confirmada: ${codigoOrigem} → ${emailIndicado}`)
+    }
+  } catch (err) {
+    console.error('[webhook] Erro ao processar indicação:', err)
+  }
+}
+
 async function criarOuAtualizarAcessoClerk(emailLower: string, nome: string) {
   const primeiroNome = nome.split(' ')[0] || 'Médico(a)'
   const senhaTemporaria = process.env.CLERK_MIGRATION_DEFAULT_PASSWORD
@@ -131,6 +158,7 @@ export async function POST(req: NextRequest) {
     const email: string = body?.data?.buyer?.email ?? ''
     const nome: string = body?.data?.buyer?.name ?? ''
     const transactionId: string = body?.data?.purchase?.transaction ?? ''
+    const codigoIndicacaoOrigem: string = body?.data?.purchase?.origin?.sck ?? ''
 
     if (!email) {
       console.warn(`[webhook] Evento ${event} sem email no payload`)
@@ -162,6 +190,9 @@ export async function POST(req: NextRequest) {
 
       // 2. Cria/atualiza o usuário no Clerk com senha temporária e envia o e-mail de acesso
       await criarOuAtualizarAcessoClerk(emailLower, nome)
+
+      // 3. Se veio de um link de indicação (?ref= → &sck= no checkout), registra a indicação confirmada
+      await registrarIndicacao(codigoIndicacaoOrigem, emailLower, transactionId)
 
       console.log(`[webhook] Comprador liberado: ${emailLower} (${event})`)
       return NextResponse.json({ ok: true, action: 'liberado', email: emailLower })

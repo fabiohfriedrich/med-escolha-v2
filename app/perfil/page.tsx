@@ -5,8 +5,9 @@ import { useUser } from '@clerk/nextjs'
 import { createSupabaseBrowser } from '@/lib/supabase-browser'
 import { useRouter, useSearchParams } from 'next/navigation'
 import PostTest from '@/components/PostTest'
+import IndicacaoTab from '@/components/IndicacaoTab'
 
-type Tab = 'dados' | 'senha' | 'resultados' | 'cronograma'
+type Tab = 'dados' | 'senha' | 'resultados' | 'cronograma' | 'indicacoes'
 
 type Resultado = {
   id: string
@@ -153,6 +154,7 @@ function PerfilContent() {
             { key: 'dados', label: 'Dados pessoais' },
             { key: 'resultados', label: `Meus testes${resultados.length > 0 ? ` (${resultados.length})` : ''}` },
             { key: 'cronograma', label: '🗓️ Meu cronograma' },
+            { key: 'indicacoes', label: '🎁 Indique e ganhe' },
             { key: 'senha', label: 'Trocar senha' },
           ] as { key: Tab; label: string }[]).map(t => (
             <button
@@ -319,6 +321,9 @@ function PerfilContent() {
               )}
             </div>
           )}
+
+          {/* Aba: Indique e ganhe */}
+          {tab === 'indicacoes' && <IndicacaoTab />}
 
           {/* Aba: Trocar senha */}
           {tab === 'senha' && (
