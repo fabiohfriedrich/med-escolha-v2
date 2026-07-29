@@ -482,7 +482,7 @@ export default function MedEscolhaLandingPage() {
             <div className={styles.benefitRow}>
               <div className={styles.benefitIcon}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l9 4.5-9 4.5-9-4.5L12 3z" /><path d="M7 9.5V15c0 1.1 2.24 3 5 3s5-1.9 5-3V9.5" /><path d="M21 7.5v6" /></svg></div>
               <div className={`${styles.benefitCell} ${styles.benefitFeature}`}><span className={styles.cellLabel}>o que é</span>bônus: curso IA na Medicina, da teoria à prática</div>
-              <div className={styles.benefitCell}><span className={styles.cellLabel}>funcional</span>12h em vídeo sobre IA aplicada à prática clínica, com templates de prompt prontos pra usar</div>
+              <div className={styles.benefitCell}><span className={styles.cellLabel}>funcional</span>aulas em vídeo sobre IA aplicada à prática clínica, direto no seu painel</div>
               <div className={styles.benefitCell}><span className={styles.cellLabel}>financeiro</span>curso vendido a R$ 497 fora daqui, incluso sem custo extra</div>
               <div className={styles.benefitCell}><span className={styles.cellLabel}>emocional</span>sai na frente com uma ferramenta que já mudou como se pratica medicina</div>
             </div>
@@ -605,9 +605,9 @@ export default function MedEscolhaLandingPage() {
                 <span className={styles.bonusTag}>bônus</span>
                 <strong>curso IA na Medicina: da teoria à prática</strong>
                 <ul className={styles.stackBullets}>
-                  <li>12h em vídeo, acesso vitalício, direto ao ponto</li>
-                  <li>templates de prompt prontos pra usar no dia a dia clínico</li>
-                  <li>certificado emitido pela Hotmart + comunidade de alunos</li>
+                  <li>4 aulas em vídeo, acesso vitalício</li>
+                  <li>da introdução à IA até IA generativa aplicada à prática clínica</li>
+                  <li>direto no seu painel, sem sair do Med Escolha</li>
                 </ul>
               </div>
               <div className={styles.stackValue}>R$ 497</div>
@@ -779,7 +779,7 @@ export default function MedEscolhaLandingPage() {
 
             <details className={styles.faqItem}>
               <summary>o que é o bônus do curso de IA na Medicina?</summary>
-              <div className={styles.faqAnswer}>é o curso completo &quot;IA na Medicina: da teoria à prática&quot;, 12h em vídeo ensinando a usar inteligência artificial no dia a dia clínico, com templates de prompt prontos e certificado emitido pela Hotmart. vendido separadamente por R$ 497, incluso sem custo extra pra quem compra o match.</div>
+              <div className={styles.faqAnswer}>são 4 aulas em vídeo, &quot;IA na Medicina: da teoria à prática&quot;, ensinando a usar inteligência artificial no dia a dia clínico, da introdução até IA generativa aplicada à prática. vendido separadamente por R$ 497, incluso sem custo extra pra quem compra o match.</div>
             </details>
 
             <details className={styles.faqItem}>
