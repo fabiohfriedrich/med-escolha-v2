@@ -11,6 +11,7 @@ export default function TestePage() {
   const [result, setResult] = useState<MatchResult | null>(null)
   const [savedAnswers, setSavedAnswers] = useState<QuizAnswers | null>(null)
   const [resultadoId, setResultadoId] = useState<string | undefined>()
+  const [narrativaIA, setNarrativaIA] = useState<Record<number, string> | null>(null)
 
   async function handleComplete(answers: QuizAnswers) {
     setSavedAnswers(answers)
@@ -30,6 +31,7 @@ export default function TestePage() {
       const data = await res.json()
       setResult(data.result)
       setResultadoId(data.id)
+      setNarrativaIA(data.narrativaIA ?? null)
       setState('result')
     } catch (err) {
       console.error(err)
@@ -56,7 +58,8 @@ export default function TestePage() {
         result={result}
         answers={savedAnswers}
         resultadoId={resultadoId}
-        onRestart={() => { setResult(null); setResultadoId(undefined); setState('quiz') }}
+        narrativaIA={narrativaIA}
+        onRestart={() => { setResult(null); setResultadoId(undefined); setNarrativaIA(null); setState('quiz') }}
       />
     )
   }

@@ -10,9 +10,10 @@ interface Props {
   ranking: any[]
   perfil: any
   answers: any
+  narrativaIA?: Record<number, string> | null
 }
 
-export default function ResultadoClient({ id, nome, email, ranking, perfil, answers }: Props) {
+export default function ResultadoClient({ id, nome, email, ranking, perfil, answers, narrativaIA }: Props) {
   const result: MatchResult = { ranking, perfil: { nome, email, ...perfil } }
-  return <Results result={result} answers={answers} resultId={id} onRestart={() => window.location.href = '/'} />
+  return <Results result={result} answers={answers} resultId={id} onRestart={() => window.location.href = '/'} narrativaIA={narrativaIA} />
 }
