@@ -378,6 +378,45 @@ export default function MedEscolhaLandingPage() {
         </div>
       </section>
 
+      {/* ============ PLANO PÓS-RESULTADO ============ */}
+      <section>
+        <div className={styles.container}>
+          <div className={styles.textCenter} style={{ marginBottom: 32 }}>
+            <span className={styles.eyebrow}>depois do resultado</span>
+            <h2>você não recebe só um resultado. recebe um <span className={styles.highlightUnderline}>plano de decisão</span></h2>
+            <p className={styles.lead}>o ranking mostra pra onde ir. o cronograma abaixo mostra como chegar lá, com prazo, dentro da sua própria conta. já vem pronto assim que o resultado sai.</p>
+          </div>
+
+          <div className={styles.planoGrid}>
+            <div className={styles.mechanismCard}>
+              <div className={styles.planoEmoji}>📖</div>
+              <h3>aprofunde seu conhecimento</h3>
+              <p>conteúdo do Amo Medicina sobre as especialidades do seu top 3, direto na sua conta.</p>
+            </div>
+            <div className={styles.mechanismCard}>
+              <div className={styles.planoEmoji}>🩺</div>
+              <h3>conheça a rotina real</h3>
+              <p>depoimentos e entrevistas com quem já vive o dia a dia de cada especialidade do seu match.</p>
+            </div>
+            <div className={styles.mechanismCard}>
+              <div className={styles.planoEmoji}>📊</div>
+              <h3>compare suas especialidades</h3>
+              <p>volta pro ranking completo com um olhar mais analítico, mercado e saturação lado a lado.</p>
+            </div>
+            <div className={styles.mechanismCard}>
+              <div className={styles.planoEmoji}>🗓️</div>
+              <h3>agende seu próximo teste</h3>
+              <p>escolhe 3, 6 ou 12 meses e a gente te avisa por e-mail na data certa pra refazer o match e acompanhar sua evolução.</p>
+              <div className={styles.mechanismCallout}>→ ninguém mais te lembra disso, a gente lembra</div>
+            </div>
+          </div>
+
+          <div className={`${styles.ctaBlock} ${styles.mt5}`}>
+            <a href="#checkout" className={`${styles.btn} ${styles.btnLarge} ${styles.btnUppercase}`} onClick={() => track('plano-pos-resultado')}>quero meu plano de decisão, R$ 149</a>
+          </div>
+        </div>
+      </section>
+
       {/* ============ PULLED QUOTE ============ */}
       <section className={styles.pulledQuoteSection}>
         <blockquote className={styles.pulledQuote}>
@@ -722,6 +761,11 @@ export default function MedEscolhaLandingPage() {
             </details>
 
             <details className={styles.faqItem}>
+              <summary>o que eu recebo além do resultado?</summary>
+              <div className={styles.faqAnswer}>um plano de decisão com prazo. dentro da sua conta, você recebe um cronograma em 4 passos (aprofundar conhecimento, conhecer a rotina real, comparar especialidades e agendar o próximo teste), com tarefas que você marca conforme avança. no passo do reteste, você escolhe daqui 3, 6 ou 12 meses e a gente te avisa por e-mail na data certa, sem você precisar lembrar disso sozinho.</div>
+            </details>
+
+            <details className={styles.faqItem}>
               <summary>as lives do acervo ficam disponíveis pra sempre?</summary>
               <div className={styles.faqAnswer}>sim. todas as 50+ lives gravadas ficam disponíveis na sua conta, vitalício. lives novas também entram no acervo conforme são gravadas.</div>
             </details>
@@ -766,7 +810,7 @@ export default function MedEscolhaLandingPage() {
           </div>
 
           <div className={styles.psBlock}>
-            <p><span className={styles.psLabel}>P.S.</span>a residência que você vai começar daqui a 1 ano vai ser decidida nos próximos meses. ou agora, com o match da especialidade médica cobrindo as 55 áreas reconhecidas, narrativa explicativa, resultado salvo na sua área de membro e garantia de 7 dias. ou no escuro, depois, na pressão da inscrição. R$ 149 contra 30 anos de carreira: a matemática mais simples que você vai resolver hoje.</p>
+            <p><span className={styles.psLabel}>P.S.</span>a residência que você vai começar daqui a 1 ano vai ser decidida nos próximos meses. ou agora, com o match da especialidade médica cobrindo as 55 áreas reconhecidas, narrativa explicativa, um plano de decisão com prazo e lembrete automático pro reteste, resultado salvo na sua área de membro e garantia de 7 dias. ou no escuro, depois, na pressão da inscrição. R$ 149 contra 30 anos de carreira: a matemática mais simples que você vai resolver hoje.</p>
           </div>
         </div>
       </section>
