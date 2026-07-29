@@ -13,9 +13,10 @@ interface Props {
   answers?: any
   resultadoId?: string
   onRestart: () => void
+  narrativaIA?: Record<number, string> | null
 }
 
-export default function ResultLayout({ result, answers, resultadoId, onRestart }: Props) {
+export default function ResultLayout({ result, answers, resultadoId, onRestart, narrativaIA }: Props) {
   const [tab, setTab] = useState<Tab>('resultado')
 
   const tabs = [

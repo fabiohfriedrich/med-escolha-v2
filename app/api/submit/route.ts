@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { calcularMatch, QuizAnswers } from '@/lib/scoring'
 import { supabase } from '@/lib/supabase'
 import { sendResultEmail } from '@/lib/email'
+import { gerarNarrativasTop3 } from '@/lib/narrativa-ia'
 
 const QuizSchema = z.object({
   nome: z.string().min(1).max(200).trim(),
@@ -54,6 +55,22 @@ export async function POST(req: NextRequest) {
     // Incrementa o contador de testes do comprador
     await supabase.rpc('incrementar_teste', { p_email: answers.email })
 
+    // Gera a narrativa personalizada do top 3 via IA. Bloqueia a resposta (a UI já
+    // mostra o resultado logo em seguida), mas com timeout curto embutido no fallback:
+    // se falhar ou não houver ANTHROPIC_API_KEY, retorna null e a UI usa o texto template.
+    const narrativaIA = await gerarNarrativasTop3({
+      nome: answers.nome,
+      demographics: answers.demographics,
+      hollandList: answers.holland,
+      jungSelected: answers.jung,
+      c04bAnswers: answers.c04b,
+      top3: result.ranking.slice(0, 3),
+    })
+
+    if (narrativaIA) {
+      await supabase.from('resultados').update({ narrativa_ia: narrativaIA }).eq('id', data.id)
+    }
+
     // Envia o e-mail do resultado em background (não atrasa a resposta pro usuário).
     // O cron diário serve de rede de segurança caso esse envio falhe.
     after(async () => {
@@ -73,7 +90,7 @@ export async function POST(req: NextRequest) {
       }
     })
 
-    return NextResponse.json({ result, id: data.id })
+    return NextResponse.json({ result, id: data.id, narrativaIA })
   } catch (err) {
     console.error(err)
     return NextResponse.json({ error: 'Erro interno' }, { status: 500 })

@@ -129,9 +129,10 @@ interface Props {
   resultId?: string
   onRestart: () => void
   hideRestartButton?: boolean
+  narrativaIA?: Record<number, string> | null
 }
 
-export default function Results({ result, answers, resultId, onRestart, hideRestartButton }: Props) {
+export default function Results({ result, answers, resultId, onRestart, hideRestartButton, narrativaIA }: Props) {
   const [showAll, setShowAll] = useState(false)
   const [printing, setPrinting] = useState(false)
   const [openId, setOpenId] = useState<number | null>(null)
@@ -294,7 +295,7 @@ export default function Results({ result, answers, resultId, onRestart, hideRest
           {top3.map((e, i) => {
             const desc = DESCRIPTIONS.find(d => d.id === e.id)
             const compatItems = getCompatItems(e.id)
-            const narrativa = gerarNarrativa(e.id, e.nome, hollandList, jungDom, compatItems.slice(0, 3).map(x => x.label))
+            const narrativa = narrativaIA?.[e.id] ?? gerarNarrativa(e.id, e.nome, hollandList, jungDom, compatItems.slice(0, 3).map(x => x.label))
             const pctEsp = ((e.medicos_ativos / 550000) * 100).toFixed(2)
             const por100k = (e.medicos_ativos / 2150).toFixed(2)
             const isOpen = openId === e.id || (i === 0 && openId === null)
