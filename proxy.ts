@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server'
 import { verifySessionToken } from '@/app/api/admin/login/route'
 
 // Rotas que exigem sessão Clerk válida
-const isProtectedRoute = createRouteMatcher(['/teste(.*)', '/resultado(.*)', '/perfil(.*)', '/ferramentas(.*)'])
+const isProtectedRoute = createRouteMatcher(['/teste(.*)', '/resultado(.*)', '/perfil(.*)', '/ferramentas(.*)', '/radar/meu-radar(.*)'])
 // Rotas liberadas mesmo para quem está com troca de senha pendente
 const isExemptFromForcedPasswordChange = createRouteMatcher([
   '/criar-senha', '/login', '/esqueci-senha', '/sso-callback', '/api(.*)',

@@ -33,6 +33,16 @@ const ITEMS: Item[] = [
     ),
   },
   {
+    href: '/radar',
+    label: 'Radar de Residência',
+    match: (p) => p.startsWith('/radar'),
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="3" /><path d="M12 3v3M12 18v3M3 12h3M18 12h3" />
+      </svg>
+    ),
+  },
+  {
     href: '/comparar',
     label: 'Comparar',
     match: (p) => p.startsWith('/comparar'),

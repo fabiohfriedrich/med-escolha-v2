@@ -5,6 +5,7 @@ import videosData from '@/data/videos.json'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import VideosEspecialidade from '@/components/VideosEspecialidade'
+import { getStatusVisual } from '@/lib/radar'
 
 const PRE_REQ: Record<number, string> = {
   1:'Acesso direto',2:'Acesso direto',3:'Acesso direto',4:'Cirurgia Geral',5:'Clínica Médica',
@@ -66,6 +67,18 @@ export default async function EspecialidadePage({ params }: { params: Promise<{ 
     .select('especialistas, por_100k_hab, pct_mulheres, media_idade, pct_capital, pct_sudeste, pct_55_plus')
     .eq('id', id)
     .single()
+
+  const { data: vagasRows } = await supabase
+    .from('edital_vagas')
+    .select('editais!inner(id, status, inscricao_fim, link_oficial, instituicoes(nome, uf, site))')
+    .eq('especialidade_id', id)
+    .in('editais.status', ['aberto', 'previsto'])
+  const provas = (vagasRows ?? []) as unknown as Array<{
+    editais: { id: string; status: 'previsto' | 'aberto'; inscricao_fim: string | null; link_oficial: string | null; instituicoes: { nome: string; uf: string | null; site: string } }
+  }>
+  // Uma instituição pode aparecer mais de uma vez se cadastrar vagas dessa especialidade em
+  // categorias diferentes (ex: ampla concorrência + acesso direto) — mostramos uma vez só.
+  const provasUnicas = Array.from(new Map(provas.map((p) => [p.editais.id, p.editais])).values())
 
   const videos = (videosData as Array<{ youtubeId: string; especialidadeId: number; medico: string | null }>)
     .filter(v => v.especialidadeId === id)
@@ -131,6 +144,29 @@ export default async function EspecialidadePage({ params }: { params: Promise<{ 
             {card(<>
               {sectionTitle('🕐', 'Rotina típica')}
               <p style={{ fontSize: 14, color: '#374151', lineHeight: 1.7, margin: 0 }}>{desc.rotina_tipica}</p>
+            </>)}
+
+            {provasUnicas.length > 0 && card(<>
+              {sectionTitle('📅', 'Provas com vagas dessa especialidade')}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {provasUnicas.map((edital) => {
+                  const status = getStatusVisual(edital)
+                  return (
+                    <div key={edital.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, padding: '10px 0', borderBottom: '1px solid #f1f5f9' }}>
+                      <div>
+                        <p style={{ fontWeight: 700, color: '#0f2d5e', fontSize: 14, margin: 0 }}>{edital.instituicoes.nome}</p>
+                        <p style={{ fontSize: 12, color: '#94a3b8', margin: '2px 0 0' }}>{edital.instituicoes.uf ?? 'Nacional'}</p>
+                      </div>
+                      <span style={{ fontSize: 11, fontWeight: 700, padding: '4px 12px', borderRadius: 20, background: status.background, color: status.color, whiteSpace: 'nowrap' }}>
+                        {status.label}
+                      </span>
+                    </div>
+                  )
+                })}
+              </div>
+              <Link href="/radar" style={{ display: 'inline-block', marginTop: 14, fontSize: 13, fontWeight: 700, color: '#1d6fe8', textDecoration: 'none' }}>
+                Ver todos os editais no Radar de Residência →
+              </Link>
             </>)}
 
             <VideosEspecialidade videos={videos} />
