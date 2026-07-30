@@ -5,7 +5,6 @@ import Link from 'next/link'
 import { Poppins } from 'next/font/google'
 import posthog from 'posthog-js'
 import styles from './MedEscolhaLanding.module.css'
-import MatchesCounter from './MatchesCounter'
 import CompradoresCounter from './CompradoresCounter'
 import { capturarRefDaUrl, comCodigoIndicacao } from '@/lib/referral'
 
@@ -83,7 +82,6 @@ export default function MedEscolhaLandingPage() {
                   {' '}·{' '}
                   <Link href="/comparar" style={{ color: 'var(--teal)', fontWeight: 700, textDecoration: 'underline' }}>comparar 2 especialidades grátis</Link>
                 </p>
-                <MatchesCounter />
                 <CompradoresCounter />
               </div>
             </div>
