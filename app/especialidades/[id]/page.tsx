@@ -32,6 +32,11 @@ const CRESC_STYLE: Record<string, { background: string; color: string }> = {
   Baixo: { background: '#f3f4f6', color: '#6b7280' },
 }
 
+// Página é estática (generateStaticParams), mas a seção "provas com vagas" depende de
+// editais/edital_vagas que o admin atualiza direto no banco, sem novo deploy. Sem revalidate,
+// ficaria travada com o dado de quando a página foi gerada no último build.
+export const revalidate = 1800
+
 export async function generateStaticParams() {
   const descriptions = (descriptionsData as any).specialties as Array<{ id: number }>
   return descriptions.map(d => ({ id: String(d.id) }))
