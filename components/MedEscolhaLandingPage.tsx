@@ -6,6 +6,7 @@ import { Poppins } from 'next/font/google'
 import posthog from 'posthog-js'
 import styles from './MedEscolhaLanding.module.css'
 import MatchesCounter from './MatchesCounter'
+import CompradoresCounter from './CompradoresCounter'
 import { capturarRefDaUrl, comCodigoIndicacao } from '@/lib/referral'
 
 const poppins = Poppins({
@@ -83,6 +84,7 @@ export default function MedEscolhaLandingPage() {
                   <Link href="/comparar" style={{ color: 'var(--teal)', fontWeight: 700, textDecoration: 'underline' }}>comparar 2 especialidades grátis</Link>
                 </p>
                 <MatchesCounter />
+                <CompradoresCounter />
               </div>
             </div>
           </div>
@@ -723,6 +725,7 @@ export default function MedEscolhaLandingPage() {
               <div className={styles.authorityStatNum}>570 mil+</div>
               <p className={styles.authorityStatLabel}>médicos ativos no Brasil, distribuídos entre <strong>as 55 especialidades reconhecidas no país</strong>.</p>
               <div className={styles.authorityStatPill}>a maioria escolheu no escuro.</div>
+              <CompradoresCounter variant="authority" />
             </div>
           </div>
         </div>
