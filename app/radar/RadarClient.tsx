@@ -11,15 +11,12 @@ import {
   formatDateBR,
   formatTaxa,
   ordenarEditais,
+  editalCorrespondeAoRadar,
   type EditalComInstituicao,
+  type RadarConfig,
 } from '@/lib/radar'
 
 const SPECIALTIES = specialtiesData.specialties as { id: number; nome: string }[]
-
-interface RadarConfig {
-  especialidade_ids: number[]
-  ufs: string[]
-}
 
 interface Props {
   editais: EditalComInstituicao[]
@@ -45,17 +42,8 @@ export default function RadarClient({ editais, isLoggedIn, radarConfig }: Props)
 
   const editaisFiltrados = useMemo(() => {
     if (!temFiltroAtivo) return editaisOrdenados
-    return editaisOrdenados.filter((e) => {
-      const okUf = ufsSel.length === 0 || e.instituicao.uf == null || ufsSel.includes(e.instituicao.uf)
-      const vagas = e.edital_vagas ?? []
-      // Sem vagas cadastradas ainda (comum em editais "previsto"): não escondemos, porque
-      // pode acabar incluindo a especialidade escolhida assim que o edital publicar as vagas.
-      const okEspecialidade =
-        especialidadesSel.length === 0 ||
-        vagas.length === 0 ||
-        vagas.some((v) => especialidadesSel.includes(v.especialidade_id))
-      return okUf && okEspecialidade
-    })
+    const config: RadarConfig = { especialidade_ids: especialidadesSel, ufs: ufsSel }
+    return editaisOrdenados.filter((e) => editalCorrespondeAoRadar(e, config))
   }, [editaisOrdenados, temFiltroAtivo, ufsSel, especialidadesSel])
 
   function toggleEspecialidade(id: number) {

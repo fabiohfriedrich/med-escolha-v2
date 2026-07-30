@@ -70,8 +70,8 @@ const CORES: Record<StatusCor, { background: string; color: string }> = {
   cinza: { background: '#f1f5f9', color: '#64748b' },
 }
 
-function diasAte(dataISO: string): number {
-  const hoje = new Date()
+export function diasAte(dataISO: string, referencia: Date = new Date()): number {
+  const hoje = new Date(referencia)
   hoje.setHours(0, 0, 0, 0)
   const alvo = new Date(dataISO + 'T00:00:00')
   return Math.round((alvo.getTime() - hoje.getTime()) / 86400000)
@@ -128,4 +128,56 @@ export function ordenarEditais(editais: EditalComInstituicao[]): EditalComInstit
     if (b.inscricao_inicio) return 1
     return a.instituicao.nome.localeCompare(b.instituicao.nome)
   })
+}
+
+export interface RadarConfig {
+  especialidade_ids: number[]
+  ufs: string[]
+}
+
+// Especialidades do radar do usuário que batem com as vagas cadastradas nesse edital.
+export function especialidadesEmComum(edital: Pick<EditalComInstituicao, 'edital_vagas'>, especialidadeIds: number[]): number[] {
+  const vagas = edital.edital_vagas ?? []
+  return vagas.map((v) => v.especialidade_id).filter((id) => especialidadeIds.includes(id))
+}
+
+// Mesma regra usada tanto no filtro do /radar quanto no cron de alertas, pra nunca divergir:
+// o que o usuário vê filtrado é exatamente o que ele recebe alerta.
+// UF: nacional (uf null, ex ENARE) sempre bate, e nenhuma UF selecionada = sem filtro de UF.
+// Especialidade: nenhuma selecionada = sem filtro; se o edital ainda não tem vagas cadastradas
+// (comum em editais "previsto"), não excluímos, porque pode acabar incluindo a especialidade
+// assim que as vagas forem publicadas.
+export function editalCorrespondeAoRadar(edital: EditalComInstituicao, config: RadarConfig): boolean {
+  const okUf = config.ufs.length === 0 || edital.instituicao.uf == null || config.ufs.includes(edital.instituicao.uf)
+  const vagas = edital.edital_vagas ?? []
+  const okEspecialidade =
+    config.especialidade_ids.length === 0 ||
+    vagas.length === 0 ||
+    especialidadesEmComum(edital, config.especialidade_ids).length > 0
+  return okUf && okEspecialidade
+}
+
+export type TipoAlerta = 'novo_edital' | 'inscricao_abriu' | 'ultimos_dias' | 'vespera_prova'
+
+// Não avisamos de "novo edital" pra algo que já encerrou (ex: radar configurado depois do fato).
+export function alertaNovoEditalDevido(edital: Pick<Edital, 'status'>): boolean {
+  return edital.status !== 'encerrado'
+}
+
+export function alertaInscricaoAbriuDevido(edital: Pick<Edital, 'inscricao_inicio'>, hoje: Date = new Date()): boolean {
+  if (!edital.inscricao_inicio) return false
+  return diasAte(edital.inscricao_inicio, hoje) === 0
+}
+
+// Janela (não dia exato) pra tolerar o cron não ter rodado ontem e ainda assim avisar a tempo.
+export function alertaUltimosDiasDevido(edital: Pick<Edital, 'status' | 'inscricao_fim'>, hoje: Date = new Date()): boolean {
+  if (edital.status !== 'aberto' || !edital.inscricao_fim) return false
+  const dias = diasAte(edital.inscricao_fim, hoje)
+  return dias >= 0 && dias <= 3
+}
+
+// Esse é dia exato mesmo (não janela): "véspera" perde o sentido se mandado com 2+ dias de atraso.
+export function alertaVesperaProvaDevido(edital: Pick<Edital, 'data_prova'>, hoje: Date = new Date()): boolean {
+  if (!edital.data_prova) return false
+  return diasAte(edital.data_prova, hoje) === 1
 }

@@ -155,3 +155,108 @@ export async function sendRetesteEmail({ email, nome }: { email: string; nome: s
     html,
   })
 }
+
+// ── Alertas do Radar de Residência ────────────────────────────────────────────
+interface SendRadarAlertaEmailParams {
+  email: string
+  nome: string
+  tipo: 'novo_edital' | 'inscricao_abriu' | 'ultimos_dias' | 'vespera_prova'
+  instituicaoNome: string
+  instituicaoUf: string | null
+  status: 'previsto' | 'aberto' | 'encerrado'
+  temporada: string
+  inscricaoInicio: string | null
+  inscricaoFim: string | null
+  dataProva: string | null
+  taxa: number | null
+  diasRestantes: number | null
+  linkOficial: string
+  especialidadeDestaque: string | null
+}
+
+function formatDataCurta(dataISO: string): string {
+  const [, mes, dia] = dataISO.split('-')
+  return `${dia}/${mes}`
+}
+
+export async function sendRadarAlertaEmail(params: SendRadarAlertaEmailParams) {
+  const {
+    email, nome, tipo, instituicaoNome, instituicaoUf, status, temporada,
+    inscricaoInicio, inscricaoFim, dataProva, taxa, diasRestantes, linkOficial, especialidadeDestaque,
+  } = params
+  const primeiroNome = nome.split(' ')[0] || 'colega'
+  const local = instituicaoUf ? `${instituicaoNome} (${instituicaoUf})` : instituicaoNome
+  const complemento = especialidadeDestaque ? ` (${especialidadeDestaque} está no edital)` : ''
+  const gerenciarUrl = `${APP_URL}/radar/meu-radar`
+
+  let assunto = ''
+  let titulo = ''
+  let corpo = ''
+
+  if (tipo === 'novo_edital' && status === 'aberto') {
+    assunto = `abriu: inscrições ${instituicaoNome}${complemento}`
+    titulo = 'Abriu edital no seu radar'
+    corpo = `As inscrições de residência médica da <strong>${local}</strong> abriram pra temporada ${temporada}.`
+  } else if (tipo === 'novo_edital') {
+    assunto = `novidade no radar: ${instituicaoNome} confirmou residência ${temporada}`
+    titulo = 'Novidade no seu radar'
+    corpo = `A <strong>${local}</strong> confirmou processo seletivo de residência médica pra temporada ${temporada}. As datas ainda não saíram, mas já entrou no seu radar.`
+  } else if (tipo === 'inscricao_abriu') {
+    assunto = `abriu hoje: inscrições ${instituicaoNome}${complemento}`
+    titulo = 'As inscrições abriram hoje'
+    corpo = `Hoje é o primeiro dia de inscrição da <strong>${local}</strong> pra temporada ${temporada}.`
+  } else if (tipo === 'ultimos_dias') {
+    const dias = diasRestantes ?? 0
+    assunto = `últimos dias: inscrições ${instituicaoNome} fecham em breve`
+    titulo = dias === 0 ? 'Hoje é o último dia de inscrição' : `Faltam ${dias} dia${dias === 1 ? '' : 's'} pra fechar a inscrição`
+    corpo = `As inscrições da <strong>${local}</strong> ${dias === 0 ? 'encerram hoje' : `encerram em ${dias} dia${dias === 1 ? '' : 's'}`}. Não perde o prazo.`
+  } else {
+    assunto = `amanhã é a prova: ${instituicaoNome}`
+    titulo = 'Amanhã é a prova'
+    corpo = `A prova da <strong>${local}</strong> é amanhã${dataProva ? `, dia ${formatDataCurta(dataProva)}` : ''}. Boa sorte!`
+  }
+
+  const detalhesHTML = `
+    <div style="background:#f8fafc;border-radius:12px;padding:16px 20px;margin:20px 0">
+      <table style="width:100%;font-size:13px;color:#495057;border-collapse:collapse">
+        ${inscricaoInicio || inscricaoFim ? `<tr><td style="padding:4px 0;color:#6c757d">Inscrições</td><td style="padding:4px 0;text-align:right;font-weight:600;color:#0D2150">${inscricaoInicio ? formatDataCurta(inscricaoInicio) : '?'} a ${inscricaoFim ? formatDataCurta(inscricaoFim) : '?'}</td></tr>` : ''}
+        ${taxa != null ? `<tr><td style="padding:4px 0;color:#6c757d">Taxa</td><td style="padding:4px 0;text-align:right;font-weight:600;color:#0D2150">${taxa === 0 ? 'Gratuita' : `R$ ${taxa.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`}</td></tr>` : ''}
+        ${dataProva ? `<tr><td style="padding:4px 0;color:#6c757d">Prova</td><td style="padding:4px 0;text-align:right;font-weight:600;color:#0D2150">${formatDataCurta(dataProva)}</td></tr>` : ''}
+      </table>
+    </div>`
+
+  const html = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#f1f5f9;font-family:-apple-system,'Segoe UI',Arial,sans-serif">
+  <div style="max-width:600px;margin:32px auto;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08)">
+    <div style="background:#0D2150;padding:32px 40px;text-align:center">
+      <div style="font-size:32px;font-weight:900;color:#fff;letter-spacing:-1px">
+        med<span style="display:inline-block;width:12px;height:12px;background:#00C9A7;border-radius:50%;vertical-align:middle;margin:0 2px;position:relative;top:-3px"></span>escolha
+      </div>
+      <div style="font-size:13px;color:#00C9A7;font-weight:600;margin-top:4px">Radar de Residência</div>
+    </div>
+    <div style="padding:32px 40px">
+      <h1 style="font-size:20px;font-weight:800;color:#0D2150;margin:0 0 12px">
+        ${primeiroNome}, ${titulo.charAt(0).toLowerCase() + titulo.slice(1)}
+      </h1>
+      <p style="font-size:14px;color:#495057;line-height:1.7;margin:0">${corpo}</p>
+      ${detalhesHTML}
+      <div style="text-align:center;margin:28px 0 8px">
+        <a href="${linkOficial}" style="display:inline-block;background:#00C9A7;color:#fff;font-weight:800;font-size:15px;padding:14px 32px;border-radius:12px;text-decoration:none">
+          Ver edital oficial →
+        </a>
+      </div>
+    </div>
+    <div style="background:#f8fafc;border-top:1px solid #e5e7eb;padding:20px 40px;text-align:center">
+      <p style="font-size:11px;color:#9ca3af;margin:0">
+        Med Escolha · por Amo Medicina · euamomedicina.com<br>
+        <a href="${gerenciarUrl}" style="color:#6c757d">Gerenciar meus alertas do Radar</a>
+      </p>
+    </div>
+  </div>
+</body>
+</html>`
+
+  return getResend().emails.send({ from: FROM_EMAIL, to: email, subject: assunto, html })
+}
