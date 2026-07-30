@@ -63,7 +63,7 @@ export default function MeuRadarForm({ configInicial, preSelecionadoDoTeste }: P
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
+    <main style={{ minHeight: '100vh', background: '#f8fafc' }}>
       <div style={{ background: '#0f2d5e', color: 'white' }}>
         <div style={{ maxWidth: 780, margin: '0 auto', padding: '40px 24px' }}>
           <Link href="/radar" style={{ color: '#93c5fd', fontSize: 13, fontWeight: 500, display: 'inline-block', marginBottom: 16, textDecoration: 'none' }}>
@@ -86,7 +86,7 @@ export default function MeuRadarForm({ configInicial, preSelecionadoDoTeste }: P
         )}
 
         <div style={{ background: 'white', borderRadius: 16, border: '1px solid #e2e8f0', padding: 20, marginBottom: 16 }}>
-          <p style={{ fontSize: 11, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 12 }}>
+          <p style={{ fontSize: 11, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 12 }}>
             Especialidades ({especialidadesSel.length} selecionada{especialidadesSel.length !== 1 ? 's' : ''})
           </p>
           <input
@@ -120,7 +120,7 @@ export default function MeuRadarForm({ configInicial, preSelecionadoDoTeste }: P
         </div>
 
         <div style={{ background: 'white', borderRadius: 16, border: '1px solid #e2e8f0', padding: 20, marginBottom: 16 }}>
-          <p style={{ fontSize: 11, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 12 }}>
+          <p style={{ fontSize: 11, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 12 }}>
             Estados ({ufsSel.length} selecionado{ufsSel.length !== 1 ? 's' : ''})
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
@@ -145,7 +145,7 @@ export default function MeuRadarForm({ configInicial, preSelecionadoDoTeste }: P
               )
             })}
           </div>
-          <p style={{ fontSize: 11, color: '#94a3b8', marginTop: 10 }}>
+          <p style={{ fontSize: 11, color: '#64748b', marginTop: 10 }}>
             Exames nacionais (como o ENARE) aparecem pra você independente do estado escolhido.
           </p>
         </div>
@@ -153,7 +153,7 @@ export default function MeuRadarForm({ configInicial, preSelecionadoDoTeste }: P
         <div style={{ background: 'white', borderRadius: 16, border: '1px solid #e2e8f0', padding: 20, marginBottom: 24, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
           <div>
             <p style={{ fontWeight: 700, color: '#0f2d5e', margin: 0, fontSize: 14 }}>Alertas por e-mail</p>
-            <p style={{ fontSize: 12, color: '#94a3b8', margin: '4px 0 0' }}>Edital novo, inscrição aberta, últimos dias e véspera de prova.</p>
+            <p style={{ fontSize: 12, color: '#64748b', margin: '4px 0 0' }}>Edital novo, inscrição aberta, últimos dias e véspera de prova.</p>
           </div>
           <button
             type="button"
@@ -180,6 +180,6 @@ export default function MeuRadarForm({ configInicial, preSelecionadoDoTeste }: P
           {salvo && <span style={{ color: '#15803d', fontWeight: 700, fontSize: 13 }}>Salvo ✓</span>}
         </div>
       </div>
-    </div>
+    </main>
   )
 }

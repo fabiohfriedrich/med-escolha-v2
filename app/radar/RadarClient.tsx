@@ -58,7 +58,7 @@ export default function RadarClient({ editais, isLoggedIn, radarConfig }: Props)
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
+    <main style={{ minHeight: '100vh', background: '#f8fafc' }}>
       {/* Hero */}
       <div style={{ background: '#0f2d5e', color: 'white', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: 0, right: 0, width: 350, height: 350, borderRadius: '50%', background: '#1a4a8a', opacity: 0.15, transform: 'translate(30%, -30%)' }} />
@@ -102,7 +102,7 @@ export default function RadarClient({ editais, isLoggedIn, radarConfig }: Props)
                 </Link>
               )}
               {temFiltroAtivo && (
-                <button type="button" onClick={limparFiltros} style={{ fontSize: 12, fontWeight: 700, color: '#94a3b8', background: 'none', border: 'none', cursor: 'pointer' }}>
+                <button type="button" onClick={limparFiltros} style={{ fontSize: 12, fontWeight: 700, color: '#64748b', background: 'none', border: 'none', cursor: 'pointer' }}>
                   Ver tudo
                 </button>
               )}
@@ -142,7 +142,7 @@ export default function RadarClient({ editais, isLoggedIn, radarConfig }: Props)
                 </div>
               </div>
               <div>
-                <p style={{ fontSize: 11, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 8 }}>Estados</p>
+                <p style={{ fontSize: 11, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 8 }}>Estados</p>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                   {UFS.map((uf) => {
                     const ativo = ufsSel.includes(uf.sigla)
@@ -191,7 +191,7 @@ export default function RadarClient({ editais, isLoggedIn, radarConfig }: Props)
 
         {/* Lista de editais */}
         {editaisFiltrados.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '48px 16px', color: '#94a3b8' }}>
+          <div style={{ textAlign: 'center', padding: '48px 16px', color: '#64748b' }}>
             <p style={{ fontSize: 14, margin: 0 }}>Nenhum edital bate com esse filtro ainda.</p>
           </div>
         ) : (
@@ -202,7 +202,7 @@ export default function RadarClient({ editais, isLoggedIn, radarConfig }: Props)
           </div>
         )}
       </div>
-    </div>
+    </main>
   )
 }
 
@@ -214,10 +214,10 @@ function EditalCard({ edital }: { edital: EditalComInstituicao }) {
     <div style={{ background: 'white', borderRadius: 16, border: '1px solid #e2e8f0', padding: 20, display: 'flex', flexDirection: 'column', gap: 12 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8, flexWrap: 'wrap' }}>
         <div>
-          <p style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1, color: '#60a5fa', margin: 0 }}>
+          <p style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1, color: '#2563eb', margin: 0 }}>
             {edital.instituicao.uf ?? 'Nacional'} · {TIPO_LABEL[edital.instituicao.tipo] ?? edital.instituicao.tipo}
           </p>
-          <h3 style={{ fontWeight: 900, color: '#0f2d5e', fontSize: 17, margin: '4px 0 0' }}>{edital.instituicao.nome}</h3>
+          <h2 style={{ fontWeight: 900, color: '#0f2d5e', fontSize: 17, margin: '4px 0 0' }}>{edital.instituicao.nome}</h2>
         </div>
         <span style={{ fontSize: 11, fontWeight: 700, padding: '4px 12px', borderRadius: 20, background: status.background, color: status.color, whiteSpace: 'nowrap' }}>
           {status.label}
@@ -240,7 +240,7 @@ function EditalCard({ edital }: { edital: EditalComInstituicao }) {
 function Info({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <p style={{ fontSize: 10, color: '#94a3b8', margin: 0, textTransform: 'uppercase', letterSpacing: 0.5 }}>{label}</p>
+      <p style={{ fontSize: 10, color: '#64748b', margin: 0, textTransform: 'uppercase', letterSpacing: 0.5 }}>{label}</p>
       <p style={{ fontSize: 13, fontWeight: 700, color: '#374151', margin: '2px 0 0' }}>{value}</p>
     </div>
   )
