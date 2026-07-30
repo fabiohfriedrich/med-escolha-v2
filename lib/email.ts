@@ -168,7 +168,9 @@ interface SendRadarAlertaEmailParams {
   inscricaoInicio: string | null
   inscricaoFim: string | null
   dataProva: string | null
+  dataGabarito: string | null
   taxa: number | null
+  etapas: number | null
   diasRestantes: number | null
   linkOficial: string
   especialidadeDestaque: string | null
@@ -182,7 +184,7 @@ function formatDataCurta(dataISO: string): string {
 export async function sendRadarAlertaEmail(params: SendRadarAlertaEmailParams) {
   const {
     email, nome, tipo, instituicaoNome, instituicaoUf, status, temporada,
-    inscricaoInicio, inscricaoFim, dataProva, taxa, diasRestantes, linkOficial, especialidadeDestaque,
+    inscricaoInicio, inscricaoFim, dataProva, dataGabarito, taxa, etapas, diasRestantes, linkOficial, especialidadeDestaque,
   } = params
   const primeiroNome = nome.split(' ')[0] || 'colega'
   const local = instituicaoUf ? `${instituicaoNome} (${instituicaoUf})` : instituicaoNome
@@ -221,7 +223,9 @@ export async function sendRadarAlertaEmail(params: SendRadarAlertaEmailParams) {
       <table style="width:100%;font-size:13px;color:#495057;border-collapse:collapse">
         ${inscricaoInicio || inscricaoFim ? `<tr><td style="padding:4px 0;color:#6c757d">Inscrições</td><td style="padding:4px 0;text-align:right;font-weight:600;color:#0D2150">${inscricaoInicio ? formatDataCurta(inscricaoInicio) : '?'} a ${inscricaoFim ? formatDataCurta(inscricaoFim) : '?'}</td></tr>` : ''}
         ${taxa != null ? `<tr><td style="padding:4px 0;color:#6c757d">Taxa</td><td style="padding:4px 0;text-align:right;font-weight:600;color:#0D2150">${taxa === 0 ? 'Gratuita' : `R$ ${taxa.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`}</td></tr>` : ''}
+        ${etapas != null ? `<tr><td style="padding:4px 0;color:#6c757d">Etapas</td><td style="padding:4px 0;text-align:right;font-weight:600;color:#0D2150">${etapas}</td></tr>` : ''}
         ${dataProva ? `<tr><td style="padding:4px 0;color:#6c757d">Prova</td><td style="padding:4px 0;text-align:right;font-weight:600;color:#0D2150">${formatDataCurta(dataProva)}</td></tr>` : ''}
+        ${dataGabarito ? `<tr><td style="padding:4px 0;color:#6c757d">Gabarito</td><td style="padding:4px 0;text-align:right;font-weight:600;color:#0D2150">${formatDataCurta(dataGabarito)}</td></tr>` : ''}
       </table>
     </div>`
 

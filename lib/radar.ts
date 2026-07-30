@@ -43,7 +43,9 @@ export interface Edital {
   inscricao_inicio: string | null
   inscricao_fim: string | null
   taxa: number | null
+  etapas: number | null
   data_prova: string | null
+  data_gabarito: string | null
   data_resultado: string | null
   observacoes: string | null
   atualizado_em: string
@@ -115,6 +117,11 @@ export function formatTaxa(taxa: number | null): string {
   if (taxa == null) return 'A definir'
   if (taxa === 0) return 'Gratuita'
   return `R$ ${taxa.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`
+}
+
+export function formatEtapas(etapas: number | null): string {
+  if (etapas == null) return 'A definir'
+  return `${etapas} etapa${etapas === 1 ? '' : 's'}`
 }
 
 // Ordena por urgência: quem tem inscricao_inicio conhecida vem primeiro (mais cedo primeiro),

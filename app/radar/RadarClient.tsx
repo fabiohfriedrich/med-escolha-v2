@@ -10,6 +10,7 @@ import {
   formatPeriodo,
   formatDateBR,
   formatTaxa,
+  formatEtapas,
   ordenarEditais,
   editalCorrespondeAoRadar,
   type EditalComInstituicao,
@@ -227,7 +228,9 @@ function EditalCard({ edital }: { edital: EditalComInstituicao }) {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 12, paddingTop: 12, borderTop: '1px solid #f1f5f9' }}>
         <Info label="Inscrições" value={formatPeriodo(edital.inscricao_inicio, edital.inscricao_fim)} />
         <Info label="Taxa" value={formatTaxa(edital.taxa)} />
+        <Info label="Etapas" value={formatEtapas(edital.etapas)} />
         <Info label="Prova" value={formatDateBR(edital.data_prova)} />
+        <Info label="Gabarito" value={formatDateBR(edital.data_gabarito)} />
       </div>
 
       <a href={link} target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, fontWeight: 700, color: '#1d6fe8', textDecoration: 'none' }}>

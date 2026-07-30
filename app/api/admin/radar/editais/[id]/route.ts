@@ -4,7 +4,7 @@ import { isAdminRequest } from '@/lib/admin-auth'
 
 const CAMPOS_EDITAVEIS = [
   'status', 'link_oficial', 'inscricao_inicio', 'inscricao_fim',
-  'taxa', 'data_prova', 'data_resultado', 'observacoes', 'temporada',
+  'taxa', 'etapas', 'data_prova', 'data_gabarito', 'data_resultado', 'observacoes', 'temporada',
 ] as const
 
 interface VagaInput {

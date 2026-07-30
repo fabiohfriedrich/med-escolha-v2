@@ -27,7 +27,9 @@ export default function EditalEditClient({ edital }: { edital: EditalComInstitui
     inscricao_inicio: toInputDate(edital.inscricao_inicio),
     inscricao_fim: toInputDate(edital.inscricao_fim),
     taxa: edital.taxa ?? '',
+    etapas: edital.etapas ?? '',
     data_prova: toInputDate(edital.data_prova),
+    data_gabarito: toInputDate(edital.data_gabarito),
     data_resultado: toInputDate(edital.data_resultado),
     observacoes: edital.observacoes ?? '',
   })
@@ -71,9 +73,11 @@ export default function EditalEditClient({ edital }: { edital: EditalComInstitui
       body: JSON.stringify({
         ...form,
         taxa: form.taxa === '' ? null : Number(form.taxa),
+        etapas: form.etapas === '' ? null : Number(form.etapas),
         inscricao_inicio: form.inscricao_inicio || null,
         inscricao_fim: form.inscricao_fim || null,
         data_prova: form.data_prova || null,
+        data_gabarito: form.data_gabarito || null,
         data_resultado: form.data_resultado || null,
         link_oficial: form.link_oficial || null,
         observacoes: form.observacoes || null,
@@ -119,6 +123,10 @@ export default function EditalEditClient({ edital }: { edital: EditalComInstitui
           <input type="number" step="0.01" className={inputClass} value={form.taxa} onChange={(e) => atualizarCampo('taxa', e.target.value)} />
         </div>
         <div>
+          <label className={labelClass}>Etapas do processo</label>
+          <input type="number" min={1} step="1" className={inputClass} value={form.etapas} onChange={(e) => atualizarCampo('etapas', e.target.value)} placeholder="Ex: 2" />
+        </div>
+        <div>
           <label className={labelClass}>Inscrições de</label>
           <input type="date" className={inputClass} value={form.inscricao_inicio} onChange={(e) => atualizarCampo('inscricao_inicio', e.target.value)} />
         </div>
@@ -129,6 +137,10 @@ export default function EditalEditClient({ edital }: { edital: EditalComInstitui
         <div>
           <label className={labelClass}>Data da prova</label>
           <input type="date" className={inputClass} value={form.data_prova} onChange={(e) => atualizarCampo('data_prova', e.target.value)} />
+        </div>
+        <div>
+          <label className={labelClass}>Data do gabarito</label>
+          <input type="date" className={inputClass} value={form.data_gabarito} onChange={(e) => atualizarCampo('data_gabarito', e.target.value)} />
         </div>
         <div>
           <label className={labelClass}>Data do resultado</label>
