@@ -6,6 +6,8 @@ import { Poppins } from 'next/font/google'
 import posthog from 'posthog-js'
 import styles from './MedEscolhaLanding.module.css'
 import CompradoresCounter from './CompradoresCounter'
+import CountUp from './ui/CountUp'
+import AnimatedBar from './ui/AnimatedBar'
 import { capturarRefDaUrl, comCodigoIndicacao } from '@/lib/referral'
 
 const poppins = Poppins({
@@ -57,7 +59,7 @@ export default function MedEscolhaLandingPage() {
                 <div className={styles.heroPhotoCards}>
                   <div className={styles.heroCardPill}>decisão definitiva</div>
                   <div className={styles.heroCardBadge}>
-                    <div className={styles.badgeStat}>55</div>
+                    <div className={styles.badgeStat}><CountUp end={55} /></div>
                     <div className={styles.badgeText}>especialidades cruzadas com seu perfil</div>
                   </div>
                 </div>
@@ -96,14 +98,14 @@ export default function MedEscolhaLandingPage() {
             <div className={styles.trustItem}>
               <span className={styles.trustIcon}>✓</span>
               <div className={styles.trustCopy}>
-                <strong>95 perguntas</strong>
+                <strong><CountUp end={95} /> perguntas</strong>
                 <span>em 6 eixos do seu perfil</span>
               </div>
             </div>
             <div className={styles.trustItem}>
               <span className={styles.trustIcon}>✓</span>
               <div className={styles.trustCopy}>
-                <strong>55 especialidades</strong>
+                <strong><CountUp end={55} /> especialidades</strong>
                 <span>reconhecidas no Brasil</span>
               </div>
             </div>
@@ -124,7 +126,7 @@ export default function MedEscolhaLandingPage() {
             <div className={styles.trustItem}>
               <span className={styles.trustIcon}>✓</span>
               <div className={styles.trustCopy}>
-                <strong>7 dias</strong>
+                <strong><CountUp end={7} /> dias</strong>
                 <span>garantia incondicional</span>
               </div>
             </div>
@@ -348,7 +350,7 @@ export default function MedEscolhaLandingPage() {
                 <div className={styles.resultRank}>01</div>
                 <div className={styles.resultInfo}>
                   <div className={styles.resultName}>anestesiologia</div>
-                  <div className={styles.resultBar}><div className={styles.resultFill} style={{ width: '89%' }} /></div>
+                  <AnimatedBar percent={89} trackClassName={styles.resultBar} fillClassName={styles.resultFill} delay={0.1} />
                 </div>
                 <div className={styles.resultPct}>89%</div>
               </div>
@@ -357,7 +359,7 @@ export default function MedEscolhaLandingPage() {
                 <div className={styles.resultRank}>02</div>
                 <div className={styles.resultInfo}>
                   <div className={styles.resultName}>medicina de família</div>
-                  <div className={styles.resultBar}><div className={styles.resultFill} style={{ width: '82%' }} /></div>
+                  <AnimatedBar percent={82} trackClassName={styles.resultBar} fillClassName={styles.resultFill} delay={0.2} />
                 </div>
                 <div className={styles.resultPct}>82%</div>
               </div>
@@ -366,7 +368,7 @@ export default function MedEscolhaLandingPage() {
                 <div className={styles.resultRank}>03</div>
                 <div className={styles.resultInfo}>
                   <div className={styles.resultName}>cirurgia geral</div>
-                  <div className={styles.resultBar}><div className={styles.resultFill} style={{ width: '76%' }} /></div>
+                  <AnimatedBar percent={76} trackClassName={styles.resultBar} fillClassName={styles.resultFill} delay={0.3} />
                 </div>
                 <div className={styles.resultPct}>76%</div>
               </div>

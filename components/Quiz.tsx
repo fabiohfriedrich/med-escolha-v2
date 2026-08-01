@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import posthog from 'posthog-js'
 import c04aData from '@/data/c04a_valores.json'
 import c04bData from '@/data/c04b_perguntas.json'
@@ -85,6 +86,13 @@ function calcularHolland(respostas: Record<string, boolean>): string[] {
 
 const SCALE_LABELS: Record<number, string> = { 0: 'Nada', 5: 'Moderado', 10: 'Totalmente' }
 
+const stepVariants = {
+  enter: (dir: number) => ({ opacity: 0, x: dir > 0 ? 32 : -32 }),
+  center: { opacity: 1, x: 0 },
+  exit: (dir: number) => ({ opacity: 0, x: dir > 0 ? -32 : 32 }),
+}
+const stepTransition = { duration: 0.25, ease: [0.22, 1, 0.36, 1] as const }
+
 // Steps: 0=info+demo, 1=valores(c04a), 2=comportamentos(c04b), 3=jung, 4=holland, 5=c02
 const TOTAL_STEPS = 6
 
@@ -97,6 +105,7 @@ interface Props {
 export default function Quiz({ onComplete, emailPreenchido = '', nomePreenchido = '' }: Props) {
   const [step, setStep] = useState(0)
   const [blocoIdx, setBlocoIdx] = useState(0)
+  const [direction, setDirection] = useState(1)
 
   // Dados pessoais + demográficos
   const [info, setInfo] = useState({ nome: nomePreenchido, email: emailPreenchido })
@@ -127,6 +136,7 @@ export default function Quiz({ onComplete, emailPreenchido = '', nomePreenchido 
       if (Object.keys(e).length) { setErrors(e); return }
       posthog.capture('quiz_iniciado', { tipo: 'completo' })
     }
+    setDirection(1)
     if (step === 2 && blocoIdx < blocos.length - 1) {
       setBlocoIdx(b => b + 1)
       window.scrollTo(0, 0)
@@ -138,6 +148,7 @@ export default function Quiz({ onComplete, emailPreenchido = '', nomePreenchido 
   }
 
   function prevStep() {
+    setDirection(-1)
     if (step === 2 && blocoIdx > 0) { setBlocoIdx(b => b - 1); window.scrollTo(0, 0); return }
     setStep(s => Math.max(0, s - 1))
     window.scrollTo(0, 0)
@@ -184,11 +195,12 @@ export default function Quiz({ onComplete, emailPreenchido = '', nomePreenchido 
         </div>
       </div>
 
-      <div className="max-w-2xl mx-auto px-4 py-8">
+      <div className="max-w-2xl mx-auto px-4 py-8 overflow-x-hidden">
+      <AnimatePresence mode="wait" custom={direction} initial={false}>
 
         {/* ── STEP 0: Informações + demográficos ── */}
         {step === 0 && (
-          <div>
+          <motion.div key="step-0" custom={direction} variants={stepVariants} initial="enter" animate="center" exit="exit" transition={stepTransition}>
             <div className="mb-8">
               <h1 className="text-3xl font-extrabold text-blue-900 mb-2">Med Escolha</h1>
               <p className="text-gray-600 text-lg">Descubra as especialidades médicas mais compatíveis com o seu perfil.</p>
@@ -255,12 +267,12 @@ export default function Quiz({ onComplete, emailPreenchido = '', nomePreenchido 
             <button onClick={nextStep} className="mt-6 w-full bg-blue-700 text-white font-bold py-4 rounded-xl hover:bg-blue-800 transition text-base">
               Começar o teste →
             </button>
-          </div>
+          </motion.div>
         )}
 
         {/* ── STEP 1: Valores (C04a) ── */}
         {step === 1 && (
-          <div>
+          <motion.div key="step-1" custom={direction} variants={stepVariants} initial="enter" animate="center" exit="exit" transition={stepTransition}>
             <div className="mb-6">
               <p className="text-xs font-bold text-blue-600 uppercase tracking-wider mb-1">Parte 1 de 5 · Valores</p>
               <h2 className="text-2xl font-extrabold text-blue-900">O que é importante para você?</h2>
@@ -287,12 +299,12 @@ export default function Quiz({ onComplete, emailPreenchido = '', nomePreenchido 
               <button onClick={prevStep} className="flex-1 border border-gray-300 text-gray-700 font-semibold py-3 rounded-xl hover:bg-gray-50 transition">← Voltar</button>
               <button onClick={nextStep} className="flex-1 bg-blue-700 text-white font-bold py-3 rounded-xl hover:bg-blue-800 transition">Próximo →</button>
             </div>
-          </div>
+          </motion.div>
         )}
 
         {/* ── STEP 2: Comportamentos 0-10 (C04b) ── */}
         {step === 2 && (
-          <div>
+          <motion.div key={`step-2-${blocoIdx}`} custom={direction} variants={stepVariants} initial="enter" animate="center" exit="exit" transition={stepTransition}>
             <div className="mb-6">
               <p className="text-xs font-bold text-blue-600 uppercase tracking-wider mb-1">
                 Parte 2 de 5 · Como você é — Bloco {blocoIdx + 1}/{blocos.length}
@@ -315,7 +327,8 @@ export default function Quiz({ onComplete, emailPreenchido = '', nomePreenchido 
                         step={1}
                         value={val}
                         onChange={e => setC04b(prev => ({ ...prev, [p.id]: Number(e.target.value) }))}
-                        className="flex-1 h-2 appearance-none bg-gray-200 rounded-full cursor-pointer accent-blue-600"
+                        className="quiz-slider flex-1 cursor-pointer"
+                        style={{ background: `linear-gradient(90deg, #1d4ed8 ${val * 10}%, #e5e7eb ${val * 10}%)`, borderRadius: 999, height: 8 }}
                       />
                       <span className="text-xs text-gray-400 w-10 text-center flex-shrink-0">10</span>
                     </div>
@@ -334,12 +347,12 @@ export default function Quiz({ onComplete, emailPreenchido = '', nomePreenchido 
                 {blocoIdx < blocos.length - 1 ? `Próximo bloco (${blocoIdx + 2}/${blocos.length}) →` : 'Próximo →'}
               </button>
             </div>
-          </div>
+          </motion.div>
         )}
 
         {/* ── STEP 3: Jung (23 afirmações MBTI) ── */}
         {step === 3 && (
-          <div>
+          <motion.div key="step-3" custom={direction} variants={stepVariants} initial="enter" animate="center" exit="exit" transition={stepTransition}>
             <div className="mb-6">
               <p className="text-xs font-bold text-blue-600 uppercase tracking-wider mb-1">Parte 3 de 5 · Temperamento</p>
               <h2 className="text-2xl font-extrabold text-blue-900">Quais afirmações combinam com você?</h2>
@@ -366,12 +379,12 @@ export default function Quiz({ onComplete, emailPreenchido = '', nomePreenchido 
               <button onClick={prevStep} className="flex-1 border border-gray-300 text-gray-700 font-semibold py-3 rounded-xl hover:bg-gray-50 transition">← Voltar</button>
               <button onClick={nextStep} className="flex-1 bg-blue-700 text-white font-bold py-3 rounded-xl hover:bg-blue-800 transition">Próximo →</button>
             </div>
-          </div>
+          </motion.div>
         )}
 
         {/* ── STEP 4: Holland — perguntas comportamentais ── */}
         {step === 4 && (
-          <div>
+          <motion.div key="step-4" custom={direction} variants={stepVariants} initial="enter" animate="center" exit="exit" transition={stepTransition}>
             <div className="mb-6">
               <p className="text-xs font-bold text-blue-600 uppercase tracking-wider mb-1">Parte 4 de 5 · Perfil Holland</p>
               <h2 className="text-2xl font-extrabold text-blue-900">Quais afirmações combinam com você?</h2>
@@ -398,12 +411,12 @@ export default function Quiz({ onComplete, emailPreenchido = '', nomePreenchido 
               <button onClick={prevStep} className="flex-1 border border-gray-300 text-gray-700 font-semibold py-3 rounded-xl hover:bg-gray-50 transition">← Voltar</button>
               <button onClick={nextStep} className="flex-1 bg-blue-700 text-white font-bold py-3 rounded-xl hover:bg-blue-800 transition">Próximo →</button>
             </div>
-          </div>
+          </motion.div>
         )}
 
         {/* ── STEP 5: Interesse direto (C02) ── */}
         {step === 5 && (
-          <div>
+          <motion.div key="step-5" custom={direction} variants={stepVariants} initial="enter" animate="center" exit="exit" transition={stepTransition}>
             <div className="mb-6">
               <p className="text-xs font-bold text-blue-600 uppercase tracking-wider mb-1">Parte 5 de 5 · Interesse direto</p>
               <h2 className="text-2xl font-extrabold text-blue-900">Já tem algum interesse?</h2>
@@ -429,8 +442,9 @@ export default function Quiz({ onComplete, emailPreenchido = '', nomePreenchido 
                 Ver meu resultado 🎯
               </button>
             </div>
-          </div>
+          </motion.div>
         )}
+      </AnimatePresence>
       </div>
     </div>
   )

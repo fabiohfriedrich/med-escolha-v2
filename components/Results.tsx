@@ -3,10 +3,12 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import posthog from 'posthog-js'
+import { motion, AnimatePresence } from 'framer-motion'
 import { MatchResult } from '@/lib/scoring'
 import descriptionsData from '@/data/descriptions.json'
 import c04bData from '@/data/c04b_perguntas.json'
 import ShareCard from './ShareCard'
+import AnimatedBar from './ui/AnimatedBar'
 
 const DESCRIPTIONS = (descriptionsData as any).specialties as Array<{
   id: number; nome: string; descricao: string; rotina_tipica: string
@@ -236,9 +238,7 @@ export default function Results({ result, answers, resultId, onRestart, hideRest
                   <span className="text-sm font-semibold text-gray-800">{['🥇','🥈','🥉'][i]} {e.nome}</span>
                   <span className="text-sm font-extrabold text-blue-700">{e.pct.toFixed(1)}%</span>
                 </div>
-                <div className="w-full bg-gray-100 rounded-full h-2">
-                  <div className="bg-teal-400 h-2 rounded-full" style={{ width: `${e.pct}%` }} />
-                </div>
+                <AnimatedBar percent={e.pct} trackClassName="w-full bg-gray-100 rounded-full h-2" fillClassName="h-2 rounded-full bg-teal-400" delay={i * 0.1} />
               </div>
             ))}
           </div>
@@ -329,12 +329,19 @@ export default function Results({ result, answers, resultId, onRestart, hideRest
                       <p className="text-xs text-gray-400">compatibilidade</p>
                     </div>
                   </div>
-                  <div className="w-full bg-gray-100 rounded-full h-2 mt-3">
-                    <div className="h-2 rounded-full" style={{ width: `${e.pct}%`, background: '#2dd4bf' }} />
-                  </div>
+                  <AnimatedBar percent={e.pct} trackClassName="w-full bg-gray-100 rounded-full h-2 mt-3" color="#2dd4bf" />
                 </button>
 
+                <AnimatePresence initial={false}>
                 {isOpen && (
+                  <motion.div
+                    key="content"
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                    style={{ overflow: 'hidden' }}
+                  >
                   <div className="px-5 pb-6 pt-2 border-t border-gray-100 space-y-5">
 
                     {/* Stats */}
@@ -414,9 +421,7 @@ export default function Results({ result, answers, resultId, onRestart, hideRest
                                   <span className="text-xs text-gray-700">{item.label}</span>
                                   <span className="text-xs font-bold text-blue-700 ml-2 flex-shrink-0">{pct}%</span>
                                 </div>
-                                <div className="bg-gray-100 rounded-full h-1.5">
-                                  <div className="h-1.5 rounded-full" style={{ width: `${pct}%`, background: '#2dd4bf' }} />
-                                </div>
+                                <AnimatedBar percent={pct} trackClassName="bg-gray-100 rounded-full h-1.5" color="#2dd4bf" />
                               </div>
                             )
                           })}
@@ -433,7 +438,9 @@ export default function Results({ result, answers, resultId, onRestart, hideRest
                       </Link>
                     </div>
                   </div>
+                  </motion.div>
                 )}
+                </AnimatePresence>
               </div>
             )
           })}
@@ -459,15 +466,20 @@ export default function Results({ result, answers, resultId, onRestart, hideRest
             {displayed.map((e, i) => {
               const sat = SAT_STYLE[e.saturacao] || { bg: '#f3f4f6', color: '#374151' }
               return (
-                <Link key={e.id} href={`/especialidades/${e.id}`}
+                <motion.div
+                  key={e.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-5% 0px' }}
+                  transition={{ duration: 0.35, delay: Math.min(i, 10) * 0.03, ease: [0.22, 1, 0.36, 1] }}
+                >
+                <Link href={`/especialidades/${e.id}`}
                   className="flex items-center gap-3 px-4 py-3 border-b border-gray-50 last:border-0 hover:bg-blue-50 transition group"
                   style={{ background: i < 3 ? '#f0fdfa' : undefined }}>
                   <span className="w-7 text-center text-sm font-bold flex-shrink-0" style={{ color: '#94a3b8' }}>{i + 1}</span>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-semibold text-gray-800 truncate group-hover:text-blue-700 transition">{e.nome}</p>
-                    <div className="w-full bg-gray-100 rounded-full h-1.5 mt-1">
-                      <div className="h-1.5 rounded-full" style={{ width: `${e.pct}%`, background: '#2dd4bf' }} />
-                    </div>
+                    <AnimatedBar percent={e.pct} trackClassName="w-full bg-gray-100 rounded-full h-1.5 mt-1" color="#2dd4bf" />
                   </div>
                   <div className="flex items-center gap-2 flex-shrink-0">
                     <span className="hidden sm:inline text-xs font-semibold px-2 py-0.5 rounded-full w-24 text-center"
@@ -479,6 +491,7 @@ export default function Results({ result, answers, resultId, onRestart, hideRest
                     </span>
                   </div>
                 </Link>
+                </motion.div>
               )
             })}
           </div>
