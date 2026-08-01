@@ -24,7 +24,7 @@ type Step = 'pick' | 'rate' | 'email' | 'result'
 
 function ScoreBar({ score, max }: { score: number; max: number }) {
   const pct = (score / max) * 100
-  const color = pct >= 70 ? '#15803d' : pct >= 45 ? '#1d6fe8' : '#94a3b8'
+  const color = pct >= 70 ? '#15803d' : pct >= 45 ? 'var(--teal)' : '#94a3b8'
   return (
     <div style={{ marginTop: 6 }}>
       <div style={{ width: '100%', height: 8, borderRadius: 999, background: '#f1f5f9' }}>
@@ -47,7 +47,7 @@ function RatingRow({ label, hint, valueA, valueB, onChangeA, onChangeB }: {
       </div>
       {/* Label central */}
       <div style={{ textAlign: 'center', padding: '0 8px' }}>
-        <p style={{ fontSize: 13, fontWeight: 700, color: '#0f2d5e', margin: 0 }}>{label}</p>
+        <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--navy)', margin: 0 }}>{label}</p>
         <p style={{ fontSize: 11, color: '#94a3b8', margin: '2px 0 0', lineHeight: 1.4 }}>{hint}</p>
       </div>
       {/* Nota B */}
@@ -59,7 +59,7 @@ function RatingRow({ label, hint, valueA, valueB, onChangeA, onChangeB }: {
 }
 
 function NotaButtons({ value, onChange, side }: { value: number; onChange: (v: number) => void; side: 'A' | 'B' }) {
-  const activeColor = side === 'A' ? '#1d6fe8' : '#f59e0b'
+  const activeColor = side === 'A' ? 'var(--teal)' : '#f59e0b'
   return (
     <div style={{ display: 'flex', gap: 4, justifyContent: side === 'A' ? 'flex-end' : 'flex-start' }}>
       {[0, 1, 2, 3, 4, 5].map(n => (
@@ -156,9 +156,9 @@ export default function ComparadorClient({ specialties }: { specialties: Special
             const filtered = side === 'A' ? filteredA : filteredB
             const open = side === 'A' ? openA : openB
             const setOpen = side === 'A' ? setOpenA : setOpenB
-            const color = side === 'A' ? '#1d6fe8' : '#f59e0b'
-            const bgLight = side === 'A' ? '#eff6ff' : '#fffbeb'
-            const border = side === 'A' ? '#3b82f6' : '#f59e0b'
+            const color = side === 'A' ? 'var(--teal)' : '#f59e0b'
+            const bgLight = side === 'A' ? 'rgba(31, 191, 168, 0.08)' : '#fffbeb'
+            const border = side === 'A' ? 'var(--teal)' : '#f59e0b'
 
             return (
               <div key={side}>
@@ -167,7 +167,7 @@ export default function ComparadorClient({ specialties }: { specialties: Special
                 </p>
                 {selected ? (
                   <div style={{ background: bgLight, border: `2px solid ${border}`, borderRadius: 12, padding: '12px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontWeight: 700, color: '#0f2d5e', fontSize: 15 }}>{selected.nome}</span>
+                    <span style={{ fontWeight: 700, color: 'var(--navy)', fontSize: 15 }}>{selected.nome}</span>
                     <button onClick={() => { setSelected(null); setSearch('') }} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', fontSize: 20, lineHeight: 1, padding: '0 4px' }}>×</button>
                   </div>
                 ) : (
@@ -209,7 +209,7 @@ export default function ComparadorClient({ specialties }: { specialties: Special
           <button
             disabled={!a || !b}
             onClick={() => setStep('rate')}
-            style={{ background: a && b ? '#0f2d5e' : '#e2e8f0', color: a && b ? 'white' : '#94a3b8', border: 'none', borderRadius: 12, padding: '14px 40px', fontSize: 16, fontWeight: 700, cursor: a && b ? 'pointer' : 'not-allowed' }}
+            style={{ background: a && b ? 'var(--navy)' : '#e2e8f0', color: a && b ? 'white' : '#94a3b8', border: 'none', borderRadius: 12, padding: '14px 40px', fontSize: 16, fontWeight: 700, cursor: a && b ? 'pointer' : 'not-allowed' }}
           >
             Avaliar critérios →
           </button>
@@ -229,7 +229,7 @@ export default function ComparadorClient({ specialties }: { specialties: Special
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 180px 1fr', marginBottom: 4 }}>
           <div style={{ textAlign: 'right', paddingRight: 16 }}>
             <p style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1, color: '#94a3b8', marginBottom: 4 }}>Especialidade A</p>
-            <p style={{ fontSize: 16, fontWeight: 900, color: '#1d6fe8', margin: 0 }}>{specA?.nome}</p>
+            <p style={{ fontSize: 16, fontWeight: 900, color: 'var(--teal)', margin: 0 }}>{specA?.nome}</p>
           </div>
           <div />
           <div style={{ paddingLeft: 16 }}>
@@ -259,7 +259,7 @@ export default function ComparadorClient({ specialties }: { specialties: Special
         {/* Placar parcial */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 180px 1fr', marginTop: 20, alignItems: 'center' }}>
           <div style={{ textAlign: 'right', paddingRight: 16 }}>
-            <p style={{ fontSize: 28, fontWeight: 900, color: '#1d6fe8', margin: 0 }}>{totalA}</p>
+            <p style={{ fontSize: 28, fontWeight: 900, color: 'var(--teal)', margin: 0 }}>{totalA}</p>
             <ScoreBar score={totalA} max={MAX} />
           </div>
           <div style={{ textAlign: 'center' }}>
@@ -276,7 +276,7 @@ export default function ComparadorClient({ specialties }: { specialties: Special
           <button
             disabled={!allRated}
             onClick={() => setStep('email')}
-            style={{ background: allRated ? '#0f2d5e' : '#e2e8f0', color: allRated ? 'white' : '#94a3b8', border: 'none', borderRadius: 12, padding: '14px 40px', fontSize: 16, fontWeight: 700, cursor: allRated ? 'pointer' : 'not-allowed' }}
+            style={{ background: allRated ? 'var(--navy)' : '#e2e8f0', color: allRated ? 'white' : '#94a3b8', border: 'none', borderRadius: 12, padding: '14px 40px', fontSize: 16, fontWeight: 700, cursor: allRated ? 'pointer' : 'not-allowed' }}
           >
             Ver resultado final →
           </button>
@@ -298,18 +298,18 @@ export default function ComparadorClient({ specialties }: { specialties: Special
     return (
       <div style={{ maxWidth: 440, margin: '0 auto', textAlign: 'center' }}>
         <div style={{ fontSize: 48, marginBottom: 16 }}>📊</div>
-        <h2 style={{ fontSize: 22, fontWeight: 900, color: '#0f2d5e', marginBottom: 8 }}>
+        <h2 style={{ fontSize: 22, fontWeight: 900, color: 'var(--navy)', marginBottom: 8 }}>
           Seu resultado está pronto!
         </h2>
         <div style={{ display: 'flex', justifyContent: 'center', gap: 24, marginBottom: 20 }}>
           <div>
-            <p style={{ fontSize: 13, color: '#1d6fe8', fontWeight: 700, marginBottom: 2 }}>{specA?.nome}</p>
-            <p style={{ fontSize: 28, fontWeight: 900, color: '#0f2d5e', margin: 0 }}>{totalA} pts</p>
+            <p style={{ fontSize: 13, color: 'var(--teal)', fontWeight: 700, marginBottom: 2 }}>{specA?.nome}</p>
+            <p style={{ fontSize: 28, fontWeight: 900, color: 'var(--navy)', margin: 0 }}>{totalA} pts</p>
           </div>
           <div style={{ fontSize: 22, color: '#94a3b8', alignSelf: 'center' }}>vs</div>
           <div>
             <p style={{ fontSize: 13, color: '#b45309', fontWeight: 700, marginBottom: 2 }}>{specB?.nome}</p>
-            <p style={{ fontSize: 28, fontWeight: 900, color: '#0f2d5e', margin: 0 }}>{totalB} pts</p>
+            <p style={{ fontSize: 28, fontWeight: 900, color: 'var(--navy)', margin: 0 }}>{totalB} pts</p>
           </div>
         </div>
         <p style={{ fontSize: 14, color: '#64748b', marginBottom: 28 }}>
@@ -327,7 +327,7 @@ export default function ComparadorClient({ specialties }: { specialties: Special
           <button
             type="submit"
             disabled={loading}
-            style={{ background: '#1d6fe8', color: 'white', border: 'none', borderRadius: 10, padding: '13px 24px', fontSize: 15, fontWeight: 700, cursor: loading ? 'default' : 'pointer', opacity: loading ? 0.7 : 1 }}
+            style={{ background: 'var(--teal)', color: 'white', border: 'none', borderRadius: 10, padding: '13px 24px', fontSize: 15, fontWeight: 700, cursor: loading ? 'default' : 'pointer', opacity: loading ? 0.7 : 1 }}
           >
             {loading ? 'Aguarde...' : 'Ver resultado grátis →'}
           </button>
@@ -350,11 +350,11 @@ export default function ComparadorClient({ specialties }: { specialties: Special
     <div>
       {/* Placar final */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', gap: 12, alignItems: 'stretch', marginBottom: 28 }}>
-        <div style={{ background: winner === 'A' ? '#eff6ff' : '#f8fafc', border: winner === 'A' ? '2px solid #3b82f6' : '1px solid #e2e8f0', borderRadius: 16, padding: 20, textAlign: 'center', position: 'relative' }}>
-          {winner === 'A' && <div style={{ position: 'absolute', top: -12, left: '50%', transform: 'translateX(-50%)', background: '#1d6fe8', color: 'white', fontSize: 11, fontWeight: 700, padding: '3px 12px', borderRadius: 20 }}>VENCEDOR</div>}
+        <div style={{ background: winner === 'A' ? 'rgba(31, 191, 168, 0.08)' : '#f8fafc', border: winner === 'A' ? '2px solid var(--teal)' : '1px solid #e2e8f0', borderRadius: 16, padding: 20, textAlign: 'center', position: 'relative' }}>
+          {winner === 'A' && <div style={{ position: 'absolute', top: -12, left: '50%', transform: 'translateX(-50%)', background: 'var(--teal)', color: 'white', fontSize: 11, fontWeight: 700, padding: '3px 12px', borderRadius: 20 }}>VENCEDOR</div>}
           <p style={{ fontSize: 11, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 4 }}>Especialidade A</p>
-          <p style={{ fontSize: 17, fontWeight: 900, color: '#0f2d5e', marginBottom: 8 }}>{specA?.nome}</p>
-          <p style={{ fontSize: 42, fontWeight: 900, color: '#1d6fe8', margin: 0 }}>{totalA}</p>
+          <p style={{ fontSize: 17, fontWeight: 900, color: 'var(--navy)', marginBottom: 8 }}>{specA?.nome}</p>
+          <p style={{ fontSize: 42, fontWeight: 900, color: 'var(--teal)', margin: 0 }}>{totalA}</p>
           <p style={{ fontSize: 12, color: '#94a3b8', margin: '4px 0 0' }}>de {MAX} pontos</p>
           <ScoreBar score={totalA} max={MAX} />
         </div>
@@ -364,7 +364,7 @@ export default function ComparadorClient({ specialties }: { specialties: Special
         <div style={{ background: winner === 'B' ? '#fffbeb' : '#f8fafc', border: winner === 'B' ? '2px solid #f59e0b' : '1px solid #e2e8f0', borderRadius: 16, padding: 20, textAlign: 'center', position: 'relative' }}>
           {winner === 'B' && <div style={{ position: 'absolute', top: -12, left: '50%', transform: 'translateX(-50%)', background: '#f59e0b', color: 'white', fontSize: 11, fontWeight: 700, padding: '3px 12px', borderRadius: 20 }}>VENCEDOR</div>}
           <p style={{ fontSize: 11, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 4 }}>Especialidade B</p>
-          <p style={{ fontSize: 17, fontWeight: 900, color: '#0f2d5e', marginBottom: 8 }}>{specB?.nome}</p>
+          <p style={{ fontSize: 17, fontWeight: 900, color: 'var(--navy)', marginBottom: 8 }}>{specB?.nome}</p>
           <p style={{ fontSize: 42, fontWeight: 900, color: '#b45309', margin: 0 }}>{totalB}</p>
           <p style={{ fontSize: 12, color: '#94a3b8', margin: '4px 0 0' }}>de {MAX} pontos</p>
           <ScoreBar score={totalB} max={MAX} />
@@ -380,7 +380,7 @@ export default function ComparadorClient({ specialties }: { specialties: Special
           return (
             <div key={c.key} style={{ display: 'grid', gridTemplateColumns: '1fr 160px 1fr', borderBottom: i < CRITERIOS.length - 1 ? '1px solid #f1f5f9' : 'none' }}>
               <div style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 8 }}>
-                <span style={{ fontSize: 20, fontWeight: 900, color: winnerRow === 'A' ? '#1d6fe8' : '#cbd5e1' }}>{sA}</span>
+                <span style={{ fontSize: 20, fontWeight: 900, color: winnerRow === 'A' ? 'var(--teal)' : '#cbd5e1' }}>{sA}</span>
                 {winnerRow === 'A' && <span>✅</span>}
               </div>
               <div style={{ padding: '12px 8px', background: '#f8fafc', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -405,18 +405,18 @@ export default function ComparadorClient({ specialties }: { specialties: Special
       )}
 
       {/* CTA */}
-      <div style={{ background: 'linear-gradient(135deg, #0f2d5e 0%, #1d4a8a 100%)', borderRadius: 16, padding: 28, color: 'white', textAlign: 'center' }}>
-        <p style={{ fontSize: 12, color: '#93c5fd', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 1, fontWeight: 700 }}>Isso foi só o começo</p>
+      <div style={{ background: 'linear-gradient(135deg, var(--navy) 0%, var(--navy-deep) 100%)', borderRadius: 16, padding: 28, color: 'white', textAlign: 'center' }}>
+        <p style={{ fontSize: 12, color: 'var(--yellow)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 1, fontWeight: 700 }}>Isso foi só o começo</p>
         <h3 style={{ fontSize: 20, fontWeight: 900, marginBottom: 12, lineHeight: 1.3 }}>
           O teste completo cruza seu perfil com as 55 especialidades ao mesmo tempo
         </h3>
-        <p style={{ fontSize: 14, color: '#bfdbfe', marginBottom: 20 }}>
+        <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.85)', marginBottom: 20 }}>
           95 questões, ranking personalizado, dados do DMB 2025 e vídeos com especialistas.
         </p>
-        <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', background: '#f59e0b', color: '#1c1917', textDecoration: 'none', borderRadius: 12, padding: '14px 32px', fontSize: 16, fontWeight: 900 }}>
+        <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', background: 'var(--teal)', color: 'white', textDecoration: 'none', borderRadius: 12, padding: '14px 32px', fontSize: 16, fontWeight: 900 }}>
           Quero fazer o teste completo →
         </a>
-        <p style={{ fontSize: 12, color: '#93c5fd', marginTop: 12 }}>R$ 149 · acesso imediato · 95 questões</p>
+        <p style={{ fontSize: 12, color: 'var(--yellow)', marginTop: 12 }}>R$ 149 · acesso imediato · 95 questões</p>
       </div>
 
       <div style={{ textAlign: 'center', marginTop: 20 }}>

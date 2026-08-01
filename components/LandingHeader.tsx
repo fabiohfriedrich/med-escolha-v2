@@ -1,11 +1,14 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import styles from './MedEscolhaLanding.module.css'
 
-const NAV_LINKS = [
+export type LandingNavLink = { href: string; label: string }
+
+const DEFAULT_NAV_LINKS: LandingNavLink[] = [
   { href: '#comparar', label: 'comparar grátis' },
   { href: '#como-funciona', label: 'como funciona' },
   { href: '#depoimentos', label: 'depoimentos' },
@@ -16,9 +19,16 @@ const NAV_LINKS = [
 type LandingHeaderProps = {
   checkoutUrl: string
   onCtaClick: () => void
+  navLinks?: LandingNavLink[]
+  logoHref?: string
 }
 
-export default function LandingHeader({ checkoutUrl, onCtaClick }: LandingHeaderProps) {
+export default function LandingHeader({
+  checkoutUrl,
+  onCtaClick,
+  navLinks = DEFAULT_NAV_LINKS,
+  logoHref = '/',
+}: LandingHeaderProps) {
   const [scrolled, setScrolled] = useState(false)
   const [drawerOpen, setDrawerOpen] = useState(false)
 
@@ -41,22 +51,22 @@ export default function LandingHeader({ checkoutUrl, onCtaClick }: LandingHeader
   return (
     <header className={`${styles.siteHeader} ${scrolled ? styles.siteHeaderScrolled : ''}`}>
       <div className={`${styles.container} ${styles.siteHeaderInner}`}>
-        <a href="#" className={styles.siteHeaderLogo}>
+        <Link href={logoHref} className={styles.siteHeaderLogo}>
           <img src="/med-escolha-logo.svg" alt="Med Escolha" />
-        </a>
+        </Link>
 
         <nav className={styles.siteHeaderNav}>
-          {NAV_LINKS.map((link) => (
-            <a key={link.href} href={link.href} className={styles.siteHeaderLink}>
+          {navLinks.map((link) => (
+            <Link key={link.href} href={link.href} className={styles.siteHeaderLink}>
               {link.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
         <div className={styles.siteHeaderActions}>
-          <a href="/login" className={styles.siteHeaderLoginLink}>
+          <Link href="/login" className={styles.siteHeaderLoginLink}>
             já tem acesso? entrar
-          </a>
+          </Link>
           <a
             href={checkoutUrl}
             target="_blank"
@@ -89,14 +99,14 @@ export default function LandingHeader({ checkoutUrl, onCtaClick }: LandingHeader
             transition={{ duration: 0.25, ease: 'easeInOut' }}
           >
             <nav className={styles.mobileDrawerNav}>
-              {NAV_LINKS.map((link) => (
-                <a key={link.href} href={link.href} onClick={closeDrawer} className={styles.mobileDrawerLink}>
+              {navLinks.map((link) => (
+                <Link key={link.href} href={link.href} onClick={closeDrawer} className={styles.mobileDrawerLink}>
                   {link.label}
-                </a>
+                </Link>
               ))}
-              <a href="/login" onClick={closeDrawer} className={styles.mobileDrawerLoginLink}>
+              <Link href="/login" onClick={closeDrawer} className={styles.mobileDrawerLoginLink}>
                 já tem acesso? entrar
-              </a>
+              </Link>
               <a
                 href={checkoutUrl}
                 target="_blank"
