@@ -6,6 +6,7 @@ import { Menu, X } from 'lucide-react'
 import styles from './MedEscolhaLanding.module.css'
 
 const NAV_LINKS = [
+  { href: '#comparar', label: 'comparar grátis' },
   { href: '#como-funciona', label: 'como funciona' },
   { href: '#depoimentos', label: 'depoimentos' },
   { href: '#garantia', label: 'garantia' },

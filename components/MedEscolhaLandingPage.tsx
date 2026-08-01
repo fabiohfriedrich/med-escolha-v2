@@ -144,6 +144,25 @@ export default function MedEscolhaLandingPage() {
         </div>
       </section>
 
+      {/* ============ COMPARADOR (ferramenta gratuita) ============ */}
+      <section id="comparar" className={styles.compareSection}>
+        <div className={styles.container}>
+          <div className={styles.compareCard}>
+            <div className={styles.compareIcon}>⚖️</div>
+            <div className={styles.compareContent}>
+              <span className={styles.eyebrow}>ferramenta gratuita</span>
+              <h3>ainda em dúvida entre duas especialidades?</h3>
+              <p className={styles.lead}>
+                compare lado a lado: salário estimado, tempo de residência, saturação do mercado e crescimento projetado. grátis, sem compromisso.
+              </p>
+            </div>
+            <Link href="/comparar" className={styles.compareCta}>
+              comparar 2 especialidades →
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* ============ PROBLEM ============ */}
       <section className={styles.sectionOffwhite}>
         <div className={styles.container}>

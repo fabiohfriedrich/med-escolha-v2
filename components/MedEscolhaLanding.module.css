@@ -198,6 +198,66 @@
   background: var(--offwhite);
 }
 
+/* ============ COMPARADOR CTA ============ */
+.compareSection {
+  background: rgba(31, 191, 168, 0.07);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 40px 0 !important;
+}
+.compareCard {
+  max-width: 820px;
+  margin: 0 auto;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+  box-shadow: 0 10px 30px rgba(14, 31, 77, 0.06);
+}
+@media (min-width: 768px) {
+  .compareCard {
+    flex-direction: row;
+    text-align: left;
+    padding: 32px 40px;
+    gap: 28px;
+  }
+}
+.compareIcon {
+  flex-shrink: 0;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(31, 191, 168, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+}
+.compareContent { flex: 1; }
+.compareContent h3 { margin-bottom: 6px; }
+.compareContent p { margin-bottom: 0; }
+.compareCta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  white-space: nowrap;
+  padding: 14px 26px;
+  background: var(--navy);
+  color: var(--white);
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+  border-radius: 999px;
+  transition: background 0.2s, transform 0.1s;
+}
+.compareCta:hover { background: var(--navy-deep); transform: translateY(-1px); }
+
 /* ============ TYPOGRAPHY ============ */
 .landingRoot h1, .landingRoot h2, .landingRoot h3, .landingRoot h4 {
   font-weight: 700;
