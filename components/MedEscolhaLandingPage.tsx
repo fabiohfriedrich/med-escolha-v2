@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { Poppins } from 'next/font/google'
 import posthog from 'posthog-js'
 import styles from './MedEscolhaLanding.module.css'
+import LandingHeader from './LandingHeader'
 import CompradoresCounter from './CompradoresCounter'
 import CountUp from './ui/CountUp'
 import AnimatedBar from './ui/AnimatedBar'
@@ -44,6 +45,8 @@ export default function MedEscolhaLandingPage() {
 
   return (
     <div className={`${poppins.className} ${styles.landingRoot} ${stickyVisible ? styles.stickyActivePad : ''}`}>
+
+      <LandingHeader checkoutUrl={checkoutUrl} onCtaClick={() => track('header')} />
 
       {/* ============ HERO ============ */}
       <section className={styles.hero}>
@@ -268,7 +271,7 @@ export default function MedEscolhaLandingPage() {
       </section>
 
       {/* ============ MECHANISM ============ */}
-      <section className={styles.sectionOffwhite}>
+      <section id="como-funciona" className={styles.sectionOffwhite}>
         <div className={styles.container}>
           <div className={styles.textCenter} style={{ marginBottom: 32 }}>
             <span className={styles.eyebrow}>como funciona</span>
@@ -493,7 +496,7 @@ export default function MedEscolhaLandingPage() {
       </section>
 
       {/* ============ TESTIMONIALS ============ */}
-      <section className={styles.sectionOffwhite}>
+      <section id="depoimentos" className={styles.sectionOffwhite}>
         <div className={styles.container}>
           <div className={styles.textCenter} style={{ marginBottom: 32 }}>
             <span className={styles.eyebrow}>depoimentos reais</span>
@@ -674,7 +677,7 @@ export default function MedEscolhaLandingPage() {
       </section>
 
       {/* ============ GUARANTEE ============ */}
-      <section>
+      <section id="garantia">
         <div className={styles.container}>
           <div className={styles.textCenter} style={{ marginBottom: 32 }}>
             <span className={styles.eyebrow}>risco zero do seu lado</span>
@@ -732,7 +735,7 @@ export default function MedEscolhaLandingPage() {
       </section>
 
       {/* ============ FAQ ============ */}
-      <section>
+      <section id="faq">
         <div className={styles.containerNarrow}>
           <div className={styles.textCenter} style={{ marginBottom: 32 }}>
             <span className={styles.eyebrow}>faq</span>
