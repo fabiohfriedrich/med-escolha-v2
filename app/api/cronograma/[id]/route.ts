@@ -1,8 +1,40 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { currentUser } from '@clerk/nextjs/server'
+import { getSupabaseAdmin } from '@/lib/supabase-admin'
+
+const supabase = getSupabaseAdmin()
+
+async function emailDaSessao(): Promise<string | null> {
+  const user = await currentUser()
+  return user?.primaryEmailAddress?.emailAddress?.toLowerCase().trim() ?? null
+}
+
+/**
+ * Logado: só autoriza se o item pertencer ao e-mail da sessão. Sem login: já ter
+ * o id do item (uuid imprevisível) é suficiente — só se chega até aqui tendo
+ * antes passado pela autorização do GET/POST de /api/cronograma.
+ */
+async function autorizarItem(id: string): Promise<boolean> {
+  const { data: item } = await supabase
+    .from('cronograma_itens')
+    .select('email')
+    .eq('id', id)
+    .single()
+  if (!item) return false
+
+  const sessionEmail = await emailDaSessao()
+  if (sessionEmail) {
+    return item.email?.toLowerCase().trim() === sessionEmail
+  }
+  return true
+}
 
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
+  if (!(await autorizarItem(id))) {
+    return NextResponse.json({ error: 'Não autorizado' }, { status: 403 })
+  }
+
   const { status, titulo, dataAlvo } = await req.json()
 
   const updates: Record<string, unknown> = { updated_at: new Date().toISOString() }
@@ -26,6 +58,9 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
 export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
+  if (!(await autorizarItem(id))) {
+    return NextResponse.json({ error: 'Não autorizado' }, { status: 403 })
+  }
 
   const { error } = await supabase
     .from('cronograma_itens')

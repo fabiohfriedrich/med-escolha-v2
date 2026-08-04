@@ -1,12 +1,12 @@
-import { supabase } from '@/lib/supabase'
+import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import { notFound } from 'next/navigation'
 import ResultadoClient from './ResultadoClient'
 
 export default async function ResultadoPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseAdmin()
     .from('resultados')
-    .select('id, nome, email, ranking_json, perfil_json, answers_json, narrativa_ia, created_at')
+    .select('id, nome, ranking_json, perfil_json, answers_json, narrativa_ia, created_at')
     .eq('id', id)
     .single()
 
@@ -16,7 +16,6 @@ export default async function ResultadoPage({ params }: { params: Promise<{ id: 
     <ResultadoClient
       id={data.id}
       nome={data.nome}
-      email={data.email}
       ranking={data.ranking_json || []}
       perfil={data.perfil_json || {}}
       answers={data.answers_json || {}}

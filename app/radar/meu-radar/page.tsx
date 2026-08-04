@@ -1,5 +1,4 @@
 import { currentUser } from '@clerk/nextjs/server'
-import { supabase } from '@/lib/supabase'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import MeuRadarForm from './MeuRadarForm'
 
@@ -22,7 +21,7 @@ export default async function MeuRadarPage() {
 
   let top3: number[] = []
   if (!radarUsuario && email) {
-    const { data: resultado } = await supabase
+    const { data: resultado } = await getSupabaseAdmin()
       .from('resultados')
       .select('ranking_json')
       .eq('email', email)

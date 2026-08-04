@@ -2,7 +2,6 @@
 
 import { useState, useEffect, Suspense } from 'react'
 import { useUser } from '@clerk/nextjs'
-import { createSupabaseBrowser } from '@/lib/supabase-browser'
 import { useRouter, useSearchParams } from 'next/navigation'
 import PostTest from '@/components/PostTest'
 import IndicacaoTab from '@/components/IndicacaoTab'
@@ -18,7 +17,6 @@ type Resultado = {
 function PerfilContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const supabase = createSupabaseBrowser()
   const { user, isLoaded } = useUser()
 
   const tabParam = searchParams.get('tab') as Tab | null
@@ -46,19 +44,18 @@ function PerfilContent() {
     setNome([user.firstName, user.lastName].filter(Boolean).join(' '))
     setTelefone((user.unsafeMetadata?.phone as string) ?? '')
     setEmail(emailAtual)
-    buscarResultados(emailAtual)
+    buscarResultados()
   }, [isLoaded, user])
 
-  async function buscarResultados(userEmail: string) {
-    if (!userEmail) return
+  async function buscarResultados() {
     setLoadingResultados(true)
-    const { data } = await supabase
-      .from('resultados')
-      .select('id, created_at, ranking_json')
-      .eq('email', userEmail.toLowerCase().trim())
-      .order('created_at', { ascending: false })
-    setResultados((data as Resultado[]) ?? [])
-    setLoadingResultados(false)
+    try {
+      const res = await fetch('/api/meus-resultados')
+      const data = await res.json()
+      setResultados((data.resultados as Resultado[]) ?? [])
+    } finally {
+      setLoadingResultados(false)
+    }
   }
 
   async function salvarDados(e: React.FormEvent) {

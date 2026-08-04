@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse, after } from 'next/server'
 import { z } from 'zod'
 import { calcularMatch, QuizAnswers } from '@/lib/scoring'
-import { supabase } from '@/lib/supabase'
+import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import { sendResultEmail } from '@/lib/email'
 import { gerarNarrativasTop3 } from '@/lib/narrativa-ia'
+
+const supabase = getSupabaseAdmin()
 
 const QuizSchema = z.object({
   nome: z.string().min(1).max(200).trim(),
