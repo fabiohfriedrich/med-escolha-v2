@@ -3,10 +3,23 @@
 import { useState, useEffect, Suspense } from 'react'
 import { useUser } from '@clerk/nextjs'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { LayoutDashboard, User, ClipboardList, ListChecks, TrendingUp, Gift, Lock } from 'lucide-react'
 import PostTest from '@/components/PostTest'
 import IndicacaoTab from '@/components/IndicacaoTab'
+import PerfilDashboard from '@/components/PerfilDashboard'
+import EvolucaoTab from '@/components/EvolucaoTab'
 
-type Tab = 'dados' | 'senha' | 'resultados' | 'cronograma' | 'indicacoes'
+type Tab = 'dashboard' | 'dados' | 'senha' | 'resultados' | 'cronograma' | 'evolucao' | 'indicacoes'
+
+const TABS: { key: Tab; label: string; icon: typeof LayoutDashboard }[] = [
+  { key: 'dashboard', label: 'Painel', icon: LayoutDashboard },
+  { key: 'resultados', label: 'Meus testes', icon: ClipboardList },
+  { key: 'cronograma', label: 'Cronograma', icon: ListChecks },
+  { key: 'evolucao', label: 'Evolução', icon: TrendingUp },
+  { key: 'indicacoes', label: 'Indique e ganhe', icon: Gift },
+  { key: 'dados', label: 'Dados pessoais', icon: User },
+  { key: 'senha', label: 'Trocar senha', icon: Lock },
+]
 
 type Resultado = {
   id: string
@@ -20,7 +33,8 @@ function PerfilContent() {
   const { user, isLoaded } = useUser()
 
   const tabParam = searchParams.get('tab') as Tab | null
-  const [tab, setTab] = useState<Tab>(tabParam === 'resultados' ? 'resultados' : 'dados')
+  const tabValida = tabParam && TABS.some((t) => t.key === tabParam)
+  const [tab, setTab] = useState<Tab>(tabValida ? (tabParam as Tab) : 'dashboard')
   const [salvando, setSalvando] = useState(false)
   const [mensagem, setMensagem] = useState<{ tipo: 'ok' | 'erro'; texto: string } | null>(null)
 
@@ -136,9 +150,11 @@ function PerfilContent() {
     )
   }
 
+  const abasLargas: Tab[] = ['dashboard', 'cronograma', 'evolucao']
+
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-4">
-      <div className={tab === 'cronograma' ? 'max-w-3xl mx-auto' : 'max-w-lg mx-auto'}>
+      <div className={abasLargas.includes(tab) ? 'max-w-3xl mx-auto' : 'max-w-lg mx-auto'}>
 
         <div className="mb-6">
           <h1 className="text-2xl font-extrabold text-blue-900">Meu Perfil</h1>
@@ -146,25 +162,36 @@ function PerfilContent() {
         </div>
 
         {/* Abas */}
-        <div className="flex gap-1 bg-gray-100 rounded-xl p-1 mb-6">
-          {([
-            { key: 'dados', label: 'Dados pessoais' },
-            { key: 'resultados', label: `Meus testes${resultados.length > 0 ? ` (${resultados.length})` : ''}` },
-            { key: 'cronograma', label: '🗓️ Meu cronograma' },
-            { key: 'indicacoes', label: '🎁 Indique e ganhe' },
-            { key: 'senha', label: 'Trocar senha' },
-          ] as { key: Tab; label: string }[]).map(t => (
-            <button
-              key={t.key}
-              onClick={() => { setTab(t.key); setMensagem(null) }}
-              className={`flex-1 py-2 rounded-lg text-sm font-semibold transition ${
-                tab === t.key ? 'bg-white text-blue-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'
-              }`}
-            >
-              {t.label}
-            </button>
-          ))}
+        <div className="flex gap-1 overflow-x-auto pb-1 mb-6 -mx-1 px-1" style={{ scrollbarWidth: 'none' }}>
+          {TABS.map(t => {
+            const Icone = t.icon
+            const ativo = tab === t.key
+            return (
+              <button
+                key={t.key}
+                onClick={() => { setTab(t.key); setMensagem(null) }}
+                className="flex-shrink-0 flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold transition whitespace-nowrap"
+                style={{
+                  background: ativo ? '#0E1F4D' : '#f3f4f6',
+                  color: ativo ? '#fff' : '#6b7280',
+                }}
+              >
+                <Icone size={14} />
+                {t.label}{t.key === 'resultados' && resultados.length > 0 ? ` (${resultados.length})` : ''}
+              </button>
+            )
+          })}
         </div>
+
+        {tab === 'dashboard' && (
+          <PerfilDashboard
+            primeiroNome={nome.split(' ')[0] || 'colega'}
+            onIrParaCronograma={() => setTab('cronograma')}
+            onIrParaResultados={() => setTab('resultados')}
+          />
+        )}
+
+        {tab === 'evolucao' && <EvolucaoTab />}
 
         {tab === 'cronograma' && (
           resultados.length === 0 ? (
@@ -181,7 +208,7 @@ function PerfilContent() {
           )
         )}
 
-        {tab !== 'cronograma' && (
+        {!abasLargas.includes(tab) && (
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
 
           {mensagem && (
