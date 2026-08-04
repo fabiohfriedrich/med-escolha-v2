@@ -1,12 +1,13 @@
 'use client'
 
 import { useState } from 'react'
+import { useUser } from '@clerk/nextjs'
 import Quiz from '@/components/Quiz'
 import ResultLayout from '@/components/ResultLayout'
 import { MatchResult, QuizAnswers } from '@/lib/scoring'
-import { createSupabaseBrowser } from '@/lib/supabase-browser'
 
 export default function TestePage() {
+  const { user } = useUser()
   const [state, setState] = useState<'quiz' | 'loading' | 'result'>('quiz')
   const [result, setResult] = useState<MatchResult | null>(null)
   const [savedAnswers, setSavedAnswers] = useState<QuizAnswers | null>(null)
@@ -17,10 +18,9 @@ export default function TestePage() {
     setSavedAnswers(answers)
     setState('loading')
     try {
-      const supabase = createSupabaseBrowser()
-      const { data: { user } } = await supabase.auth.getUser()
-      const answersFinais = user?.email
-        ? { ...answers, email: user.email, nome: answers.nome || user.user_metadata?.full_name || '' }
+      const email = user?.primaryEmailAddress?.emailAddress
+      const answersFinais = email
+        ? { ...answers, email, nome: answers.nome || [user?.firstName, user?.lastName].filter(Boolean).join(' ') }
         : answers
 
       const res = await fetch('/api/submit', {

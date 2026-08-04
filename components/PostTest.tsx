@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import posthog from 'posthog-js'
 
 interface Props {
   nome: string
@@ -40,6 +41,7 @@ export default function PostTest({ nome, email, resultadoId }: Props) {
   const [agendado, setAgendado] = useState(false)
   const [dataAgendada, setDataAgendada] = useState('')
   const [loadingAgendar, setLoadingAgendar] = useState(false)
+  const [erro, setErro] = useState<string | null>(null)
 
   const primeiroNome = nome.split(' ')[0]
 
@@ -57,27 +59,58 @@ export default function PostTest({ nome, email, resultadoId }: Props) {
 
   useEffect(() => { carregarItens() }, [carregarItens])
 
+  useEffect(() => {
+    fetch('/api/agendar-reteste')
+      .then(res => res.json())
+      .then(data => {
+        if (data.agendado) {
+          setAgendado(true)
+          setDataAgendada(data.data)
+        }
+      })
+      .catch(() => {})
+  }, [])
+
+  useEffect(() => {
+    if (!erro) return
+    const t = setTimeout(() => setErro(null), 4000)
+    return () => clearTimeout(t)
+  }, [erro])
+
   async function alternarStatus(item: ItemCronograma) {
     const novoStatus = item.status === 'concluido' ? 'pendente' : 'concluido'
     await marcarStatus(item.id, novoStatus)
+    if (novoStatus === 'concluido') {
+      posthog.capture('cronograma_item_concluido', { step_num: item.step_num, custom: item.custom })
+    }
   }
 
   async function marcarStatus(itemId: string, status: ItemCronograma['status']) {
+    const anterior = itens.find(i => i.id === itemId)?.status
     setItens(prev => prev.map(i => i.id === itemId ? { ...i, status } : i))
-    await fetch(`/api/cronograma/${itemId}`, {
+    const res = await fetch(`/api/cronograma/${itemId}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status }),
     })
+    if (!res.ok && anterior) {
+      setItens(prev => prev.map(i => i.id === itemId ? { ...i, status: anterior } : i))
+      setErro('Não consegui salvar essa alteração. Tenta de novo.')
+    }
   }
 
   async function alterarData(item: ItemCronograma, dataAlvo: string) {
+    const anterior = item.data_alvo
     setItens(prev => prev.map(i => i.id === item.id ? { ...i, data_alvo: dataAlvo || null } : i))
-    await fetch(`/api/cronograma/${item.id}`, {
+    const res = await fetch(`/api/cronograma/${item.id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ dataAlvo: dataAlvo || null }),
     })
+    if (!res.ok) {
+      setItens(prev => prev.map(i => i.id === item.id ? { ...i, data_alvo: anterior } : i))
+      setErro('Não consegui salvar essa data. Tenta de novo.')
+    }
   }
 
   async function adicionarTarefa(stepNum: number) {
@@ -88,6 +121,10 @@ export default function PostTest({ nome, email, resultadoId }: Props) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, resultadoId, stepNum, titulo }),
     })
+    if (!res.ok) {
+      setErro('Não consegui adicionar essa tarefa. Tenta de novo.')
+      return
+    }
     const data = await res.json()
     if (data.item) setItens(prev => [...prev, data.item])
     setNovaTarefa(prev => ({ ...prev, [stepNum]: '' }))
@@ -95,7 +132,11 @@ export default function PostTest({ nome, email, resultadoId }: Props) {
 
   async function removerTarefa(item: ItemCronograma) {
     setItens(prev => prev.filter(i => i.id !== item.id))
-    await fetch(`/api/cronograma/${item.id}`, { method: 'DELETE' })
+    const res = await fetch(`/api/cronograma/${item.id}`, { method: 'DELETE' })
+    if (!res.ok) {
+      setItens(prev => [...prev, item])
+      setErro('Não consegui remover essa tarefa. Tenta de novo.')
+    }
   }
 
   async function agendar() {
@@ -111,8 +152,11 @@ export default function PostTest({ nome, email, resultadoId }: Props) {
       if (data.ok) {
         setAgendado(true)
         setDataAgendada(data.data)
+        posthog.capture('reteste_agendado', { meses: mesesSelecionado })
         const itemPasso4 = itens.find(i => i.step_num === 4 && !i.custom)
         if (itemPasso4) marcarStatus(itemPasso4.id, 'concluido')
+      } else {
+        setErro('Não consegui agendar o lembrete. Tenta de novo.')
       }
     } finally {
       setLoadingAgendar(false)
@@ -130,6 +174,14 @@ export default function PostTest({ nome, email, resultadoId }: Props) {
           {primeiroNome}, o Med Escolha é apenas o começo da sua jornada de escolha. Marque, edite e acompanhe os próximos passos no seu ritmo.
         </p>
       </div>
+
+      {erro && (
+        <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 12, padding: '10px 16px' }}
+          className="flex items-center justify-between gap-3">
+          <p className="text-sm text-red-700">{erro}</p>
+          <button onClick={() => setErro(null)} className="text-red-400 hover:text-red-600 text-sm flex-shrink-0">✕</button>
+        </div>
+      )}
 
       {loadingItens && (
         <div className="flex justify-center py-10">

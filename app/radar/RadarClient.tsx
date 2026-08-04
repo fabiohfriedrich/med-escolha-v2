@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import Link from 'next/link'
+import posthog from 'posthog-js'
 import specialtiesData from '@/data/specialties.json'
 import {
   UFS,
@@ -233,7 +234,13 @@ function EditalCard({ edital }: { edital: EditalComInstituicao }) {
         <Info label="Gabarito" value={formatDateBR(edital.data_gabarito)} />
       </div>
 
-      <a href={link} target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, fontWeight: 700, color: '#1d6fe8', textDecoration: 'none' }}>
+      <a
+        href={link}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={() => posthog.capture('radar_edital_clicado', { instituicao: edital.instituicao.nome, uf: edital.instituicao.uf })}
+        style={{ fontSize: 13, fontWeight: 700, color: '#1d6fe8', textDecoration: 'none' }}
+      >
         Ver edital oficial →
       </a>
     </div>

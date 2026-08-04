@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import posthog from 'posthog-js'
 import specialtiesData from '@/data/specialties.json'
 import { UFS } from '@/lib/radar'
 
@@ -54,6 +55,12 @@ export default function MeuRadarForm({ configInicial, preSelecionadoDoTeste }: P
       })
       if (!res.ok) throw new Error('Falha ao salvar')
       setSalvo(true)
+      posthog.capture('radar_salvo', {
+        especialidades: especialidadesSel.length,
+        ufs: ufsSel.length,
+        alertas_ativos: alertasAtivos,
+        pre_selecionado_do_teste: preSelecionadoDoTeste,
+      })
       router.refresh()
     } catch {
       alert('Não consegui salvar. Tenta de novo em alguns segundos.')

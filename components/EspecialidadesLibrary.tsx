@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react'
 import Link from 'next/link'
+import posthog from 'posthog-js'
 
 interface Especialidade {
   id: number
@@ -147,7 +148,12 @@ export default function EspecialidadesLibrary({ especialidades, backHref }: Prop
               const cat = getCat(e.id)
 
               return (
-                <Link key={e.id} href={`/especialidades/${e.id}`} style={{ textDecoration: 'none' }}>
+                <Link
+                  key={e.id}
+                  href={`/especialidades/${e.id}`}
+                  style={{ textDecoration: 'none' }}
+                  onClick={() => posthog.capture('especialidade_biblioteca_clicada', { especialidade: e.nome, categoria: cat })}
+                >
                   <div style={{ background: 'white', borderRadius: 16, border: '1px solid #e2e8f0', padding: 20, display: 'flex', flexDirection: 'column', gap: 12, height: '100%', boxSizing: 'border-box', transition: 'box-shadow 0.2s' }}
                     onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.1)')}
                     onMouseLeave={e => (e.currentTarget.style.boxShadow = 'none')}>
