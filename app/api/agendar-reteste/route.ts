@@ -1,10 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { currentUser } from '@clerk/nextjs/server'
+import { getSupabaseAdmin } from '@/lib/supabase-admin'
+
+const supabase = getSupabaseAdmin()
 
 export async function POST(req: NextRequest) {
-  const { email, nome, resultadoId, meses } = await req.json()
+  const user = await currentUser()
+  const email = user?.primaryEmailAddress?.emailAddress?.toLowerCase().trim()
+  if (!email) {
+    return NextResponse.json({ error: 'Não autenticado' }, { status: 401 })
+  }
 
-  if (!email || !meses) {
+  const { nome, resultadoId, meses } = await req.json()
+
+  if (!meses) {
     return NextResponse.json({ error: 'Dados obrigatórios faltando' }, { status: 400 })
   }
 
@@ -16,11 +25,11 @@ export async function POST(req: NextRequest) {
   await supabase
     .from('agendamentos_reteste')
     .delete()
-    .eq('email', email.toLowerCase().trim())
+    .eq('email', email)
     .eq('lembrete_enviado', false)
 
   const { error } = await supabase.from('agendamentos_reteste').insert({
-    email: email.toLowerCase().trim(),
+    email,
     nome,
     resultado_id: resultadoId || null,
     data_agendada: dataStr,
