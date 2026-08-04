@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse, after } from 'next/server'
 import { z } from 'zod'
+import { currentUser } from '@clerk/nextjs/server'
 import { calcularMatch, QuizAnswers } from '@/lib/scoring'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import { sendResultEmail } from '@/lib/email'
 import { gerarNarrativasTop3 } from '@/lib/narrativa-ia'
+import { agendarReteste } from '@/lib/reteste'
+
+const MESES_RETESTE_PADRAO = 6
 
 const supabase = getSupabaseAdmin()
 
@@ -56,6 +60,31 @@ export async function POST(req: NextRequest) {
 
     // Incrementa o contador de testes do comprador
     await supabase.rpc('incrementar_teste', { p_email: answers.email })
+
+    // Motor pós-resultado: radar auto-configurado (opt-out) com o top 3 do resultado, e
+    // régua de reteste automática aos 6 meses — nenhum dos dois depende do usuário clicar
+    // em nada. O radar só é criado na primeira vez (upsert com ignoreDuplicates) pra não
+    // sobrescrever um radar que o usuário já tenha ajustado manualmente; o reteste sempre
+    // reagenda pra 6 meses a partir do teste mais recente.
+    const user = await currentUser()
+    if (user) {
+      const top3Ids = result.ranking.slice(0, 3).map((r) => r.id)
+      await supabase
+        .from('radar_usuario')
+        .upsert(
+          { user_id: user.id, especialidade_ids: top3Ids, ufs: [], alertas_ativos: true },
+          { onConflict: 'user_id', ignoreDuplicates: true }
+        )
+    }
+    const reteste = await agendarReteste({
+      email: answers.email,
+      nome: answers.nome,
+      resultadoId: data.id,
+      meses: MESES_RETESTE_PADRAO,
+    })
+    if (reteste.error) {
+      console.error('[submit] Erro ao agendar reteste automático:', reteste.error)
+    }
 
     // Gera a narrativa personalizada do top 3 via IA. Bloqueia a resposta (a UI já
     // mostra o resultado logo em seguida), mas com timeout curto embutido no fallback:

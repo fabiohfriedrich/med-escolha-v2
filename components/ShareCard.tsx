@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { toPng } from 'html-to-image'
 import posthog from 'posthog-js'
 
@@ -24,6 +24,19 @@ export default function ShareCard({ nome, top3, onClose }: Props) {
   const cardRef = useRef<HTMLDivElement>(null)
   const [gerando, setGerando] = useState(false)
   const [erro, setErro] = useState(false)
+  const [codigoIndicacao, setCodigoIndicacao] = useState<string | null>(null)
+  const [linkCopiado, setLinkCopiado] = useState(false)
+
+  useEffect(() => {
+    fetch('/api/indicacoes')
+      .then(res => (res.ok ? res.json() : { codigo: null }))
+      .then(data => setCodigoIndicacao(data.codigo ?? null))
+      .catch(() => setCodigoIndicacao(null))
+  }, [])
+
+  const linkIndicacao = codigoIndicacao && typeof window !== 'undefined'
+    ? `${window.location.origin}/?ref=${codigoIndicacao}`
+    : null
 
   async function gerarBlob(): Promise<Blob | null> {
     if (!cardRef.current) return null
@@ -63,7 +76,9 @@ export default function ShareCard({ nome, top3, onClose }: Props) {
         await navigator.share({
           files: [file],
           title: 'Meu match Med Escolha',
-          text: 'Descobri minha especialidade médica com o Med Escolha!',
+          text: linkIndicacao
+            ? `Descobri minha especialidade médica com o Med Escolha! Faz o seu também: ${linkIndicacao}`
+            : 'Descobri minha especialidade médica com o Med Escolha!',
         })
         posthog.capture('resultado_compartilhado', { metodo: 'web_share' })
       } else {
@@ -129,12 +144,28 @@ export default function ShareCard({ nome, top3, onClose }: Props) {
 
             <div style={{ marginTop: 18, paddingTop: 14, borderTop: '1px solid rgba(255,255,255,.15)', textAlign: 'center' }}>
               <div style={{ fontSize: 12, fontWeight: 800, marginBottom: 2 }}>descubra o seu match</div>
-              <div style={{ fontSize: 11, fontWeight: 700, color: '#1FBFA8' }}>match.medescolha.com</div>
+              <div style={{ fontSize: 11, fontWeight: 700, color: '#1FBFA8' }}>
+                {codigoIndicacao ? `match.medescolha.com/?ref=${codigoIndicacao}` : 'match.medescolha.com'}
+              </div>
             </div>
           </div>
         </div>
 
         {erro && <p className="text-red-300 text-xs">Deu ruim pra gerar a imagem. Tenta de novo.</p>}
+
+        {linkIndicacao && (
+          <button
+            onClick={() => {
+              navigator.clipboard.writeText(linkIndicacao)
+              setLinkCopiado(true)
+              posthog.capture('resultado_link_indicacao_copiado')
+              setTimeout(() => setLinkCopiado(false), 2000)
+            }}
+            className="text-white/80 text-xs font-semibold underline"
+          >
+            {linkCopiado ? 'Link copiado!' : 'Copiar meu link de indicação'}
+          </button>
+        )}
 
         <div className="flex gap-3">
           <button

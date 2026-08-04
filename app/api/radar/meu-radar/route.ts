@@ -2,6 +2,19 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs/server'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
 
+export async function GET() {
+  const { userId } = await auth()
+  if (!userId) return NextResponse.json({ error: 'Não autenticado' }, { status: 401 })
+
+  const { data } = await getSupabaseAdmin()
+    .from('radar_usuario')
+    .select('especialidade_ids, ufs, alertas_ativos')
+    .eq('user_id', userId)
+    .maybeSingle()
+
+  return NextResponse.json({ radar: data })
+}
+
 export async function POST(req: NextRequest) {
   const { userId } = await auth()
   if (!userId) return NextResponse.json({ error: 'Não autenticado' }, { status: 401 })

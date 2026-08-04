@@ -8,6 +8,7 @@ import { MatchResult } from '@/lib/scoring'
 import descriptionsData from '@/data/descriptions.json'
 import c04bData from '@/data/c04b_perguntas.json'
 import ShareCard from './ShareCard'
+import PosResultadoActions from './PosResultadoActions'
 import AnimatedBar from './ui/AnimatedBar'
 
 const DESCRIPTIONS = (descriptionsData as any).specialties as Array<{
@@ -217,6 +218,8 @@ export default function Results({ result, answers, resultId, onRestart, hideRest
       )}
 
       <div className="max-w-3xl mx-auto px-4 py-8 space-y-10">
+
+        <PosResultadoActions top3={top3} resultadoId={resultId} />
 
         {/* ── 1. SEU MATCH ── */}
         <section>
