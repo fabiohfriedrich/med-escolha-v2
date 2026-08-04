@@ -16,7 +16,10 @@ export default function NavBarCondicional() {
   const isPublic = PUBLIC_PREFIXES.some(p => path.startsWith(p))
   if (isPublic) return null
 
-  if (HIDDEN_FOR_LOGGED_OUT.includes(path) && isLoaded && !isSignedIn) return null
+  // Enquanto o Clerk ainda está carregando (isLoaded === false), essas páginas
+  // não devem mostrar o NavBar autenticado — senão ele aparece por cima do
+  // LandingHeader (CSS module) até o Clerk terminar de resolver o login.
+  if (HIDDEN_FOR_LOGGED_OUT.includes(path) && (!isLoaded || !isSignedIn)) return null
 
   return <NavBar />
 }
