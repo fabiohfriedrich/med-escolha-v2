@@ -3,16 +3,14 @@
 import { useState, useEffect, Suspense } from 'react'
 import { useUser } from '@clerk/nextjs'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { LayoutDashboard, User, ClipboardList, ListChecks, TrendingUp, Gift, Lock } from 'lucide-react'
+import { User, ClipboardList, ListChecks, TrendingUp, Gift, Lock } from 'lucide-react'
 import PostTest from '@/components/PostTest'
 import IndicacaoTab from '@/components/IndicacaoTab'
-import PerfilDashboard from '@/components/PerfilDashboard'
 import EvolucaoTab from '@/components/EvolucaoTab'
 
-type Tab = 'dashboard' | 'dados' | 'senha' | 'resultados' | 'cronograma' | 'evolucao' | 'indicacoes'
+type Tab = 'dados' | 'senha' | 'resultados' | 'cronograma' | 'evolucao' | 'indicacoes'
 
-const TABS: { key: Tab; label: string; icon: typeof LayoutDashboard }[] = [
-  { key: 'dashboard', label: 'Painel', icon: LayoutDashboard },
+const TABS: { key: Tab; label: string; icon: typeof User }[] = [
   { key: 'resultados', label: 'Meus testes', icon: ClipboardList },
   { key: 'cronograma', label: 'Cronograma', icon: ListChecks },
   { key: 'evolucao', label: 'Evolução', icon: TrendingUp },
@@ -34,7 +32,7 @@ function PerfilContent() {
 
   const tabParam = searchParams.get('tab') as Tab | null
   const tabValida = tabParam && TABS.some((t) => t.key === tabParam)
-  const [tab, setTab] = useState<Tab>(tabValida ? (tabParam as Tab) : 'dashboard')
+  const [tab, setTab] = useState<Tab>(tabValida ? (tabParam as Tab) : 'dados')
   const [salvando, setSalvando] = useState(false)
   const [mensagem, setMensagem] = useState<{ tipo: 'ok' | 'erro'; texto: string } | null>(null)
 
@@ -150,7 +148,7 @@ function PerfilContent() {
     )
   }
 
-  const abasLargas: Tab[] = ['dashboard', 'cronograma', 'evolucao']
+  const abasLargas: Tab[] = ['cronograma', 'evolucao']
 
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-4">
@@ -182,16 +180,6 @@ function PerfilContent() {
             )
           })}
         </div>
-
-        {tab === 'dashboard' && (
-          <PerfilDashboard
-            primeiroNome={nome.split(' ')[0] || 'colega'}
-            onIrParaCronograma={() => setTab('cronograma')}
-            onIrParaResultados={() => setTab('resultados')}
-            onIrParaEvolucao={() => setTab('evolucao')}
-            onIrParaIndicacoes={() => setTab('indicacoes')}
-          />
-        )}
 
         {tab === 'evolucao' && <EvolucaoTab />}
 
