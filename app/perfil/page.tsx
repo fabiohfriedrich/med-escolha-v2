@@ -188,6 +188,8 @@ function PerfilContent() {
             primeiroNome={nome.split(' ')[0] || 'colega'}
             onIrParaCronograma={() => setTab('cronograma')}
             onIrParaResultados={() => setTab('resultados')}
+            onIrParaEvolucao={() => setTab('evolucao')}
+            onIrParaIndicacoes={() => setTab('indicacoes')}
           />
         )}
 
