@@ -1,6 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { publicFormRateLimit, getClientIp } from '@/lib/rate-limit'
 
 export async function POST(request: NextRequest) {
+  const { success } = await publicFormRateLimit.limit(getClientIp(request))
+  if (!success) {
+    return NextResponse.json({ error: 'Muitas requisições. Tente novamente em instantes.' }, { status: 429 })
+  }
+
   const raw = await request.json()
   const email = typeof raw.email === 'string' ? raw.email.toLowerCase().trim() : ''
 

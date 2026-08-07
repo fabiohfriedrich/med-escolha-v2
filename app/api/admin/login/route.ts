@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { adminLoginRateLimit, getClientIp } from '@/lib/rate-limit'
 
 function getAdminPassword(): string {
   const pwd = process.env.ADMIN_PASSWORD
@@ -56,6 +57,14 @@ export async function verifySessionToken(token: string, secret: string): Promise
 
 export async function POST(req: NextRequest) {
   try {
+    const { success } = await adminLoginRateLimit.limit(getClientIp(req))
+    if (!success) {
+      return NextResponse.json(
+        { ok: false, error: 'Muitas tentativas. Tente novamente em alguns minutos.' },
+        { status: 429 }
+      )
+    }
+
     const adminPassword = getAdminPassword()
     const jwtSecret = getJwtSecret()
     const { password } = await req.json()

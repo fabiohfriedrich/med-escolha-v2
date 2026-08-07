@@ -6,6 +6,7 @@ import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import { sendResultEmail } from '@/lib/email'
 import { gerarNarrativasTop3 } from '@/lib/narrativa-ia'
 import { agendarReteste } from '@/lib/reteste'
+import { publicFormRateLimit, getClientIp } from '@/lib/rate-limit'
 
 const MESES_RETESTE_PADRAO = 6
 
@@ -28,6 +29,11 @@ const QuizSchema = z.object({
 
 export async function POST(req: NextRequest) {
   try {
+    const { success } = await publicFormRateLimit.limit(getClientIp(req))
+    if (!success) {
+      return NextResponse.json({ error: 'Muitas requisições. Tente novamente em instantes.' }, { status: 429 })
+    }
+
     const body = await req.json()
     const parsed = QuizSchema.safeParse(body)
 
