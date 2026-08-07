@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { currentUser } from '@clerk/nextjs/server'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import { agendarReteste } from '@/lib/reteste'
+import { publicFormRateLimit, getClientIp } from '@/lib/rate-limit'
 
 const supabase = getSupabaseAdmin()
 
@@ -32,6 +33,11 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
+  const { success } = await publicFormRateLimit.limit(getClientIp(req))
+  if (!success) {
+    return NextResponse.json({ error: 'Muitas requisições. Tente novamente em instantes.' }, { status: 429 })
+  }
+
   const user = await currentUser()
   const email = user?.primaryEmailAddress?.emailAddress?.toLowerCase().trim()
   if (!email) {
