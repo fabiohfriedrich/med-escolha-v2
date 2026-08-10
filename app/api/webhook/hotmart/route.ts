@@ -80,6 +80,59 @@ async function registrarIndicacao(codigoOrigem: string, emailIndicado: string, t
   }
 }
 
+function ehProdutoPsicologo(body: any): boolean {
+  const productId = body?.data?.product?.id
+  const psicologoId = process.env.HOTMART_PRODUCT_ID_PSICOLOGO
+  if (!psicologoId || productId == null) return false
+  return String(productId) === psicologoId
+}
+
+async function processarCompraPsicologo(emailLower: string, nome: string, transactionId: string) {
+  const { error } = await getSupabaseAdmin()
+    .from('pacotes_psicologo')
+    .upsert(
+      {
+        email: emailLower,
+        nome,
+        hotmart_transaction_id: transactionId,
+        sessoes_total: 2,
+        sessoes_usadas: 0,
+        ativo: true,
+        status_pagamento: 'pago',
+      },
+      { onConflict: 'hotmart_transaction_id', ignoreDuplicates: false }
+    )
+
+  if (error) {
+    console.error('[webhook] Erro ao salvar pacote de psicólogo:', error)
+    return NextResponse.json({ error: 'Erro ao salvar pacote' }, { status: 500 })
+  }
+
+  // Só cria conta nova + senha temporária se o e-mail ainda não existe no Clerk.
+  // Se já existe (ex: comprador do produto principal comprando o pacote depois),
+  // não mexe na senha dele — ele já tem acesso à plataforma.
+  const client = await clerkClient()
+  const { data: usuariosExistentes } = await client.users.getUserList({ emailAddress: [emailLower] })
+  if (!usuariosExistentes[0]) {
+    await criarOuAtualizarAcessoClerk(emailLower, nome)
+  }
+
+  console.log(`[webhook] Pacote de psicólogo liberado: ${emailLower} (${transactionId})`)
+  return NextResponse.json({ ok: true, action: 'liberado', produto: 'psicologo', email: emailLower })
+}
+
+async function processarCancelamentoPsicologo(transactionId: string, status_pagamento: string) {
+  const { error } = await getSupabaseAdmin()
+    .from('pacotes_psicologo')
+    .update({ ativo: false, status_pagamento })
+    .eq('hotmart_transaction_id', transactionId)
+
+  if (error) console.error('[webhook] Erro ao revogar pacote de psicólogo:', error)
+
+  console.log(`[webhook] Pacote de psicólogo revogado: transação ${transactionId}`)
+  return NextResponse.json({ ok: true, action: 'revogado', produto: 'psicologo' })
+}
+
 async function criarOuAtualizarAcessoClerk(emailLower: string, nome: string) {
   const primeiroNome = nome.split(' ')[0] || 'Médico(a)'
   const senhaTemporaria = process.env.CLERK_MIGRATION_DEFAULT_PASSWORD
@@ -166,8 +219,11 @@ export async function POST(req: NextRequest) {
     }
 
     const emailLower = email.toLowerCase().trim()
+    const isPsicologo = ehProdutoPsicologo(body)
 
     if (EVENTOS_APROVADOS.includes(event)) {
+      if (isPsicologo) return await processarCompraPsicologo(emailLower, nome, transactionId)
+
       // 1. Registra/ativa o comprador no banco
       const { error } = await getSupabaseAdmin()
         .from('compradores')
@@ -205,6 +261,9 @@ export async function POST(req: NextRequest) {
         PURCHASE_CANCELED: 'cancelado',
       }
       const status_pagamento = statusMap[event] ?? 'cancelado'
+
+      if (isPsicologo) return await processarCancelamentoPsicologo(transactionId, status_pagamento)
+
       const { error } = await getSupabaseAdmin()
         .from('compradores')
         .update({ ativo: false, status_pagamento })

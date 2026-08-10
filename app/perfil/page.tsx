@@ -3,17 +3,19 @@
 import { useState, useEffect, Suspense } from 'react'
 import { useUser } from '@clerk/nextjs'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { User, ClipboardList, ListChecks, TrendingUp, Gift, Lock } from 'lucide-react'
+import { User, ClipboardList, ListChecks, TrendingUp, Gift, Lock, HeartHandshake } from 'lucide-react'
 import PostTest from '@/components/PostTest'
 import IndicacaoTab from '@/components/IndicacaoTab'
 import EvolucaoTab from '@/components/EvolucaoTab'
+import SessoesPsicologoTab from '@/components/SessoesPsicologoTab'
 
-type Tab = 'dados' | 'senha' | 'resultados' | 'cronograma' | 'evolucao' | 'indicacoes'
+type Tab = 'dados' | 'senha' | 'resultados' | 'cronograma' | 'evolucao' | 'indicacoes' | 'sessoes'
 
 const TABS: { key: Tab; label: string; icon: typeof User }[] = [
   { key: 'resultados', label: 'Meus testes', icon: ClipboardList },
   { key: 'cronograma', label: 'Cronograma', icon: ListChecks },
   { key: 'evolucao', label: 'Evolução', icon: TrendingUp },
+  { key: 'sessoes', label: 'Sessões', icon: HeartHandshake },
   { key: 'indicacoes', label: 'Indique e ganhe', icon: Gift },
   { key: 'dados', label: 'Dados pessoais', icon: User },
   { key: 'senha', label: 'Trocar senha', icon: Lock },
@@ -335,6 +337,9 @@ function PerfilContent() {
               )}
             </div>
           )}
+
+          {/* Aba: Sessões com psicólogo */}
+          {tab === 'sessoes' && <SessoesPsicologoTab />}
 
           {/* Aba: Indique e ganhe */}
           {tab === 'indicacoes' && <IndicacaoTab />}
