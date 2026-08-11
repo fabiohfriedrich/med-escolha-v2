@@ -721,6 +721,11 @@ export default function MedEscolhaLandingPage() {
                 <li>nenhuma mensalidade, nenhuma taxa de renovação</li>
               </ul>
             </div>
+
+            <div className={`${styles.ctaBlock} ${styles.mt4}`}>
+              <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" className={`${styles.btn} ${styles.btnLarge} ${styles.btnUppercase}`} onClick={() => track('garantia')}>quero garantir meu acesso, R$ 149</a>
+              <p className={styles.ctaFriction}>7 dias de garantia. acesso imediato.</p>
+            </div>
           </div>
         </div>
       </section>
@@ -833,8 +838,8 @@ export default function MedEscolhaLandingPage() {
           <p className={styles.lead}><strong>R$ 149 à vista. ou 12x de R$ 14,90 no cartão.</strong></p>
 
           <div className={`${styles.ctaBlock} ${styles.mt4}`}>
-            <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" className={`${styles.btn} ${styles.btnLarge} ${styles.btnUppercase}`} onClick={() => track('cta_final')}>quero definir minha especialidade agora</a>
-            <p className={styles.ctaFriction}>7 dias de garantia. acesso imediato.</p>
+            <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" className={`${styles.btn} ${styles.btnLarge} ${styles.btnUppercase}`} onClick={() => track('cta_final')}>testar sem risco, R$ 149</a>
+            <p className={styles.ctaFriction}><strong>risco zero:</strong> 7 dias de garantia incondicional, reembolso sem perguntas.</p>
             <p className={styles.ctaFriction} style={{ marginTop: 8 }}>
               já tem acesso?{' '}
               <Link href="/login" style={{ color: 'var(--teal)', fontWeight: 700, textDecoration: 'underline' }}>entre aqui</Link>
