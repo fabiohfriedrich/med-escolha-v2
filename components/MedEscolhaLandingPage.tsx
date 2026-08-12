@@ -59,16 +59,39 @@ export default function MedEscolhaLandingPage() {
               <p className={styles.lead}>o <strong>match da especialidade médica</strong> cruza suas respostas com as <strong>55 especialidades reconhecidas no Brasil</strong>, usando dados reais do <strong>DMB 2025</strong>. ranking + narrativa pra você fechar a decisão de vez.</p>
             </div>
             <div className={styles.heroImageWrap}>
-              <div className={styles.heroPhotoFrame}>
-                <div className={styles.heroPhotoCards}>
-                  <div className={styles.heroCardPill}>decisão definitiva</div>
-                  <div className={styles.heroCardBadge}>
-                    <div className={styles.badgeStat}><CountUp end={55} /></div>
-                    <div className={styles.badgeText}>especialidades cruzadas com seu perfil</div>
-                  </div>
-                </div>
+              <div className={styles.heroComposition}>
+                <div className={styles.heroBlobTeal} />
+                <div className={styles.heroBlobYellow} />
                 <div className={styles.heroPhotoImg}>
                   <img src="/landing/hero-medica.png" alt="Médica jovem sorrindo, jaleco branco e tablet" />
+                </div>
+                <div className={styles.heroCardPill}>decisão definitiva</div>
+                <div className={styles.heroResultCard}>
+                  <span className={styles.heroResultLabel}>exemplo ilustrativo</span>
+                  <div className={styles.heroResultRow}>
+                    <span className={styles.heroResultRank}>01</span>
+                    <div className={styles.heroResultInfo}>
+                      <div className={styles.heroResultName}>anestesiologia</div>
+                      <AnimatedBar percent={89} trackClassName={styles.heroResultBar} fillClassName={styles.heroResultFill} delay={0.1} height={5} />
+                    </div>
+                    <span className={styles.heroResultPct}>89%</span>
+                  </div>
+                  <div className={styles.heroResultRow}>
+                    <span className={styles.heroResultRank}>02</span>
+                    <div className={styles.heroResultInfo}>
+                      <div className={styles.heroResultName}>medicina de família</div>
+                      <AnimatedBar percent={82} trackClassName={styles.heroResultBar} fillClassName={styles.heroResultFill} delay={0.2} height={5} />
+                    </div>
+                    <span className={styles.heroResultPct}>82%</span>
+                  </div>
+                  <div className={styles.heroResultRow}>
+                    <span className={styles.heroResultRank}>03</span>
+                    <div className={styles.heroResultInfo}>
+                      <div className={styles.heroResultName}>cirurgia geral</div>
+                      <AnimatedBar percent={76} trackClassName={styles.heroResultBar} fillClassName={styles.heroResultFill} delay={0.3} height={5} />
+                    </div>
+                    <span className={styles.heroResultPct}>76%</span>
+                  </div>
                 </div>
               </div>
             </div>

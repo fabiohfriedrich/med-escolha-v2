@@ -558,133 +558,59 @@
   align-items: center;
   position: relative;
 }
-.heroPhotoFrame {
+.heroComposition {
   position: relative;
   width: 100%;
-  max-width: 540px;
+  max-width: 460px;
   margin: 0 auto;
-  padding: 8px 0;
-  display: grid;
-  grid-template-columns: 1fr;
+  aspect-ratio: 1 / 1;
 }
-.heroPhotoFrame:before {
-  content: "";
+.heroBlobTeal {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 96px;
-  height: 96px;
+  top: -14px;
+  left: -14px;
+  width: 21%;
+  height: 21%;
   background: var(--teal);
-  border-radius: 16px;
-  opacity: 0.55;
-  z-index: 0;
-}
-.heroPhotoFrame:after {
-  content: "";
-  position: absolute;
-  bottom: -8px;
-  right: -10px;
-  width: 38%;
-  height: 48%;
-  background: var(--yellow);
+  opacity: 0.4;
   border-radius: 18px;
-  opacity: 0.9;
   z-index: 0;
 }
-.heroPhotoCards {
-  grid-column: 1;
-  grid-row: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 14px;
-  z-index: 3;
-  padding: 0 0 0 4px;
-  position: relative;
-}
-.heroCardPill,
-.heroCardBadge {
-  width: 100%;
-  max-width: 170px;
-  box-sizing: border-box;
+.heroBlobYellow {
+  position: absolute;
+  bottom: -16px;
+  right: -16px;
+  width: 52%;
+  height: 42%;
+  background: var(--yellow);
+  opacity: 0.9;
+  border-radius: 24px;
+  z-index: 0;
 }
 .heroPhotoImg {
-  position: relative;
-  border-radius: 18px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 54%;
+  aspect-ratio: 3/4;
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 18px 36px rgba(0,0,0,0.32);
-  aspect-ratio: 6/7;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.35);
   z-index: 1;
-  width: 58%;
-  margin-left: auto;
-  margin-right: 10px;
-  grid-column: 1;
-  grid-row: 1;
 }
 .heroPhotoImg img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 30%;
+  object-position: center 8%;
   display: block;
   background: var(--teal);
 }
-
-@media (min-width: 900px) {
-  .heroPhotoFrame {
-    display: block;
-    max-width: 460px;
-    padding: 0;
-    overflow: visible;
-    filter: drop-shadow(0 24px 48px rgba(0,0,0,0.35));
-  }
-  .heroPhotoFrame:before {
-    top: -14px;
-    left: -14px;
-    width: 110px;
-    height: 110px;
-    border-radius: 18px;
-    opacity: 0.4;
-    z-index: -1;
-  }
-  .heroPhotoFrame:after {
-    bottom: -16px;
-    right: -16px;
-    width: 60%;
-    height: 60%;
-    border-radius: 24px;
-    opacity: 0.85;
-    z-index: -1;
-  }
-  .heroPhotoCards {
-    display: contents;
-  }
-  .heroPhotoImg {
-    aspect-ratio: 3/4;
-    border-radius: 24px;
-    box-shadow: none;
-    width: 100%;
-    margin-left: 0;
-  }
-  .heroPhotoImg img {
-    object-position: center center;
-  }
-  .heroCardPill {
-    position: absolute;
-    top: 24px;
-    left: -14px;
-    z-index: 3;
-  }
-  .heroCardBadge {
-    position: absolute;
-    bottom: 24px;
-    left: -24px;
-    z-index: 3;
-    max-width: 220px;
-  }
-}
 .heroCardPill {
+  position: absolute;
+  top: 8px;
+  left: 0;
+  z-index: 3;
   background: var(--navy-deep);
   color: var(--white);
   padding: 10px 12px;
@@ -704,41 +630,73 @@
     font-size: 12px;
   }
 }
-.heroCardBadge {
+.heroResultCard {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 72%;
   background: var(--white);
-  color: var(--text);
-  padding: 14px 14px;
-  border-radius: 14px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.18);
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  align-items: flex-start;
+  border-radius: 18px;
+  padding: 16px 16px 14px;
+  box-shadow: 0 26px 50px rgba(0,0,0,0.4);
+  z-index: 2;
 }
-@media (min-width: 768px) {
-  .heroCardBadge {
-    padding: 16px 18px;
-    gap: 6px;
-  }
-}
-.heroCardBadge .badgeStat {
-  font-size: 32px;
+.heroResultLabel {
+  display: block;
+  font-size: 9px;
   font-weight: 800;
-  color: var(--teal);
-  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-soft);
+  margin-bottom: 10px;
 }
-@media (min-width: 768px) {
-  .heroCardBadge .badgeStat { font-size: 40px; }
+.heroResultRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
 }
-.heroCardBadge .badgeText {
+.heroResultRow:last-child { margin-bottom: 0; }
+.heroResultRank {
   font-size: 11px;
-  font-weight: 600;
-  line-height: 1.3;
-  color: var(--text);
+  font-weight: 800;
+  color: var(--text-soft);
+  font-variant-numeric: tabular-nums;
+  width: 16px;
+}
+.heroResultInfo {
+  flex: 1;
+  min-width: 0;
+}
+.heroResultName {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--navy);
   text-transform: lowercase;
+  margin-bottom: 4px;
+}
+.heroResultBar {
+  width: 100%;
+  background: var(--offwhite);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.heroResultFill {
+  background: linear-gradient(90deg, var(--teal) 0%, var(--teal-dark) 100%);
+  border-radius: 999px;
+}
+.heroResultPct {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--teal-dark);
+  font-variant-numeric: tabular-nums;
+  width: 34px;
+  text-align: right;
 }
 @media (min-width: 768px) {
-  .heroCardBadge .badgeText { font-size: 12px; }
+  .heroResultLabel { font-size: 10px; }
+  .heroResultName { font-size: 13.5px; }
+  .heroResultPct { font-size: 13px; }
 }
 
 /* ============ PROBLEM SECTION ============ */
