@@ -21,7 +21,7 @@ async function assinaturaValida(rawBody: string, assinaturaRecebida: string, sec
 const HORAS_MINIMAS_CANCELAMENTO = 24
 
 export async function POST(req: NextRequest) {
-  // A assinatura é calculada sobre os bytes brutos do corpo — não sobre o JSON re-serializado
+  // A assinatura é calculada sobre os bytes brutos do corpo, não sobre o JSON re-serializado
   const rawBody = await req.text()
 
   const secret = process.env.CAL_COM_WEBHOOK_SECRET
@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
   const supabaseAdmin = getSupabaseAdmin()
 
   if (triggerEvent === 'BOOKING_CREATED') {
-    // Insert funciona como lock de idempotência: se já existe esse uid, é retry do Cal.com — ignora.
+    // Insert funciona como lock de idempotência: se já existe esse uid, é retry do Cal.com, ignora.
     const { error: insertError } = await supabaseAdmin
       .from('agendamentos_psicologo')
       .insert({ cal_booking_uid: bookingUid, email, status: 'pendente', event_start_at: eventStartAt })
@@ -63,11 +63,11 @@ export async function POST(req: NextRequest) {
     const pacote = proximoPacoteComSaldo(pacotes)
 
     if (!pacote) {
-      // Não deveria acontecer via UI (o link só aparece com saldo > 0) — se alguém usou o link
+      // Não deveria acontecer via UI (o link só aparece com saldo > 0), mas se alguém usou o link
       // público direto sem saldo, fica registrado aqui pra ação manual. Sem cancelamento
       // automático via API do Cal.com nesta versão.
       await supabaseAdmin.from('agendamentos_psicologo').update({ status: 'sem_saldo' }).eq('cal_booking_uid', bookingUid)
-      console.warn(`[calcom] Booking sem saldo disponível: ${email} (${bookingUid}) — ação manual necessária`)
+      console.warn(`[calcom] Booking sem saldo disponível: ${email} (${bookingUid}), ação manual necessária`)
       return NextResponse.json({ ok: true, action: 'sem_saldo', email })
     }
 
@@ -76,7 +76,7 @@ export async function POST(req: NextRequest) {
     })
 
     if (rpcError || !rpcData) {
-      // Corrida rara: saldo zerou entre a leitura e o incremento — mesmo tratamento do caso acima.
+      // Corrida rara: saldo zerou entre a leitura e o incremento, mesmo tratamento do caso acima.
       await supabaseAdmin.from('agendamentos_psicologo').update({ status: 'sem_saldo' }).eq('cal_booking_uid', bookingUid)
       return NextResponse.json({ ok: true, action: 'sem_saldo', email })
     }

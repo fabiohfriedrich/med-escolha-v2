@@ -110,7 +110,7 @@ async function processarCompraPsicologo(emailLower: string, nome: string, transa
 
   // Só cria conta nova + senha temporária se o e-mail ainda não existe no Clerk.
   // Se já existe (ex: comprador do produto principal comprando o pacote depois),
-  // não mexe na senha dele — ele já tem acesso à plataforma.
+  // não mexe na senha dele, ele já tem acesso à plataforma.
   const client = await clerkClient()
   const { data: usuariosExistentes } = await client.users.getUserList({ emailAddress: [emailLower] })
   if (!usuariosExistentes[0]) {

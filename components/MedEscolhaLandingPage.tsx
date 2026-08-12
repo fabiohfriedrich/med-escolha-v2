@@ -9,6 +9,7 @@ import LandingHeader from './LandingHeader'
 import CompradoresCounter from './CompradoresCounter'
 import CountUp from './ui/CountUp'
 import AnimatedBar from './ui/AnimatedBar'
+import Reveal from './ui/Reveal'
 import { capturarRefDaUrl, comCodigoIndicacao } from '@/lib/referral'
 
 const poppins = Poppins({
@@ -260,7 +261,7 @@ export default function MedEscolhaLandingPage() {
             </div>
           </div>
 
-          <div className={styles.winnerCard}>
+          <Reveal className={styles.winnerCard}>
             <div className={styles.winnerBadge}>✓ a alternativa que fecha</div>
             <div className={styles.winnerGrid}>
               <div className={styles.winnerIconWrap}>
@@ -285,7 +286,7 @@ export default function MedEscolhaLandingPage() {
                 </ul>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -359,7 +360,7 @@ export default function MedEscolhaLandingPage() {
               <p>seu ranking ordenado das 55 especialidades, com narrativa pra cada match no top. exemplo ilustrativo abaixo.</p>
             </div>
 
-            <div className={styles.resultMockup}>
+            <Reveal className={styles.resultMockup}>
               <div className={styles.resultMockupHeader}>
                 <div className={styles.mockupTitle}>
                   <span className={styles.mockupLabel}>seu match com as 55 especialidades</span>
@@ -400,7 +401,7 @@ export default function MedEscolhaLandingPage() {
                 &quot;anestesiologia apareceu no topo do seu ranking porque seu perfil mostra alta tolerância a procedimento, raciocínio rápido sob pressão e preferência por rotina previsível, padrão típico das R3 dessa área...&quot;
                 <em>(continua no seu painel, 1 narrativa por especialidade do top 3)</em>
               </div>
-            </div>
+            </Reveal>
           </div>
 
           <div className={`${styles.ctaBlock} ${styles.mt5}`}>
@@ -410,7 +411,7 @@ export default function MedEscolhaLandingPage() {
       </section>
 
       {/* ============ PLANO PÓS-RESULTADO ============ */}
-      <section>
+      <section className={styles.sectionOffwhite}>
         <div className={styles.container}>
           <div className={styles.textCenter} style={{ marginBottom: 32 }}>
             <span className={styles.eyebrow}>depois do resultado</span>
@@ -420,22 +421,22 @@ export default function MedEscolhaLandingPage() {
 
           <div className={styles.planoGrid}>
             <div className={styles.mechanismCard}>
-              <div className={styles.planoEmoji}>📖</div>
+              <div className={styles.planoEmoji}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"><path d="M12 6.5c-2-1.3-4.5-1.8-7-1.8v13c2.5 0 5 .5 7 1.8 2-1.3 4.5-1.8 7-1.8v-13c-2.5 0-5 .5-7 1.8z" /><path d="M12 6.5v13" /></svg></div>
               <h3>aprofunde seu conhecimento</h3>
               <p>conteúdo do Amo Medicina sobre as especialidades do seu top 3, direto na sua conta.</p>
             </div>
             <div className={styles.mechanismCard}>
-              <div className={styles.planoEmoji}>🩺</div>
+              <div className={styles.planoEmoji}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"><path d="M7 3v5a3 3 0 006 0V3" /><path d="M10 11v2a5 5 0 0010 0v-1.5" /><circle cx="20" cy="9.5" r="2" /></svg></div>
               <h3>conheça a rotina real</h3>
               <p>depoimentos e entrevistas com quem já vive o dia a dia de cada especialidade do seu match.</p>
             </div>
             <div className={styles.mechanismCard}>
-              <div className={styles.planoEmoji}>📊</div>
+              <div className={styles.planoEmoji}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"><path d="M4 20V12M10 20V7M16 20V4" /><path d="M2 20h20" /></svg></div>
               <h3>compare suas especialidades</h3>
               <p>volta pro ranking completo com um olhar mais analítico, mercado e saturação lado a lado.</p>
             </div>
             <div className={styles.mechanismCard}>
-              <div className={styles.planoEmoji}>🗓️</div>
+              <div className={styles.planoEmoji}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M3 10h18" /><path d="M8 3v4M16 3v4" /></svg></div>
               <h3>agende seu próximo teste</h3>
               <p>escolhe 3, 6 ou 12 meses e a gente te avisa por e-mail na data certa pra refazer o match e acompanhar sua evolução.</p>
               <div className={styles.mechanismCallout}>→ ninguém mais te lembra disso, a gente lembra</div>
@@ -541,6 +542,7 @@ export default function MedEscolhaLandingPage() {
                 <div className={styles.testimonialMeta}>
                   <div className={styles.name}>Júlia</div>
                   <div className={styles.role}>estudante de medicina, 5º período, Faculdade Pequeno Príncipe</div>
+                  <div className={styles.testimonialMatch}>top match: ginecologia e obstetrícia</div>
                 </div>
               </div>
             </div>
@@ -563,6 +565,7 @@ export default function MedEscolhaLandingPage() {
                 <div className={styles.testimonialMeta}>
                   <div className={styles.name}>Camila</div>
                   <div className={styles.role}>estudante de medicina</div>
+                  <div className={styles.testimonialMatch}>top match: medicina física e reabilitação · 80%+</div>
                 </div>
               </div>
             </div>
@@ -767,6 +770,8 @@ export default function MedEscolhaLandingPage() {
           </div>
 
           <div className={styles.faqList}>
+            <p className={styles.faqGroupTitle}>sobre o produto</p>
+
             <details className={styles.faqItem}>
               <summary>o med escolha é só mais um quiz online?</summary>
               <div className={styles.faqAnswer}>não. é o match da especialidade médica. 95 perguntas em 6 eixos, cruzadas com as 55 especialidades reconhecidas no Brasil e dados reais do DMB 2025, ranking ordenado, narrativa explicando o porquê de cada match. quiz é o que você já fez antes e não fechou nada.</div>
@@ -775,11 +780,6 @@ export default function MedEscolhaLandingPage() {
             <details className={styles.faqItem}>
               <summary>dá pra ver alguma coisa antes de comprar?</summary>
               <div className={styles.faqAnswer}>dá. o <Link href="/comparar" style={{ color: 'var(--teal-dark)', fontWeight: 700 }}>comparador de especialidades</Link> é gratuito: você escolhe duas especialidades e vê salário, tempo de residência, saturação e crescimento projetado lado a lado, com os mesmos dados do DMB 2025 usados no match completo.</div>
-            </details>
-
-            <details className={styles.faqItem}>
-              <summary>e se eu não gostar do programa?</summary>
-              <div className={styles.faqAnswer}>7 dias de garantia incondicional. faz o teste, lê o ranking, assiste algumas lives. se não for pra você, pede reembolso integral, sem perguntas, sem fricção.</div>
             </details>
 
             <details className={styles.faqItem}>
@@ -802,6 +802,13 @@ export default function MedEscolhaLandingPage() {
               <div className={styles.faqAnswer}>um plano de decisão com prazo. dentro da sua conta, você recebe um cronograma em 4 passos (aprofundar conhecimento, conhecer a rotina real, comparar especialidades e agendar o próximo teste), com tarefas que você marca conforme avança. no passo do reteste, você escolhe daqui 3, 6 ou 12 meses e a gente te avisa por e-mail na data certa, sem você precisar lembrar disso sozinho.</div>
             </details>
 
+            <p className={styles.faqGroupTitle}>pagamento, garantia e bônus</p>
+
+            <details className={styles.faqItem}>
+              <summary>e se eu não gostar do programa?</summary>
+              <div className={styles.faqAnswer}>7 dias de garantia incondicional. faz o teste, lê o ranking, assiste algumas lives. se não for pra você, pede reembolso integral, sem perguntas, sem fricção.</div>
+            </details>
+
             <details className={styles.faqItem}>
               <summary>as lives do acervo ficam disponíveis pra sempre?</summary>
               <div className={styles.faqAnswer}>sim. todas as 50+ lives gravadas ficam disponíveis na sua conta, vitalício. lives novas também entram no acervo conforme são gravadas.</div>
@@ -811,6 +818,8 @@ export default function MedEscolhaLandingPage() {
               <summary>o que é o bônus do curso de IA na Medicina?</summary>
               <div className={styles.faqAnswer}>são 4 aulas em vídeo, &quot;IA na Medicina: da teoria à prática&quot;, ensinando a usar inteligência artificial no dia a dia clínico, da introdução até IA generativa aplicada à prática. vendido separadamente por R$ 497, incluso sem custo extra pra quem compra o match.</div>
             </details>
+
+            <p className={styles.faqGroupTitle}>pra quem é</p>
 
             <details className={styles.faqItem}>
               <summary>sou estudante do 2º ano, ainda dá pra fazer?</summary>
