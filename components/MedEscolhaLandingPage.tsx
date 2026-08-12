@@ -104,7 +104,7 @@ export default function MedEscolhaLandingPage() {
                 <li>7 dias garantia</li>
               </ul>
               <div className={styles.ctaBlock} style={{ textAlign: 'left' }}>
-                <a href="#checkout" className={`${styles.btn} ${styles.btnUppercase} ${styles.btnHeroCta}`} onClick={() => track('hero')}>definir minha especialidade</a>
+                <a href="#como-funciona" className={`${styles.btn} ${styles.btnUppercase} ${styles.btnHeroCta}`} onClick={() => track('hero')}>saiba mais</a>
                 <p className={styles.ctaFriction} style={{ marginTop: 12 }}>
                   já tem acesso?{' '}
                   <Link href="/login" style={{ color: 'var(--teal)', fontWeight: 700, textDecoration: 'underline' }}>entrar</Link>
@@ -428,7 +428,7 @@ export default function MedEscolhaLandingPage() {
           </div>
 
           <div className={`${styles.ctaBlock} ${styles.mt5}`}>
-            <a href="#checkout" className={`${styles.btn} ${styles.btnLarge} ${styles.btnUppercase}`} onClick={() => track('mecanismo')}>quero fazer o match, R$ 149</a>
+            <a href="#checkout" className={`${styles.btn} ${styles.btnLarge} ${styles.btnUppercase}`} onClick={() => track('mecanismo')}>quero fazer o match</a>
           </div>
         </div>
       </section>
@@ -467,7 +467,7 @@ export default function MedEscolhaLandingPage() {
           </div>
 
           <div className={`${styles.ctaBlock} ${styles.mt5}`}>
-            <a href="#checkout" className={`${styles.btn} ${styles.btnLarge} ${styles.btnUppercase}`} onClick={() => track('plano-pos-resultado')}>quero meu plano de decisão, R$ 149</a>
+            <a href="#checkout" className={`${styles.btn} ${styles.btnLarge} ${styles.btnUppercase}`} onClick={() => track('plano-pos-resultado')}>quero meu plano de decisão</a>
           </div>
         </div>
       </section>
@@ -601,7 +601,7 @@ export default function MedEscolhaLandingPage() {
         <div className={styles.container}>
           <div className={styles.textCenter} style={{ marginBottom: 32 }}>
             <span className={styles.eyebrow}>a oferta</span>
-            <h2>tudo o que você recebe<br />por <span className={styles.highlightTeal}>R$ 149.</span></h2>
+            <h2>tudo o que você recebe</h2>
           </div>
 
           <div className={styles.offerStack}>
@@ -749,7 +749,7 @@ export default function MedEscolhaLandingPage() {
             </div>
 
             <div className={`${styles.ctaBlock} ${styles.mt4}`}>
-              <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" className={`${styles.btn} ${styles.btnLarge} ${styles.btnUppercase}`} onClick={() => track('garantia')}>quero garantir meu acesso, R$ 149</a>
+              <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" className={`${styles.btn} ${styles.btnLarge} ${styles.btnUppercase}`} onClick={() => track('garantia')}>quero garantir meu acesso</a>
               <p className={styles.ctaFriction}>7 dias de garantia. acesso imediato.</p>
             </div>
           </div>
@@ -870,7 +870,7 @@ export default function MedEscolhaLandingPage() {
           <p className={styles.lead}><strong>R$ 149 à vista. ou 12x de R$ 14,90 no cartão.</strong></p>
 
           <div className={`${styles.ctaBlock} ${styles.mt4}`}>
-            <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" className={`${styles.btn} ${styles.btnLarge} ${styles.btnUppercase}`} onClick={() => track('cta_final')}>testar sem risco, R$ 149</a>
+            <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" className={`${styles.btn} ${styles.btnLarge} ${styles.btnUppercase}`} onClick={() => track('cta_final')}>testar sem risco</a>
             <p className={styles.ctaFriction}><strong>risco zero:</strong> 7 dias de garantia incondicional, reembolso sem perguntas.</p>
             <p className={styles.ctaFriction} style={{ marginTop: 8 }}>
               já tem acesso?{' '}
