@@ -1,7 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { randomInt } from 'node:crypto'
 import { Resend } from 'resend'
 import { clerkClient } from '@clerk/nextjs/server'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
+
+// Gera uma senha temporária única por comprador. Antes usávamos uma senha fixa
+// (CLERK_MIGRATION_DEFAULT_PASSWORD) igual pra todo mundo — como muitas contas compartilhavam
+// a mesma senha, o detector de senha vazada/reutilizada do Clerk passou a barrar login e troca
+// de senha de compradores novos. Evita caracteres ambíguos (0/O, 1/l/I) pra facilitar digitação.
+function gerarSenhaTemporaria(): string {
+  const alfabeto = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789'
+  let senha = ''
+  for (let i = 0; i < 10; i++) senha += alfabeto[randomInt(alfabeto.length)]
+  return senha
+}
 
 // Eventos que liberam o acesso
 const EVENTOS_APROVADOS = ['PURCHASE_APPROVED', 'PURCHASE_COMPLETE']
@@ -135,11 +147,7 @@ async function processarCancelamentoPsicologo(transactionId: string, status_paga
 
 async function criarOuAtualizarAcessoClerk(emailLower: string, nome: string) {
   const primeiroNome = nome.split(' ')[0] || 'Médico(a)'
-  const senhaTemporaria = process.env.CLERK_MIGRATION_DEFAULT_PASSWORD
-  if (!senhaTemporaria) {
-    console.error('[webhook] CLERK_MIGRATION_DEFAULT_PASSWORD não configurada')
-    return
-  }
+  const senhaTemporaria = gerarSenhaTemporaria()
 
   const client = await clerkClient()
   const { data: usuariosExistentes } = await client.users.getUserList({ emailAddress: [emailLower] })
