@@ -8,6 +8,33 @@ function getResend() {
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://med-escolha-v2.vercel.app'
 const FROM_EMAIL = process.env.EMAIL_FROM || 'Med Escolha <medescolha@euamomedicina.com>'
+const ADMIN_ALERT_EMAIL = 'fabiohfriedrich@gmail.com'
+
+// ── Alerta interno de falha em conta/senha de comprador ──────────────────────
+export async function sendAlertaAdminEmail({ assunto, contexto }: { assunto: string; contexto: Record<string, string | null | undefined> }) {
+  const linhas = Object.entries(contexto)
+    .map(([chave, valor]) => `<tr><td style="padding:4px 12px 4px 0;color:#6c757d;font-weight:600;white-space:nowrap">${chave}</td><td style="padding:4px 0;color:#0D2150">${valor ?? '-'}</td></tr>`)
+    .join('')
+
+  const html = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"></head>
+<body style="margin:0;padding:0;background:#f1f5f9;font-family:-apple-system,'Segoe UI',Arial,sans-serif">
+  <div style="max-width:560px;margin:32px auto;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08)">
+    <div style="background:#dc2626;padding:20px 32px">
+      <div style="font-size:13px;color:#fff;font-weight:700;letter-spacing:0.5px">⚠️ ALERTA · MED ESCOLHA</div>
+    </div>
+    <div style="padding:28px 32px">
+      <h1 style="font-size:18px;font-weight:800;color:#0D2150;margin:0 0 16px">${assunto}</h1>
+      <table style="width:100%;font-size:13px;border-collapse:collapse">${linhas}</table>
+      <p style="font-size:11px;color:#9ca3af;margin:20px 0 0">${new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })}</p>
+    </div>
+  </div>
+</body>
+</html>`
+
+  return getResend().emails.send({ from: FROM_EMAIL, to: ADMIN_ALERT_EMAIL, subject: `[Alerta] ${assunto}`, html })
+}
 
 interface SendResultEmailParams {
   resultadoId: string

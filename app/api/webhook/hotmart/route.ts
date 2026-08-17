@@ -3,6 +3,7 @@ import { randomInt } from 'node:crypto'
 import { Resend } from 'resend'
 import { clerkClient } from '@clerk/nextjs/server'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
+import { sendAlertaAdminEmail } from '@/lib/email'
 
 // Gera uma senha temporária única por comprador. Antes usávamos uma senha fixa
 // (CLERK_MIGRATION_DEFAULT_PASSWORD) igual pra todo mundo — como muitas contas compartilhavam
@@ -180,6 +181,14 @@ async function criarOuAtualizarAcessoClerk(emailLower: string, nome: string) {
     }
   } catch (err) {
     console.error('[webhook] Erro ao criar/atualizar usuário no Clerk:', err)
+    await sendAlertaAdminEmail({
+      assunto: 'Falha ao criar/atualizar conta no Clerk (comprador ficou sem acesso)',
+      contexto: {
+        'E-mail do comprador': emailLower,
+        Nome: nome,
+        Erro: err instanceof Error ? err.message : String(err),
+      },
+    }).catch(alertaErr => console.error('[webhook] Erro ao enviar alerta:', alertaErr))
     return
   }
 
@@ -191,7 +200,17 @@ async function criarOuAtualizarAcessoClerk(emailLower: string, nome: string) {
     html: emailComSenhaHtml(titulo, subtitulo, senhaTemporaria, `${APP_URL}/login`),
   })
 
-  if (emailError) console.error('[webhook] Erro ao enviar email via Resend:', emailError)
+  if (emailError) {
+    console.error('[webhook] Erro ao enviar email via Resend:', emailError)
+    await sendAlertaAdminEmail({
+      assunto: 'Conta criada no Clerk, mas e-mail de senha temporária não foi enviado',
+      contexto: {
+        'E-mail do comprador': emailLower,
+        Nome: nome,
+        Erro: emailError.message ?? JSON.stringify(emailError),
+      },
+    }).catch(alertaErr => console.error('[webhook] Erro ao enviar alerta:', alertaErr))
+  }
   else console.log(`[webhook] Email enviado via Resend: ${emailLower}`)
 }
 

@@ -45,12 +45,21 @@ export default function CriarSenhaPage() {
       await user.updatePassword({ currentPassword: senhaTemporaria, newPassword: senha })
     } catch (err) {
       console.error('[criar-senha] Erro ao trocar senha:', err)
-      if (isClerkAPIResponseError(err) && err.errors[0]?.code === 'form_password_pwned') {
+      const codigoErro = isClerkAPIResponseError(err) ? err.errors[0]?.code : undefined
+      if (codigoErro === 'form_password_pwned') {
         setErro('Essa senha nova já apareceu em vazamentos conhecidos. Escolha uma senha diferente, mais única.')
       } else if (isClerkAPIResponseError(err) && err.errors[0]?.longMessage) {
         setErro(err.errors[0].longMessage)
       } else {
         setErro('Senha temporária incorreta, ou a nova senha não atende aos requisitos mínimos.')
+      }
+      const email = user.primaryEmailAddress?.emailAddress
+      if (email) {
+        fetch('/api/alerta-erro-senha', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, erro: codigoErro ?? (err instanceof Error ? err.message : String(err)) }),
+        }).catch(() => {})
       }
       setLoading(false)
       return
