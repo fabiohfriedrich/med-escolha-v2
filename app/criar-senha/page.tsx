@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useUser } from '@clerk/nextjs'
+import { isClerkAPIResponseError } from '@clerk/nextjs/errors'
 
 export default function CriarSenhaPage() {
   const router = useRouter()
@@ -42,8 +43,15 @@ export default function CriarSenhaPage() {
 
     try {
       await user.updatePassword({ currentPassword: senhaTemporaria, newPassword: senha })
-    } catch {
-      setErro('Senha temporária incorreta, ou a nova senha não atende aos requisitos mínimos.')
+    } catch (err) {
+      console.error('[criar-senha] Erro ao trocar senha:', err)
+      if (isClerkAPIResponseError(err) && err.errors[0]?.code === 'form_password_pwned') {
+        setErro('Essa senha nova já apareceu em vazamentos conhecidos. Escolha uma senha diferente, mais única.')
+      } else if (isClerkAPIResponseError(err) && err.errors[0]?.longMessage) {
+        setErro(err.errors[0].longMessage)
+      } else {
+        setErro('Senha temporária incorreta, ou a nova senha não atende aos requisitos mínimos.')
+      }
       setLoading(false)
       return
     }

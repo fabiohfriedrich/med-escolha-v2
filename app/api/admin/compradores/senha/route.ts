@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { clerkClient } from '@clerk/nextjs/server'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
+import { isAdminRequest } from '@/lib/admin-auth'
 
 export async function POST(req: NextRequest) {
+  if (!(await isAdminRequest())) return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
+
   const { email, senha } = await req.json()
   if (!email || !senha) return NextResponse.json({ error: 'Email e senha obrigatórios' }, { status: 400 })
   if (senha.length < 6) return NextResponse.json({ error: 'Senha deve ter pelo menos 6 caracteres' }, { status: 400 })
