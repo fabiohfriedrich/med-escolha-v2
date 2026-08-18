@@ -27,8 +27,19 @@ function EsqueciSenhaContent() {
         strategy: 'reset_password_email_code',
         identifier: email.toLowerCase().trim(),
       })
-    } catch {
-      // Não revela se o e-mail existe ou não — segue para a próxima etapa de qualquer forma
+    } catch (err) {
+      // Não revela se o e-mail existe ou não — segue para a próxima etapa de qualquer forma.
+      // "form_identifier_not_found" é o caso esperado (e-mail não cadastrado); qualquer outro
+      // erro é falha real do Clerk que antes sumia sem ninguém saber — alerta o admin.
+      const codigoErro = (err as { errors?: Array<{ code?: string; message?: string }> })?.errors?.[0]?.code
+      if (codigoErro !== 'form_identifier_not_found') {
+        const mensagem = (err as { errors?: Array<{ code?: string; message?: string }> })?.errors?.[0]?.message
+        fetch('/api/alerta-esqueci-senha', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, etapa: 'enviar_codigo', codigoErro, mensagem }),
+        }).catch(() => {})
+      }
     } finally {
       setStep('codigo')
       setLoading(false)
@@ -62,7 +73,18 @@ function EsqueciSenhaContent() {
       await setActive({ session: result.createdSessionId })
       router.push('/')
       router.refresh()
-    } catch {
+    } catch (err) {
+      // "form_code_incorrect"/"verification_expired" é o usuário errando o código, esperado.
+      // Qualquer outro código é falha real do Clerk (ex: senha barrada por política) — alerta o admin.
+      const codigoErro = (err as { errors?: Array<{ code?: string; message?: string }> })?.errors?.[0]?.code
+      if (codigoErro !== 'form_code_incorrect' && codigoErro !== 'verification_expired') {
+        const mensagem = (err as { errors?: Array<{ code?: string; message?: string }> })?.errors?.[0]?.message
+        fetch('/api/alerta-esqueci-senha', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, etapa: 'redefinir', codigoErro, mensagem }),
+        }).catch(() => {})
+      }
       setErro('Código inválido ou expirado. Solicite um novo.')
       setLoading(false)
     }
