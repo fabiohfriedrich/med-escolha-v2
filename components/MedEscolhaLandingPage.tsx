@@ -56,7 +56,7 @@ export default function MedEscolhaLandingPage() {
             <div className={styles.heroTextTop}>
               <span className={`${styles.eyebrow} ${styles.eyebrowCompact}`}>para estudantes e médicos recém-formados</span>
               <h1>o <span className={styles.highlightTeal}>match</span> da especialidade médica, <span className={styles.highlightTeal}>sem achismos.</span></h1>
-              <p className={styles.lead}>o <strong>match da especialidade médica</strong> cruza suas respostas com as <strong>55 especialidades reconhecidas no Brasil</strong>, usando dados reais do <strong>DMB 2025</strong>. ranking + narrativa pra você fechar a decisão de vez.</p>
+              <p className={styles.lead}>o <strong>match da especialidade médica</strong> cruza suas respostas com as <strong>55 especialidades reconhecidas no Brasil</strong>, usando dados reais do <strong>DMB 2025</strong>. ranking + narrativa pra você investigar com clareza, sem achismo.</p>
             </div>
             <div className={styles.heroImageWrap}>
               <div className={styles.heroComposition}>
@@ -65,7 +65,7 @@ export default function MedEscolhaLandingPage() {
                 <div className={styles.heroPhotoImg}>
                   <img src="/landing/hero-medica.png" alt="Médica jovem sorrindo, jaleco branco e tablet" />
                 </div>
-                <div className={styles.heroCardPill}>decisão definitiva</div>
+                <div className={styles.heroCardPill}>ranking claro</div>
                 <div className={styles.heroResultCard}>
                   <span className={styles.heroResultLabel}>exemplo ilustrativo</span>
                   <div className={styles.heroResultRow}>
@@ -305,7 +305,7 @@ export default function MedEscolhaLandingPage() {
                   <li>narrativa explica POR QUE cada especialidade combina com você</li>
                   <li>explore as 55 especialidades dentro da própria plataforma, com rotina, mercado e salário</li>
                   <li>resultado salvo na sua área de membro, refaça o teste quando quiser</li>
-                  <li>você sai com decisão fechada, não com nova confusão</li>
+                  <li>você sai com clareza sobre onde investigar, não com nova confusão</li>
                 </ul>
               </div>
             </div>
@@ -543,7 +543,7 @@ export default function MedEscolhaLandingPage() {
         <div className={styles.container}>
           <div className={styles.textCenter} style={{ marginBottom: 32 }}>
             <span className={styles.eyebrow}>depoimentos reais</span>
-            <h2>quem já fechou a decisão pelo <span className={styles.highlightUnderline}>med escolha</span></h2>
+            <h2>quem já decidiu com o <span className={styles.highlightUnderline}>med escolha</span></h2>
           </div>
 
           <div className={styles.testimonialsGrid}>
@@ -682,7 +682,7 @@ export default function MedEscolhaLandingPage() {
         <div className={styles.container}>
           <div className={styles.textCenter} style={{ marginBottom: 32 }}>
             <span className={styles.eyebrow} style={{ background: 'rgba(14,31,77,0.18)', color: 'var(--white)' }}>o preço</span>
-            <h2 style={{ color: 'var(--white)' }}>quanto custa fechar a decisão da sua <span style={{ background: 'linear-gradient(180deg, transparent 60%, rgba(244, 209, 78, 0.5) 60%)', padding: '0 6px' }}>especialidade</span></h2>
+            <h2 style={{ color: 'var(--white)' }}>quanto custa decidir sua <span style={{ background: 'linear-gradient(180deg, transparent 60%, rgba(244, 209, 78, 0.5) 60%)', padding: '0 6px' }}>especialidade</span> com clareza</h2>
           </div>
 
           <div className={styles.priceCard}>
@@ -807,7 +807,7 @@ export default function MedEscolhaLandingPage() {
 
             <details className={styles.faqItem}>
               <summary>quanto tempo leva pra finalizar o teste?</summary>
-              <div className={styles.faqAnswer}>entre 20 e 45 minutos pra responder. resultado liberado direto na sua conta logo após a análise. decisão fechada no mesmo dia (caso mais comum entre alunos).</div>
+              <div className={styles.faqAnswer}>entre 20 e 45 minutos pra responder. resultado liberado direto na sua conta logo após a análise. ranking na mão no mesmo dia (caso mais comum entre alunos).</div>
             </details>
 
             <details className={styles.faqItem}>

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import posthog from 'posthog-js'
+import CompradoresCounter from '@/components/CompradoresCounter'
 
 const SPECS: Record<string, { nome: string; icon: string; salario: string; dur: string; tags: string[] }> = {
   'dermatologia':       { nome: 'Dermatologia',                     icon: '🔬', salario: 'R$ 15k–60k+', dur: '3 anos',          tags: ['Qualidade de vida', 'Alta renda', 'Consultório próprio'] },
@@ -292,7 +293,9 @@ export default function QuizRapido() {
             ))}
           </div>
           <button onClick={() => { posthog.capture('quiz_iniciado', { tipo: 'rapido' }); setStep('quiz') }} style={btnPrimary}>Começar o quiz →</button>
-          <p style={{ fontSize: 12, color: '#9ca3af', marginTop: 10 }}>+3.200 médicos já descobriram sua especialidade ideal</p>
+          <div style={{ marginTop: 10, textAlign: 'center' }}>
+            <CompradoresCounter variant="authority" />
+          </div>
         </div>
       </div>
     </div>
