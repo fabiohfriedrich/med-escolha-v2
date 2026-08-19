@@ -39,19 +39,23 @@ function RatingRow({ label, hint, valueA, valueB, onChangeA, onChangeB }: {
   valueA: number; valueB: number
   onChangeA: (v: number) => void; onChangeB: (v: number) => void
 }) {
+  // Em telas estreitas, os 6 botões de cada lado (≈224px) não cabem lado a lado com a
+  // coluna central de 180px — empilha uma especialidade por bloco em vez de 3 colunas.
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 180px 1fr', gap: 0, borderBottom: '1px solid #f1f5f9', padding: '16px 0' }}>
-      {/* Nota A */}
-      <div style={{ paddingRight: 16 }}>
-        <NotaButtons value={valueA} onChange={onChangeA} side="A" />
-      </div>
-      {/* Label central */}
-      <div style={{ textAlign: 'center', padding: '0 8px' }}>
+    <div className="grid grid-cols-1 gap-3 sm:grid-cols-[1fr_180px_1fr] sm:gap-0" style={{ borderBottom: '1px solid #f1f5f9', padding: '16px 0' }}>
+      {/* Label central — primeiro no mobile (dá contexto antes dos botões), no meio no desktop */}
+      <div className="order-first text-center sm:order-none" style={{ padding: '0 8px' }}>
         <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--navy)', margin: 0 }}>{label}</p>
         <p style={{ fontSize: 11, color: '#94a3b8', margin: '2px 0 0', lineHeight: 1.4 }}>{hint}</p>
       </div>
+      {/* Nota A */}
+      <div className="sm:pr-4">
+        <p className="sm:hidden" style={{ fontSize: 11, fontWeight: 700, color: 'var(--teal)', margin: '0 0 6px', textAlign: 'center' }}>Especialidade A</p>
+        <NotaButtons value={valueA} onChange={onChangeA} side="A" />
+      </div>
       {/* Nota B */}
-      <div style={{ paddingLeft: 16 }}>
+      <div className="sm:pl-4">
+        <p className="sm:hidden" style={{ fontSize: 11, fontWeight: 700, color: '#b45309', margin: '0 0 6px', textAlign: 'center' }}>Especialidade B</p>
         <NotaButtons value={valueB} onChange={onChangeB} side="B" />
       </div>
     </div>
@@ -60,8 +64,9 @@ function RatingRow({ label, hint, valueA, valueB, onChangeA, onChangeB }: {
 
 function NotaButtons({ value, onChange, side }: { value: number; onChange: (v: number) => void; side: 'A' | 'B' }) {
   const activeColor = side === 'A' ? 'var(--teal)' : '#f59e0b'
+  const justify = side === 'A' ? 'justify-center sm:justify-end' : 'justify-center sm:justify-start'
   return (
-    <div style={{ display: 'flex', gap: 4, justifyContent: side === 'A' ? 'flex-end' : 'flex-start' }}>
+    <div className={`flex gap-1 ${justify}`}>
       {[0, 1, 2, 3, 4, 5].map(n => (
         <button
           key={n}
