@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { capturarRefDaUrl, comCodigoIndicacao } from '@/lib/referral'
+import { trackCheckoutIntent } from '@/lib/ad-tracking'
 
 type Specialty = { id: number; nome: string }
 
@@ -418,7 +419,7 @@ export default function ComparadorClient({ specialties }: { specialties: Special
         <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.85)', marginBottom: 20 }}>
           95 questões, ranking personalizado, dados do DMB 2025 e vídeos com especialistas.
         </p>
-        <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', background: 'var(--teal)', color: 'white', textDecoration: 'none', borderRadius: 12, padding: '14px 32px', fontSize: 16, fontWeight: 900 }}>
+        <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" onClick={() => trackCheckoutIntent('comparador_resultado')} style={{ display: 'inline-block', background: 'var(--teal)', color: 'white', textDecoration: 'none', borderRadius: 12, padding: '14px 32px', fontSize: 16, fontWeight: 900 }}>
           Quero fazer o teste completo →
         </a>
         <p style={{ fontSize: 12, color: 'var(--yellow)', marginTop: 12 }}>R$ 149 · acesso imediato · 95 questões</p>

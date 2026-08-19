@@ -4,11 +4,11 @@ import { useEffect, useState } from 'react'
 import { useUser } from '@clerk/nextjs'
 import Link from 'next/link'
 import { Poppins } from 'next/font/google'
-import posthog from 'posthog-js'
 import styles from '@/components/MedEscolhaLanding.module.css'
 import LandingHeader, { type LandingNavLink } from '@/components/LandingHeader'
 import ComparadorClient from './ComparadorClient'
 import { capturarRefDaUrl, comCodigoIndicacao } from '@/lib/referral'
+import { trackCheckoutIntent } from '@/lib/ad-tracking'
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -25,10 +25,6 @@ const NAV_LINKS: LandingNavLink[] = [
   { href: '/#faq', label: 'perguntas frequentes' },
 ]
 
-function track(origem: string) {
-  posthog.capture('compra_iniciada', { origem })
-}
-
 type Specialty = { id: number; nome: string; categoria?: string }
 
 export default function CompararPageClient({ specialties }: { specialties: Specialty[] }) {
@@ -43,7 +39,7 @@ export default function CompararPageClient({ specialties }: { specialties: Speci
   return (
     <div className={`${poppins.className} ${styles.landingRoot}`}>
       {isLoaded && !isSignedIn && (
-        <LandingHeader checkoutUrl={checkoutUrl} onCtaClick={() => track('comparar_header')} navLinks={NAV_LINKS} />
+        <LandingHeader checkoutUrl={checkoutUrl} onCtaClick={() => trackCheckoutIntent('comparar_header')} navLinks={NAV_LINKS} />
       )}
 
       {/* ============ HERO ============ */}

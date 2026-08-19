@@ -5,6 +5,7 @@ import { clerkClient } from '@clerk/nextjs/server'
 import { isClerkAPIResponseError } from '@clerk/nextjs/errors'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import { sendAlertaAdminEmail } from '@/lib/email'
+import { enviarPurchaseMetaCapi, enviarPurchaseGA4 } from '@/lib/ad-tracking-server'
 
 // Gera uma senha temporária única por comprador. Antes usávamos uma senha fixa
 // (CLERK_MIGRATION_DEFAULT_PASSWORD) igual pra todo mundo — como muitas contas compartilhavam
@@ -312,13 +313,24 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Erro ao salvar comprador' }, { status: 500 })
       }
 
-      // 2. Cria/atualiza o usuário no Clerk com senha temporária e envia o e-mail de acesso —
-      // só se esse evento (transactionId + tipo) ainda não tiver sido processado, pra não
-      // resetar a senha de novo num reenvio legítimo da Hotmart.
-      if (await eventoJaProcessado(transactionId, event)) {
+      // 2. Cria/atualiza o usuário no Clerk com senha temporária e envia o e-mail de acesso, e
+      // confirma a compra pro Meta CAPI e pro GA4 (server-side, não depende do cookie fbc
+      // sobreviver ao redirecionamento pra fora do domínio) — só se esse evento (transactionId
+      // + tipo) ainda não tiver sido processado, pra não repetir efeitos colaterais num
+      // reenvio legítimo da Hotmart. Observação: PURCHASE_APPROVED e PURCHASE_COMPLETE da
+      // mesma transação contam como eventos diferentes aqui, então em tese os dois podem
+      // chegar e disparar a confirmação duas vezes; o Meta dedupe sozinho via event_id
+      // (=transactionId), o GA4 não garante isso com a mesma força.
+      const jaProcessado = await eventoJaProcessado(transactionId, event)
+      if (jaProcessado) {
         console.log(`[webhook] Evento já processado, pulando reprovisionamento: ${transactionId} (${event})`)
       } else {
         await criarOuAtualizarAcessoClerk(emailLower, nome)
+        const valor = Number(body?.data?.purchase?.price?.value) || undefined // TODO: confirmar contra payload real da Hotmart
+        await Promise.all([
+          enviarPurchaseMetaCapi({ email: emailLower, transactionId, valor }),
+          enviarPurchaseGA4({ email: emailLower, transactionId, valor }),
+        ])
       }
 
       // 3. Se veio de um link de indicação (?ref= → &sck= no checkout), registra a indicação confirmada
