@@ -75,7 +75,7 @@ export async function gerarNarrativasTop3({
 
     const especialidadesTexto = top3.map((e, i) => {
       const traits = getCompatItems(e.id, c04bAnswers).map(t => t.label)
-      return `${i + 1}. ${e.nome} (${e.pct.toFixed(1)}% de compatibilidade, mercado ${e.saturacao.toLowerCase()}, crescimento ${e.crescimento.toLowerCase()})${traits.length ? `\n   Respostas que mais pesaram: ${traits.join('; ')}` : ''}`
+      return `${i + 1}. ${e.nome} (${e.pct.toFixed(1)}% de compatibilidade, mercado ${(e.saturacao ?? 'média').toLowerCase()}, crescimento ${(e.crescimento ?? 'médio').toLowerCase()})${traits.length ? `\n   Respostas que mais pesaram: ${traits.join('; ')}` : ''}`
     }).join('\n')
 
     const prompt = `Perfil: ${primeiroNome}${demographics?.anoFormatura ? `, previsão de formatura em ${demographics.anoFormatura}` : ''}.

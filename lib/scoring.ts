@@ -5,6 +5,13 @@ import dmbData from '@/data/dmb_data.json'
 
 const PESOS = { c02: 0.10, c04a: 0.05, c04b: 0.85 }
 
+// v2 corrige o viés estrutural do v1: o cálculo somava a pontuação bruta de cada
+// especialidade e normalizava por min-max entre as 55, o que fazia a densidade de
+// associações na matriz (4 a 64 por especialidade) dominar o ranking, em vez do
+// perfil do usuário. v2 divide pela contagem de associações de cada especialidade
+// (uma média), restaurando o comportamento do algoritmo original da planilha.
+const SCORING_VERSION = 2
+
 export interface QuizAnswers {
   nome: string
   email: string
@@ -41,11 +48,7 @@ export interface MatchResult {
     jung: string[]
     holland: string[]
   }
-}
-
-function normalize(val: number, min: number, max: number): number {
-  if (max === min) return 50
-  return ((val - min) / (max - min)) * 100
+  scoring_version: number
 }
 
 export function calcularMatch(answers: QuizAnswers): MatchResult {
@@ -53,50 +56,59 @@ export function calcularMatch(answers: QuizAnswers): MatchResult {
   const valores = (c04aData as any).questions as Array<{ id: string; scores: Record<string, number> }>
   const perguntas = (c04bData as any).questions as Array<{ id: string; scores: Record<string, number> }>
   const dmb = (dmbData as any).specialties as Array<{
-    id: number; nome: string; saturacao: string; crescimento: string
+    id: number; nome: string; saturacao: string; crescimento_projetado: string
     salario_min: number; salario_max: number; anos_formacao: number; medicos_ativos: number
   }>
 
-  const scores: Record<number, { c02: number; c04a: number; c04b: number }> = {}
-  specialties.forEach(s => { scores[s.id] = { c02: 0, c04a: 0, c04b: 0 } })
+  // c04a: soma assinada (+1/-1) e contagem de associações (|M(v,s)|) por especialidade —
+  // o denominador é o que torna o score comparável entre especialidades com quantidades
+  // diferentes de valores associados.
+  const c04aSoma: Record<number, number> = {}
+  const c04aContagem: Record<number, number> = {}
+  // c04b: soma das respostas (0-10) e contagem de perguntas associadas por especialidade.
+  const c04bSoma: Record<number, number> = {}
+  const c04bContagem: Record<number, number> = {}
+  specialties.forEach(s => {
+    c04aSoma[s.id] = 0; c04aContagem[s.id] = 0
+    c04bSoma[s.id] = 0; c04bContagem[s.id] = 0
+  })
 
-  // C02: interesse direto
-  answers.c02.forEach(id => { if (scores[id]) scores[id].c02 = 100 })
+  const c02: Record<number, number> = {}
+  specialties.forEach(s => { c02[s.id] = 0 })
+  answers.c02.forEach(id => { if (id in c02) c02[id] = 100 })
 
-  // C04a: valores
   valores.forEach(q => {
     const answered = answers.c04a[q.id]
     specialties.forEach(s => {
       const val = q.scores[String(s.id)] ?? 0
-      if (val === 1 && answered) scores[s.id].c04a += 1
-      if (val === -1 && answered) scores[s.id].c04a -= 1
+      if (val === 1 || val === -1) {
+        c04aContagem[s.id] += 1
+        if (answered) c04aSoma[s.id] += val
+      }
     })
   })
 
-  // C04b: comportamentos — escala 0-10, peso proporcional
   perguntas.forEach(q => {
-    const score = answers.c04b[q.id] ?? 0
-    if (score === 0) return
+    const resposta = answers.c04b[q.id] ?? 5
     specialties.forEach(s => {
-      if ((q.scores[String(s.id)] ?? 0) === 1) scores[s.id].c04b += score / 10
+      if ((q.scores[String(s.id)] ?? 0) === 1) {
+        c04bContagem[s.id] += 1
+        c04bSoma[s.id] += resposta
+      }
     })
   })
-
-  // Normalizar C04a e C04b
-  const c04aVals = specialties.map(s => scores[s.id].c04a)
-  const c04bVals = specialties.map(s => scores[s.id].c04b)
-  const minC04a = Math.min(...c04aVals), maxC04a = Math.max(...c04aVals)
-  const minC04b = Math.min(...c04bVals), maxC04b = Math.max(...c04bVals)
 
   const ranking: SpecialtyResult[] = specialties.map(s => {
-    const sc = scores[s.id]
+    const scoreC04a = c04aContagem[s.id] > 0 ? 100 * (c04aSoma[s.id] / c04aContagem[s.id]) : 0
+    const scoreC04b = c04bContagem[s.id] > 0 ? 100 * (c04bSoma[s.id] / (10 * c04bContagem[s.id])) : 0
+
     const pct =
-      PESOS.c02  * sc.c02 +
-      PESOS.c04a * normalize(sc.c04a, minC04a, maxC04a) +
-      PESOS.c04b * normalize(sc.c04b, minC04b, maxC04b)
+      PESOS.c02  * c02[s.id] +
+      PESOS.c04a * scoreC04a +
+      PESOS.c04b * scoreC04b
 
     const d = dmb.find(x => x.id === s.id) ?? {
-      saturacao: 'Média', crescimento: 'Médio',
+      saturacao: 'Média', crescimento_projetado: 'Médio',
       salario_min: 0, salario_max: 0, anos_formacao: 0, medicos_ativos: 0
     }
     return {
@@ -104,7 +116,7 @@ export function calcularMatch(answers: QuizAnswers): MatchResult {
       nome: s.nome,
       pct: Math.round(pct * 10) / 10,
       saturacao: d.saturacao,
-      crescimento: d.crescimento,
+      crescimento: d.crescimento_projetado,
       salario_min: d.salario_min,
       salario_max: d.salario_max,
       anos_formacao: d.anos_formacao,
@@ -121,5 +133,6 @@ export function calcularMatch(answers: QuizAnswers): MatchResult {
       jung: answers.jung,
       holland: answers.holland,
     },
+    scoring_version: SCORING_VERSION,
   }
 }

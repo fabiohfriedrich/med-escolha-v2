@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { randomInt } from 'node:crypto'
 import { Resend } from 'resend'
 import { clerkClient } from '@clerk/nextjs/server'
+import { isClerkAPIResponseError } from '@clerk/nextjs/errors'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import { sendAlertaAdminEmail } from '@/lib/email'
 
@@ -134,6 +135,23 @@ async function processarCompraPsicologo(emailLower: string, nome: string, transa
   return NextResponse.json({ ok: true, action: 'liberado', produto: 'psicologo', email: emailLower })
 }
 
+// Dedup de eventos aprovados: evita que um reenvio legítimo da Hotmart do mesmo evento
+// resete a senha de um comprador que já recebeu acesso (a senha temporária é única por
+// provisionamento — resetar de novo pode invalidar uma senha que o comprador ainda nem leu).
+async function eventoJaProcessado(transactionId: string, event: string): Promise<boolean> {
+  if (!transactionId) return false
+  const { data, error } = await getSupabaseAdmin()
+    .from('hotmart_eventos_processados')
+    .upsert({ transaction_id: transactionId, event }, { onConflict: 'transaction_id,event', ignoreDuplicates: true })
+    .select()
+
+  if (error) {
+    console.error('[webhook] Erro ao checar idempotência do evento:', error)
+    return false
+  }
+  return !data || data.length === 0
+}
+
 async function processarCancelamentoPsicologo(transactionId: string, status_pagamento: string) {
   const { error } = await getSupabaseAdmin()
     .from('pacotes_psicologo')
@@ -168,16 +186,36 @@ async function criarOuAtualizarAcessoClerk(emailLower: string, nome: string) {
       titulo = `Bem-vindo de volta, ${primeiroNome}!`
       subtitulo = 'Sua compra foi confirmada. Use a senha temporária abaixo para acessar a plataforma.'
     } else {
-      await client.users.createUser({
-        emailAddress: [emailLower],
-        firstName: nome.split(' ')[0],
-        lastName: nome.split(' ').slice(1).join(' ') || undefined,
-        password: senhaTemporaria,
-        publicMetadata: { mustChangePassword: true },
-      })
-      assunto = 'Seu acesso ao Med Escolha está pronto'
-      titulo = `Bem-vindo ao Med Escolha, ${primeiroNome}!`
-      subtitulo = 'Sua compra foi confirmada. Use a senha temporária abaixo para acessar a plataforma.'
+      try {
+        await client.users.createUser({
+          emailAddress: [emailLower],
+          firstName: nome.split(' ')[0],
+          lastName: nome.split(' ').slice(1).join(' ') || undefined,
+          password: senhaTemporaria,
+          publicMetadata: { mustChangePassword: true },
+        })
+        assunto = 'Seu acesso ao Med Escolha está pronto'
+        titulo = `Bem-vindo ao Med Escolha, ${primeiroNome}!`
+        subtitulo = 'Sua compra foi confirmada. Use a senha temporária abaixo para acessar a plataforma.'
+      } catch (createErr) {
+        // Corrida: o Clerk já tem conta pra esse e-mail, mas a busca acima (getUserList)
+        // não achou a tempo. Antes isso só disparava alerta e o comprador ficava sem
+        // acesso — busca de novo e cai no fluxo de resetar senha em vez de desistir.
+        const codigo = isClerkAPIResponseError(createErr) ? createErr.errors[0]?.code : undefined
+        if (codigo !== 'form_identifier_exists') throw createErr
+
+        const { data: retry } = await client.users.getUserList({ emailAddress: [emailLower] })
+        const usuarioRecemEncontrado = retry[0]
+        if (!usuarioRecemEncontrado) throw createErr
+
+        await client.users.updateUser(usuarioRecemEncontrado.id, { password: senhaTemporaria })
+        await client.users.updateUserMetadata(usuarioRecemEncontrado.id, {
+          publicMetadata: { mustChangePassword: true },
+        })
+        assunto = 'Acesse o Med Escolha — sua senha temporária'
+        titulo = `Bem-vindo de volta, ${primeiroNome}!`
+        subtitulo = 'Sua compra foi confirmada. Use a senha temporária abaixo para acessar a plataforma.'
+      }
     }
   } catch (err) {
     console.error('[webhook] Erro ao criar/atualizar usuário no Clerk:', err)
@@ -216,14 +254,17 @@ async function criarOuAtualizarAcessoClerk(emailLower: string, nome: string) {
 
 export async function POST(req: NextRequest) {
   try {
-    // Valida hottok — token fixo que a Hotmart inclui em todo webhook
+    // Valida hottok — token fixo que a Hotmart inclui em todo webhook. Se a variável não
+    // estiver configurada, falha fechado em vez de aceitar qualquer payload sem checagem.
     const hottok = process.env.HOTMART_HOTTOK
-    if (hottok) {
-      const receivedToken = req.headers.get('x-hotmart-hottok') ?? req.nextUrl.searchParams.get('hottok') ?? ''
-      if (receivedToken !== hottok) {
-        console.warn('[webhook] hottok inválido:', receivedToken)
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-      }
+    if (!hottok) {
+      console.error('[webhook] HOTMART_HOTTOK não configurada')
+      return NextResponse.json({ error: 'Configuração ausente' }, { status: 500 })
+    }
+    const receivedToken = req.headers.get('x-hotmart-hottok') ?? req.nextUrl.searchParams.get('hottok') ?? ''
+    if (receivedToken !== hottok) {
+      console.warn('[webhook] hottok inválido:', receivedToken)
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     const body = await req.json()
@@ -271,8 +312,14 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Erro ao salvar comprador' }, { status: 500 })
       }
 
-      // 2. Cria/atualiza o usuário no Clerk com senha temporária e envia o e-mail de acesso
-      await criarOuAtualizarAcessoClerk(emailLower, nome)
+      // 2. Cria/atualiza o usuário no Clerk com senha temporária e envia o e-mail de acesso —
+      // só se esse evento (transactionId + tipo) ainda não tiver sido processado, pra não
+      // resetar a senha de novo num reenvio legítimo da Hotmart.
+      if (await eventoJaProcessado(transactionId, event)) {
+        console.log(`[webhook] Evento já processado, pulando reprovisionamento: ${transactionId} (${event})`)
+      } else {
+        await criarOuAtualizarAcessoClerk(emailLower, nome)
+      }
 
       // 3. Se veio de um link de indicação (?ref= → &sck= no checkout), registra a indicação confirmada
       await registrarIndicacao(codigoIndicacaoOrigem, emailLower, transactionId)

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { currentUser } from '@clerk/nextjs/server'
 import descriptionsData from '@/data/descriptions.json'
 import c04bData from '@/data/c04b_perguntas.json'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
@@ -216,16 +217,37 @@ function horizBar(pct: number, label: string, value: string) {
 // ── Main handler ──────────────────────────────────────────────────────────────
 export async function POST(req: NextRequest) {
   try {
-    const { perfil, ranking, answers, resultId } = await req.json()
+    const { resultId } = await req.json()
+    if (!resultId) return NextResponse.json({ error: 'ID obrigatório' }, { status: 400 })
+
+    // Exige sessão e busca perfil/ranking/answers do banco pelo dono do resultado, em vez
+    // de confiar no corpo da requisição — antes era possível gerar/cachear PDF arbitrário
+    // sob qualquer resultId, sem estar logado e sem esse resultado existir de verdade.
+    const clerkUser = await currentUser()
+    const clerkEmail = clerkUser?.primaryEmailAddress?.emailAddress?.toLowerCase().trim()
+    if (!clerkEmail) return NextResponse.json({ error: 'Não autenticado' }, { status: 401 })
+
+    const { data: resultado, error: fetchError } = await getSupabaseAdmin()
+      .from('resultados')
+      .select('email, perfil_json, ranking_json, answers_json')
+      .eq('id', resultId)
+      .maybeSingle()
+
+    if (fetchError) return NextResponse.json({ error: fetchError.message }, { status: 500 })
+    if (!resultado || resultado.email.toLowerCase().trim() !== clerkEmail) {
+      return NextResponse.json({ error: 'Resultado não encontrado' }, { status: 403 })
+    }
+
+    const perfil = resultado.perfil_json
+    const ranking = resultado.ranking_json
+    const answers = resultado.answers_json
 
     // Retorna cache se disponível
-    if (resultId) {
-      const cached = await getCachedHtml(resultId)
-      if (cached) {
-        return new NextResponse(cached, {
-          headers: { 'Content-Type': 'text/html; charset=utf-8', 'X-Cache': 'HIT' },
-        })
-      }
+    const cached = await getCachedHtml(resultId)
+    if (cached) {
+      return new NextResponse(cached, {
+        headers: { 'Content-Type': 'text/html; charset=utf-8', 'X-Cache': 'HIT' },
+      })
     }
 
     const nome: string = perfil.nome || 'Participante'

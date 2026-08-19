@@ -7,7 +7,7 @@ export default async function ResultadoPage({ params }: { params: Promise<{ id: 
   const { id } = await params
   const { data, error } = await getSupabaseAdmin()
     .from('resultados')
-    .select('id, nome, email, ranking_json, perfil_json, answers_json, narrativa_ia, created_at')
+    .select('id, nome, email, ranking_json, perfil_json, answers_json, narrativa_ia, created_at, scoring_version')
     .eq('id', id)
     .single()
 
@@ -30,6 +30,7 @@ export default async function ResultadoPage({ params }: { params: Promise<{ id: 
       perfil={data.perfil_json || {}}
       answers={data.answers_json || {}}
       narrativaIA={data.narrativa_ia || null}
+      scoringVersion={data.scoring_version ?? 1}
     />
   )
 }

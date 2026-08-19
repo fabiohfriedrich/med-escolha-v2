@@ -34,6 +34,32 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Muitas requisições. Tente novamente em instantes.' }, { status: 429 })
     }
 
+    // Exige sessão Clerk e comprador ativo com saldo de testes antes de calcular/gravar
+    // resultado. O middleware protege a página /teste, mas não a API — sem essa checagem,
+    // uma chamada direta gerava resultado, consumia IA e agendava reteste sem compra.
+    const clerkUser = await currentUser()
+    const clerkEmail = clerkUser?.primaryEmailAddress?.emailAddress?.toLowerCase().trim()
+    if (!clerkUser || !clerkEmail) {
+      return NextResponse.json({ error: 'Não autenticado' }, { status: 401 })
+    }
+
+    const { data: comprador, error: compradorError } = await supabase
+      .from('compradores')
+      .select('ativo, testes_realizados, testes_limite')
+      .eq('email', clerkEmail)
+      .maybeSingle()
+
+    if (compradorError) {
+      console.error('[submit] Erro ao verificar comprador:', compradorError)
+      return NextResponse.json({ error: 'Erro interno' }, { status: 500 })
+    }
+    if (!comprador || !comprador.ativo) {
+      return NextResponse.json({ error: 'Acesso não encontrado ou inativo' }, { status: 403 })
+    }
+    if (comprador.testes_realizados >= comprador.testes_limite) {
+      return NextResponse.json({ error: 'Limite de testes atingido' }, { status: 403 })
+    }
+
     const body = await req.json()
     const parsed = QuizSchema.safeParse(body)
 
@@ -44,7 +70,13 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    const answers = parsed.data as QuizAnswers
+    // Nome/e-mail sempre vêm da sessão autenticada, nunca do corpo da requisição —
+    // evita que alguém grave resultado em nome de outro comprador.
+    const answers = {
+      ...(parsed.data as QuizAnswers),
+      email: clerkEmail,
+      nome: parsed.data.nome || [clerkUser?.firstName, clerkUser?.lastName].filter(Boolean).join(' '),
+    }
     const result = calcularMatch(answers)
 
     const { data, error } = await supabase
@@ -55,6 +87,7 @@ export async function POST(req: NextRequest) {
         answers_json: answers,
         ranking_json: result.ranking,
         perfil_json: result.perfil,
+        scoring_version: result.scoring_version,
       })
       .select('id')
       .single()
@@ -72,16 +105,13 @@ export async function POST(req: NextRequest) {
     // em nada. O radar só é criado na primeira vez (upsert com ignoreDuplicates) pra não
     // sobrescrever um radar que o usuário já tenha ajustado manualmente; o reteste sempre
     // reagenda pra 6 meses a partir do teste mais recente.
-    const user = await currentUser()
-    if (user) {
-      const top3Ids = result.ranking.slice(0, 3).map((r) => r.id)
-      await supabase
-        .from('radar_usuario')
-        .upsert(
-          { user_id: user.id, especialidade_ids: top3Ids, ufs: [], alertas_ativos: true },
-          { onConflict: 'user_id', ignoreDuplicates: true }
-        )
-    }
+    const top3Ids = result.ranking.slice(0, 3).map((r) => r.id)
+    await supabase
+      .from('radar_usuario')
+      .upsert(
+        { user_id: clerkUser.id, especialidade_ids: top3Ids, ufs: [], alertas_ativos: true },
+        { onConflict: 'user_id', ignoreDuplicates: true }
+      )
     const reteste = await agendarReteste({
       email: answers.email,
       nome: answers.nome,

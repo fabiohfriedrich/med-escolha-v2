@@ -25,13 +25,15 @@ export async function POST(req: NextRequest) {
   const rawBody = await req.text()
 
   const secret = process.env.CAL_COM_WEBHOOK_SECRET
-  if (secret) {
-    // TODO: confirmar contra a doc atual do Cal.com o nome exato do header e o formato do hash
-    const assinatura = req.headers.get('x-cal-signature-256') ?? ''
-    if (!(await assinaturaValida(rawBody, assinatura, secret))) {
-      console.warn('[calcom] Assinatura inválida')
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
+  if (!secret) {
+    console.error('[calcom] CAL_COM_WEBHOOK_SECRET não configurada')
+    return NextResponse.json({ error: 'Configuração ausente' }, { status: 500 })
+  }
+  // TODO: confirmar contra a doc atual do Cal.com o nome exato do header e o formato do hash
+  const assinatura = req.headers.get('x-cal-signature-256') ?? ''
+  if (!(await assinaturaValida(rawBody, assinatura, secret))) {
+    console.warn('[calcom] Assinatura inválida')
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
   const body = JSON.parse(rawBody)

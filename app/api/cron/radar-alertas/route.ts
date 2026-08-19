@@ -20,8 +20,13 @@ const SPECIALTIES = specialtiesData.specialties as { id: number; nome: string }[
 const NOME_ESPECIALIDADE: Record<number, string> = Object.fromEntries(SPECIALTIES.map((s) => [s.id, s.nome]))
 
 export async function GET(req: NextRequest) {
+  const cronSecret = process.env.CRON_SECRET
+  if (!cronSecret) {
+    console.error('[cron/radar-alertas] CRON_SECRET não configurada')
+    return NextResponse.json({ error: 'Configuração ausente' }, { status: 500 })
+  }
   const authHeader = req.headers.get('authorization')
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  if (authHeader !== `Bearer ${cronSecret}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 

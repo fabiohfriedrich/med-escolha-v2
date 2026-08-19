@@ -18,8 +18,13 @@ function dentroDoHorario(): boolean {
 
 export async function GET(req: NextRequest) {
   // Verificar token de segurança (para evitar chamadas externas)
+  const cronSecret = process.env.CRON_SECRET
+  if (!cronSecret) {
+    console.error('[cron/send-emails] CRON_SECRET não configurada')
+    return NextResponse.json({ error: 'Configuração ausente' }, { status: 500 })
+  }
   const authHeader = req.headers.get('authorization')
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  if (authHeader !== `Bearer ${cronSecret}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 

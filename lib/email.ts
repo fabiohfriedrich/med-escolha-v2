@@ -1,7 +1,10 @@
 import { Resend } from 'resend'
 
 function getResend() {
-  const key = process.env.RESEND_API_KEY
+  // A chave no Vercel pode vir com um caractere BOM invisível no início (problema de
+  // copy-paste), o que quebra o header Authorization sem erro claro. O webhook da Hotmart
+  // já sanitiza a chave localmente — replicamos aqui pra cobrir todo o resto dos envios.
+  const key = (process.env.RESEND_API_KEY ?? '').replace(/^﻿/, '').trim()
   if (!key) throw new Error('RESEND_API_KEY não configurada')
   return new Resend(key)
 }
