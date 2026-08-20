@@ -17,11 +17,16 @@ const OPCOES_FILTRO: { valor: Filtro; label: string }[] = [
 
 interface GastoCampanha { id: string; nome: string; gasto: number; impressoes: number; cliques: number }
 interface ReceitaProduto { id: string; nome: string; vendas: number; receita: number; receitaLiquida: number }
+interface CriativoPerformance {
+  id: string; nome: string; campanha: string; gasto: number; impressoes: number
+  cliques: number; compras: number; ctr: number; cpm: number; custoPorClique: number | null
+}
 
 interface RespostaApi {
   faixa: { from: string; to: string }
   gasto: { configurado: boolean; total: number; campanhas: GastoCampanha[] }
   receita: { configurado: boolean; total: number; totalLiquido: number; vendas: number; produtos: ReceitaProduto[] }
+  criativos: { configurado: boolean; criativos: CriativoPerformance[] }
 }
 
 const fmtMoeda = (v: number) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
@@ -85,7 +90,16 @@ export default function FinanceiroClient() {
 
   const gasto = dados?.gasto
   const receita = dados?.receita
+  const criativos = dados?.criativos
   const roas = gasto && gasto.total > 0 && receita ? receita.total / gasto.total : null
+
+  const rankeaveis = (criativos?.criativos ?? []).filter(c => c.cliques > 0)
+  const melhorId = rankeaveis.length
+    ? rankeaveis.reduce((m, c) => (c.custoPorClique! < m.custoPorClique! ? c : m)).id
+    : null
+  const piorId = rankeaveis.length > 1
+    ? rankeaveis.reduce((m, c) => (c.custoPorClique! > m.custoPorClique! ? c : m)).id
+    : null
 
   return (
     <div className="space-y-8">
@@ -218,6 +232,56 @@ export default function FinanceiroClient() {
                       )}
                     </tbody>
                   </table>
+                </div>
+              </div>
+
+              <div>
+                <p className="text-sm font-semibold text-gray-600 mb-2">Performance de criativos (Meta Ads)</p>
+                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                  <div className="max-h-[520px] overflow-y-auto">
+                    <table className="w-full text-sm">
+                      <thead className="bg-gray-50 sticky top-0">
+                        <tr>
+                          <th className="text-left px-5 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">Criativo</th>
+                          <th className="text-right px-5 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">Gasto</th>
+                          <th className="text-right px-5 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">Cliques</th>
+                          <th className="text-right px-5 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">Compras</th>
+                          <th className="text-right px-5 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">CTR</th>
+                          <th className="text-right px-5 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">CPM</th>
+                          <th className="text-right px-5 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">Custo/clique</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {(criativos?.criativos ?? []).map(c => (
+                          <tr key={c.id} className="border-t border-gray-50 hover:bg-gray-50 transition">
+                            <td className="px-5 py-3 font-medium text-gray-800">
+                              <div className="flex items-center gap-2">
+                                <span className="max-w-xs truncate" title={c.nome}>{c.nome}</span>
+                                {c.id === melhorId && (
+                                  <span className="shrink-0 text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-700">Melhor</span>
+                                )}
+                                {c.id === piorId && (
+                                  <span className="shrink-0 text-xs font-semibold px-2 py-0.5 rounded-full bg-red-100 text-red-700">Pior</span>
+                                )}
+                              </div>
+                              <span className="text-xs text-gray-400">{c.campanha}</span>
+                            </td>
+                            <td className="px-5 py-3 text-right font-semibold text-red-600">{fmtMoeda(c.gasto)}</td>
+                            <td className="px-5 py-3 text-right text-gray-600">{fmtNum(c.cliques)}</td>
+                            <td className="px-5 py-3 text-right text-gray-600">{fmtNum(c.compras)}</td>
+                            <td className="px-5 py-3 text-right text-gray-500">{c.ctr.toFixed(2)}%</td>
+                            <td className="px-5 py-3 text-right text-gray-500">{fmtMoeda(c.cpm)}</td>
+                            <td className="px-5 py-3 text-right text-gray-500">{c.custoPorClique !== null ? fmtMoeda(c.custoPorClique) : '—'}</td>
+                          </tr>
+                        ))}
+                        {!(criativos?.criativos ?? []).length && (
+                          <tr><td colSpan={7} className="px-5 py-8 text-center text-gray-400">
+                            {criativos?.configurado ? 'Nenhum criativo com gasto no período.' : 'Meta Ads não configurado.'}
+                          </td></tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
