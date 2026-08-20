@@ -118,6 +118,10 @@ export default function Quiz({ onComplete, emailPreenchido = '', nomePreenchido 
   const [c04b, setC04b] = useState<Record<string, number>>(() =>
     Object.fromEntries(PERGUNTAS.map(p => [p.id, 5]))
   )
+  // Como os sliders já nascem em 5, o valor sozinho não diferencia "não vi essa pergunta" de
+  // "concordo com o neutro" — rastreamos separadamente quais o usuário efetivamente tocou,
+  // pra exigir interação com cada uma antes de avançar o bloco.
+  const [c04bTocados, setC04bTocados] = useState<Set<string>>(new Set())
   const [jung, setJung] = useState<string[]>([])
   const [hollandRespostas, setHollandRespostas] = useState<Record<string, boolean>>({})
   const [c02, setC02] = useState<number[]>([])
@@ -136,21 +140,43 @@ export default function Quiz({ onComplete, emailPreenchido = '', nomePreenchido 
       const e: Record<string, string> = {}
       if (!info.nome.trim()) e.nome = 'Digite seu nome'
       if (!info.email.trim() || !info.email.includes('@')) e.email = 'Digite um email válido'
+      if (!demo.genero) e.genero = 'Selecione uma opção'
       if (Object.keys(e).length) { setErrors(e); return }
       posthog.capture('quiz_iniciado', { tipo: 'completo' })
     }
+    if (step === 1 && !Object.values(c04a).some(Boolean)) {
+      setErrors({ geral: 'Selecione ao menos um valor importante pra continuar.' })
+      return
+    }
+    if (step === 2) {
+      const pendentes = perguntasBloco.filter(p => !c04bTocados.has(p.id))
+      if (pendentes.length > 0) {
+        setErrors({ geral: `Responda ${pendentes.length === 1 ? 'a afirmação restante' : `as ${pendentes.length} afirmações restantes`} desse bloco pra continuar.` })
+        return
+      }
+    }
+    if (step === 3 && jung.length === 0) {
+      setErrors({ geral: 'Selecione ao menos uma afirmação pra continuar.' })
+      return
+    }
+    if (step === 4 && Object.values(hollandRespostas).every(v => !v)) {
+      setErrors({ geral: 'Selecione ao menos uma afirmação pra continuar.' })
+      return
+    }
+
+    setErrors({})
     setDirection(1)
     if (step === 2 && blocoIdx < blocos.length - 1) {
       setBlocoIdx(b => b + 1)
       window.scrollTo(0, 0)
       return
     }
-    setErrors({})
     setStep(s => s + 1)
     window.scrollTo(0, 0)
   }
 
   function prevStep() {
+    setErrors({})
     setDirection(-1)
     if (step === 2 && blocoIdx > 0) { setBlocoIdx(b => b - 1); window.scrollTo(0, 0); return }
     setStep(s => Math.max(0, s - 1))
@@ -245,6 +271,7 @@ export default function Quiz({ onComplete, emailPreenchido = '', nomePreenchido 
                     >{g}</button>
                   ))}
                 </div>
+                {errors.genero && <p className="text-red-500 text-xs mt-1">{errors.genero}</p>}
               </div>
 
               <div>
@@ -298,6 +325,7 @@ export default function Quiz({ onComplete, emailPreenchido = '', nomePreenchido 
                 )
               })}
             </div>
+            {errors.geral && <p className="text-red-500 text-sm mt-4 text-center">{errors.geral}</p>}
             <div className="flex gap-3 mt-8">
               <button onClick={prevStep} className="flex-1 border border-gray-300 text-gray-700 font-semibold py-3 rounded-xl hover:bg-gray-50 transition">← Voltar</button>
               <button onClick={nextStep} className="flex-1 bg-blue-700 text-white font-bold py-3 rounded-xl hover:bg-blue-800 transition">Próximo →</button>
@@ -314,12 +342,14 @@ export default function Quiz({ onComplete, emailPreenchido = '', nomePreenchido 
               </p>
               <h2 className="text-2xl font-extrabold text-blue-900">{BLOCOS[blocos[blocoIdx]]}</h2>
               <p className="text-gray-500 mt-1 text-sm">Para cada afirmação, indique o quanto ela se aplica a você (0 = nada, 10 = totalmente).</p>
+              <p className="text-xs text-gray-400 mt-2">{perguntasBloco.filter(p => c04bTocados.has(p.id)).length} de {perguntasBloco.length} respondidas nesse bloco</p>
             </div>
             <div className="space-y-6">
               {perguntasBloco.map(p => {
                 const val = c04b[p.id] ?? 5
+                const tocado = c04bTocados.has(p.id)
                 return (
-                  <div key={p.id} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+                  <div key={p.id} className={`bg-white rounded-2xl border shadow-sm p-5 ${tocado ? 'border-gray-100' : 'border-amber-200'}`}>
                     <p className="font-semibold text-gray-800 text-sm mb-4">{p.enunciado_pt}</p>
                     <div className="flex items-center gap-3">
                       <span className="text-xs text-gray-400 w-10 text-center flex-shrink-0">0</span>
@@ -329,7 +359,10 @@ export default function Quiz({ onComplete, emailPreenchido = '', nomePreenchido 
                         max={10}
                         step={1}
                         value={val}
-                        onChange={e => setC04b(prev => ({ ...prev, [p.id]: Number(e.target.value) }))}
+                        onChange={e => {
+                          setC04b(prev => ({ ...prev, [p.id]: Number(e.target.value) }))
+                          setC04bTocados(prev => prev.has(p.id) ? prev : new Set(prev).add(p.id))
+                        }}
                         className="quiz-slider flex-1 cursor-pointer"
                         style={{ background: `linear-gradient(90deg, #1d4ed8 ${val * 10}%, #e5e7eb ${val * 10}%)`, borderRadius: 999, height: 8 }}
                       />
@@ -337,13 +370,14 @@ export default function Quiz({ onComplete, emailPreenchido = '', nomePreenchido 
                     </div>
                     <div className="flex justify-between mt-2">
                       <span className="text-xs text-gray-400">Não me identifico</span>
-                      <span className="text-base font-extrabold text-blue-700 tabular-nums">{val}</span>
+                      <span className="text-base font-extrabold text-blue-700 tabular-nums">{tocado ? val : '—'}</span>
                       <span className="text-xs text-gray-400">Me identifico totalmente</span>
                     </div>
                   </div>
                 )
               })}
             </div>
+            {errors.geral && <p className="text-red-500 text-sm mt-4 text-center">{errors.geral}</p>}
             <div className="flex gap-3 mt-8">
               <button onClick={prevStep} className="flex-1 border border-gray-300 text-gray-700 font-semibold py-3 rounded-xl hover:bg-gray-50 transition">← Voltar</button>
               <button onClick={nextStep} className="flex-1 bg-blue-700 text-white font-bold py-3 rounded-xl hover:bg-blue-800 transition">
@@ -378,6 +412,7 @@ export default function Quiz({ onComplete, emailPreenchido = '', nomePreenchido 
                 )
               })}
             </div>
+            {errors.geral && <p className="text-red-500 text-sm mt-4 text-center">{errors.geral}</p>}
             <div className="flex gap-3 mt-8">
               <button onClick={prevStep} className="flex-1 border border-gray-300 text-gray-700 font-semibold py-3 rounded-xl hover:bg-gray-50 transition">← Voltar</button>
               <button onClick={nextStep} className="flex-1 bg-blue-700 text-white font-bold py-3 rounded-xl hover:bg-blue-800 transition">Próximo →</button>
@@ -410,6 +445,7 @@ export default function Quiz({ onComplete, emailPreenchido = '', nomePreenchido 
                 )
               })}
             </div>
+            {errors.geral && <p className="text-red-500 text-sm mt-4 text-center">{errors.geral}</p>}
             <div className="flex gap-3 mt-8">
               <button onClick={prevStep} className="flex-1 border border-gray-300 text-gray-700 font-semibold py-3 rounded-xl hover:bg-gray-50 transition">← Voltar</button>
               <button onClick={nextStep} className="flex-1 bg-blue-700 text-white font-bold py-3 rounded-xl hover:bg-blue-800 transition">Próximo →</button>

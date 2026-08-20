@@ -7,10 +7,16 @@ import { sendResultEmail } from '@/lib/email'
 import { gerarNarrativasTop3 } from '@/lib/narrativa-ia'
 import { agendarReteste } from '@/lib/reteste'
 import { publicFormRateLimit, getClientIp } from '@/lib/rate-limit'
+import c04bData from '@/data/c04b_perguntas.json'
 
 const MESES_RETESTE_PADRAO = 6
 
 const supabase = getSupabaseAdmin()
+
+// Mesma regra do quiz (components/Quiz.tsx): exigir cobertura completa dos 81 itens
+// comportamentais e ao menos uma resposta em valores/Jung/Holland — reaplicada aqui pra quem
+// chamar a API direto, sem passar pela interface (que já valida isso antes de enviar).
+const C04B_IDS = c04bData.questions.map((q) => q.id)
 
 const QuizSchema = z.object({
   nome: z.string().min(1).max(200).trim(),
@@ -20,11 +26,13 @@ const QuizSchema = z.object({
     faculdade: z.string().max(200).default(''),
     anoFormatura: z.string().max(10).default(''),
   }),
-  c04a: z.record(z.string(), z.boolean()),
-  c04b: z.record(z.string(), z.number().min(0).max(10)),
+  c04a: z.record(z.string(), z.boolean())
+    .refine(v => Object.values(v).some(Boolean), 'Selecione ao menos um valor importante'),
+  c04b: z.record(z.string(), z.number().min(0).max(10))
+    .refine(v => C04B_IDS.every(id => id in v), 'Responda todas as perguntas comportamentais'),
   c02: z.array(z.number().int().nonnegative()),
-  jung: z.array(z.string()),
-  holland: z.array(z.string()),
+  jung: z.array(z.string()).min(1, 'Selecione ao menos uma afirmação de temperamento'),
+  holland: z.array(z.string()).min(1, 'Selecione ao menos uma afirmação de perfil'),
 })
 
 export async function POST(req: NextRequest) {
