@@ -61,7 +61,7 @@ async function obterTokenHotmart(): Promise<string> {
 
 interface SaleHistoryItem {
   product?: { id?: number | string; name?: string }
-  purchase?: { status?: string; price?: { value?: number } }
+  purchase?: { status?: string; price?: { value?: number }; hotmart_fee?: { total?: number } }
 }
 
 export interface ReceitaProduto {
@@ -69,17 +69,19 @@ export interface ReceitaProduto {
   nome: string
   vendas: number
   receita: number
+  receitaLiquida: number
 }
 
 export interface ReceitaHotmart {
   configurado: boolean
   total: number
+  totalLiquido: number
   vendas: number
   produtos: ReceitaProduto[]
 }
 
 export async function buscarReceitaHotmart(fromMs: number, toMs: number): Promise<ReceitaHotmart> {
-  if (!process.env.HOTMART_CLIENT_ID) return { configurado: false, total: 0, vendas: 0, produtos: [] }
+  if (!process.env.HOTMART_CLIENT_ID) return { configurado: false, total: 0, totalLiquido: 0, vendas: 0, produtos: [] }
 
   const token = await obterTokenHotmart()
 
@@ -89,6 +91,7 @@ export async function buscarReceitaHotmart(fromMs: number, toMs: number): Promis
 
   const produtos = new Map<string, ReceitaProduto>()
   let total = 0
+  let totalLiquido = 0
   let vendas = 0
   let pageToken: string | undefined
 
@@ -117,19 +120,29 @@ export async function buscarReceitaHotmart(fromMs: number, toMs: number): Promis
       if (idsPermitidos.length && !idsPermitidos.includes(produtoId)) continue
 
       const valor = Number(item.purchase?.price?.value) || 0
+      const taxaHotmart = Number(item.purchase?.hotmart_fee?.total) || 0
+      const liquido = valor - taxaHotmart
       const nome = item.product?.name ?? 'Produto sem nome'
 
       total += valor
+      totalLiquido += liquido
       vendas += 1
 
-      const atual = produtos.get(produtoId) ?? { id: produtoId, nome, vendas: 0, receita: 0 }
+      const atual = produtos.get(produtoId) ?? { id: produtoId, nome, vendas: 0, receita: 0, receitaLiquida: 0 }
       atual.vendas += 1
       atual.receita += valor
+      atual.receitaLiquida += liquido
       produtos.set(produtoId, atual)
     }
 
     pageToken = data?.page_info?.next_page_token || undefined
   } while (pageToken)
 
-  return { configurado: true, total, vendas, produtos: Array.from(produtos.values()).sort((a, b) => b.receita - a.receita) }
+  return {
+    configurado: true,
+    total,
+    totalLiquido,
+    vendas,
+    produtos: Array.from(produtos.values()).sort((a, b) => b.receita - a.receita),
+  }
 }

@@ -16,12 +16,12 @@ const OPCOES_FILTRO: { valor: Filtro; label: string }[] = [
 ]
 
 interface GastoCampanha { id: string; nome: string; gasto: number; impressoes: number; cliques: number }
-interface ReceitaProduto { id: string; nome: string; vendas: number; receita: number }
+interface ReceitaProduto { id: string; nome: string; vendas: number; receita: number; receitaLiquida: number }
 
 interface RespostaApi {
   faixa: { from: string; to: string }
   gasto: { configurado: boolean; total: number; campanhas: GastoCampanha[] }
-  receita: { configurado: boolean; total: number; vendas: number; produtos: ReceitaProduto[] }
+  receita: { configurado: boolean; total: number; totalLiquido: number; vendas: number; produtos: ReceitaProduto[] }
 }
 
 const fmtMoeda = (v: number) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
@@ -133,13 +133,14 @@ export default function FinanceiroClient() {
           {/* Resumo geral */}
           <div>
             <h2 className="text-lg font-extrabold text-gray-800 mb-4">Resumo geral</h2>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+            <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-4">
               <Card label="Gasto em campanhas" value={fmtMoeda(gasto?.total ?? 0)} color="text-red-600" />
-              <Card label="Receita total" value={fmtMoeda(receita?.total ?? 0)} color="text-green-600" />
+              <Card label="Receita bruta" value={fmtMoeda(receita?.total ?? 0)} color="text-green-600" />
+              <Card label="Receita líquida" value={fmtMoeda(receita?.totalLiquido ?? 0)} sub="Após taxa da Hotmart" color="text-emerald-600" />
               <Card label="Vendas aprovadas" value={fmtNum(receita?.vendas ?? 0)}
                 sub={receita && receita.vendas > 0 ? `Ticket médio: ${fmtMoeda(receita.total / receita.vendas)}` : undefined}
                 color="text-blue-700" />
-              <Card label="ROAS" value={roas !== null ? `${roas.toFixed(2)}x` : '—'} sub="Receita / Gasto" color="text-purple-600" />
+              <Card label="ROAS" value={roas !== null ? `${roas.toFixed(2)}x` : '—'} sub="Receita bruta / Gasto" color="text-purple-600" />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -164,7 +165,8 @@ export default function FinanceiroClient() {
                       <tr>
                         <th className="text-left px-5 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">Produto</th>
                         <th className="text-right px-5 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">Vendas</th>
-                        <th className="text-right px-5 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">Receita</th>
+                        <th className="text-right px-5 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">Receita bruta</th>
+                        <th className="text-right px-5 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">Receita líquida</th>
                         <th className="text-right px-5 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">Ticket médio</th>
                       </tr>
                     </thead>
@@ -174,11 +176,12 @@ export default function FinanceiroClient() {
                           <td className="px-5 py-3 font-medium text-gray-800">{p.nome}</td>
                           <td className="px-5 py-3 text-right text-gray-600">{fmtNum(p.vendas)}</td>
                           <td className="px-5 py-3 text-right font-semibold text-green-700">{fmtMoeda(p.receita)}</td>
+                          <td className="px-5 py-3 text-right text-emerald-600">{fmtMoeda(p.receitaLiquida)}</td>
                           <td className="px-5 py-3 text-right text-gray-500">{fmtMoeda(p.receita / p.vendas)}</td>
                         </tr>
                       ))}
                       {!(receita?.produtos ?? []).length && (
-                        <tr><td colSpan={4} className="px-5 py-8 text-center text-gray-400">
+                        <tr><td colSpan={5} className="px-5 py-8 text-center text-gray-400">
                           {receita?.configurado ? 'Nenhuma venda no período.' : 'Hotmart não configurado.'}
                         </td></tr>
                       )}
