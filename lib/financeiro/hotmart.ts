@@ -2,8 +2,26 @@
 // Credenciais em developers.hotmart.com > Ferramentas > Credenciais de acesso (OAuth
 // client credentials, diferente do HOTMART_HOTTOK usado no webhook de compra).
 
+import { execFile } from 'node:child_process'
+import { promisify } from 'node:util'
+
+const execFileAsync = promisify(execFile)
+
 const AUTH_URL = 'https://api-sec-vlc.hotmart.com/security/oauth/token'
 const SALES_URL = 'https://developers.hotmart.com/payments/api/v1/sales/history'
+
+// A API de vendas da Hotmart fica atrás de um WAF (CloudFront) que bloqueia a assinatura TLS
+// do fetch()/undici do Node com um 400 genérico — mesmo request via curl funciona normalmente
+// (confirmado testando local e da rede de quem criou a credencial). Por isso essa chamada
+// específica usa o binário curl do sistema em vez de fetch. O login OAuth (obterTokenHotmart)
+// não tem esse problema e continua em fetch normal.
+async function curlGetJson(url: string, headers: Record<string, string>): Promise<any> {
+  const args = ['-s']
+  for (const [chave, valor] of Object.entries(headers)) args.push('-H', `${chave}: ${valor}`)
+  args.push(url)
+  const { stdout } = await execFileAsync('curl', args, { maxBuffer: 20 * 1024 * 1024 })
+  return JSON.parse(stdout)
+}
 
 // Só esses status representam venda paga (mesmo critério do webhook em
 // app/api/webhook/hotmart/route.ts, EVENTOS_APROVADOS).
@@ -82,13 +100,12 @@ export async function buscarReceitaHotmart(fromMs: number, toMs: number): Promis
     })
     if (pageToken) params.set('page_token', pageToken)
 
-    const res = await fetch(`${SALES_URL}?${params.toString()}`, {
-      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-      cache: 'no-store',
+    const data = await curlGetJson(`${SALES_URL}?${params.toString()}`, {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
     })
-    const data = await res.json()
 
-    if (!res.ok) {
+    if (data?.error) {
       throw new Error(data?.error_description ?? data?.message ?? 'Erro ao buscar vendas na Hotmart')
     }
 

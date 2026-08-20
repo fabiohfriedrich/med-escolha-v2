@@ -49,6 +49,7 @@ export interface Edital {
   data_resultado: string | null
   observacoes: string | null
   atualizado_em: string
+  created_at: string
 }
 
 export interface EditalComInstituicao extends Edital {
@@ -166,9 +167,17 @@ export function editalCorrespondeAoRadar(edital: EditalComInstituicao, config: R
 
 export type TipoAlerta = 'novo_edital' | 'inscricao_abriu' | 'ultimos_dias' | 'vespera_prova'
 
-// Não avisamos de "novo edital" pra algo que já encerrou (ex: radar configurado depois do fato).
-export function alertaNovoEditalDevido(edital: Pick<Edital, 'status'>): boolean {
-  return edital.status !== 'encerrado'
+// Janela de novidade: sem isso, "novo_edital" fica "devido" pra sempre pra qualquer edital não
+// encerrado, com o único freio sendo o dedup em alertas_log. Incidente de 19/08/2026: enquanto
+// o Resend esteve quebrado, toda reserva era desfeita após falha de envio, então nada nunca
+// ficava marcado como enviado — quando o Resend voltou, o catálogo inteiro "pendente" foi
+// disparado de uma vez (784 alertas pra 24 usuários em ~3 minutos).
+const JANELA_NOVIDADE_DIAS = 2
+
+export function alertaNovoEditalDevido(edital: Pick<Edital, 'status' | 'created_at'>, hoje: Date = new Date()): boolean {
+  if (edital.status === 'encerrado') return false
+  const diasDesdeCriacao = (hoje.getTime() - new Date(edital.created_at).getTime()) / 86400000
+  return diasDesdeCriacao <= JANELA_NOVIDADE_DIAS
 }
 
 export function alertaInscricaoAbriuDevido(edital: Pick<Edital, 'inscricao_inicio'>, hoje: Date = new Date()): boolean {

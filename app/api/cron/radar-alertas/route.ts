@@ -62,6 +62,11 @@ export async function GET(req: NextRequest) {
   let enviados = 0
   const erros: string[] = []
 
+  // Rede de segurança independente da janela de novidade: nenhum usuário deve receber mais
+  // que isso num único disparo do cron, mesmo que algum outro bug de "devido" apareça no
+  // futuro. Ver incidente de 19/08/2026 (784 alertas em 24 usuários, até 38 pra um só).
+  const MAX_ALERTAS_POR_USUARIO_POR_EXECUCAO = 5
+
   for (const radar of radares) {
     const usuario = usuarioPorId.get(radar.user_id)
     const email = usuario?.primaryEmailAddress?.emailAddress
@@ -71,15 +76,20 @@ export async function GET(req: NextRequest) {
     const config: RadarConfig = { especialidade_ids: radar.especialidade_ids ?? [], ufs: radar.ufs ?? [] }
     const editaisDoRadar = editais.filter((e) => editalCorrespondeAoRadar(e, config))
 
+    let enviadosParaEsteUsuario = 0
+
     for (const edital of editaisDoRadar) {
+      if (enviadosParaEsteUsuario >= MAX_ALERTAS_POR_USUARIO_POR_EXECUCAO) break
+
       const candidatos: Array<{ tipo: TipoAlerta; devido: boolean }> = [
-        { tipo: 'novo_edital', devido: alertaNovoEditalDevido(edital) },
+        { tipo: 'novo_edital', devido: alertaNovoEditalDevido(edital, hoje) },
         { tipo: 'inscricao_abriu', devido: alertaInscricaoAbriuDevido(edital, hoje) },
         { tipo: 'ultimos_dias', devido: alertaUltimosDiasDevido(edital, hoje) },
         { tipo: 'vespera_prova', devido: alertaVesperaProvaDevido(edital, hoje) },
       ]
 
       for (const { tipo, devido } of candidatos) {
+        if (enviadosParaEsteUsuario >= MAX_ALERTAS_POR_USUARIO_POR_EXECUCAO) break
         if (!devido) continue
         const chave = `${radar.user_id}|${edital.id}|${tipo}`
         if (jaEnviados.has(chave)) continue
@@ -124,6 +134,7 @@ export async function GET(req: NextRequest) {
           })
           jaEnviados.add(chave)
           enviados++
+          enviadosParaEsteUsuario++
         } catch (err) {
           const msg = err instanceof Error ? err.message : String(err)
           erros.push(`${chave}: falha ao enviar - ${msg}`)
