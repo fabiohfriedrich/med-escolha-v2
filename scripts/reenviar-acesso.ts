@@ -62,19 +62,35 @@ async function main() {
       continue
     }
 
-    const senhaTemporaria = gerarSenhaTemporaria()
-    await clerk.users.updateUser(user.id, { password: senhaTemporaria })
-    await clerk.users.updateUserMetadata(user.id, { publicMetadata: { mustChangePassword: true } })
+    try {
+      const senhaTemporaria = gerarSenhaTemporaria()
+      await clerk.users.updateUser(user.id, { password: senhaTemporaria })
+      await clerk.users.updateUserMetadata(user.id, { publicMetadata: { mustChangePassword: true } })
 
-    const { error } = await resend.emails.send({
-      from: 'Med Escolha <noreply@medescolha.com>',
-      to: email,
-      subject: 'Seu acesso ao Med Escolha está pronto',
-      html: emailHtml(nome, senhaTemporaria),
-    })
+      const { data: envio, error } = await resend.emails.send({
+        from: 'Med Escolha <noreply@medescolha.com>',
+        to: email,
+        subject: 'Seu acesso ao Med Escolha está pronto',
+        html: emailHtml(nome, senhaTemporaria),
+      })
+      if (error) throw new Error(error.message ?? JSON.stringify(error))
 
-    if (error) console.error(`  [erro ao enviar e-mail] ${email}:`, error)
-    else console.log(`  [ok] ${email} (${nome || 'sem nome'}) — senha resetada e e-mail reenviado`)
+      // Mantém o rastreamento de status_provisionamento (ver lib/provisionamento.ts) consistente
+      // com o webhook e o botão "Reenviar acesso" do admin, ainda que esse script duplique a
+      // lógica em vez de importar — node --env-file não resolve o alias @/ do Next.js.
+      await supabase.from('compradores').update({
+        status_provisionamento: 'email_enviado',
+        email_enviado_em: new Date().toISOString(),
+        resend_email_id: envio?.id ?? null,
+        ultimo_erro: null,
+      }).eq('email', email)
+
+      console.log(`  [ok] ${email} (${nome || 'sem nome'}) — senha resetada e e-mail reenviado`)
+    } catch (err) {
+      const mensagem = err instanceof Error ? err.message : String(err)
+      await supabase.from('compradores').update({ status_provisionamento: 'falhou', ultimo_erro: mensagem }).eq('email', email)
+      console.error(`  [erro] ${email}:`, mensagem)
+    }
   }
 }
 

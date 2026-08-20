@@ -14,6 +14,9 @@ interface Comprador {
   tipo: string
   notas: string | null
   created_at: string
+  status_provisionamento: string | null
+  ultimo_erro: string | null
+  email_entregue_em: string | null
 }
 
 interface Props {
@@ -26,6 +29,14 @@ const STATUS_CONFIG: Record<string, { label: string; cls: string }> = {
   reembolsado:          { label: 'Reembolsado',         cls: 'bg-orange-100 text-orange-700' },
   chargeback:           { label: 'Chargeback',          cls: 'bg-red-100 text-red-700' },
   cancelado:            { label: 'Cancelado',           cls: 'bg-gray-100 text-gray-500' },
+}
+
+const PROVISIONAMENTO_CONFIG: Record<string, { label: string; cls: string }> = {
+  pendente:        { label: '⏳ Provisionando',  cls: 'bg-gray-100 text-gray-500' },
+  conta_criada:    { label: '⏳ Enviando e-mail', cls: 'bg-gray-100 text-gray-500' },
+  email_enviado:   { label: '📤 E-mail enviado',  cls: 'bg-yellow-100 text-yellow-700' },
+  email_entregue:  { label: '✅ Entregue',        cls: 'bg-green-100 text-green-700' },
+  falhou:          { label: '⚠️ Falhou',          cls: 'bg-red-100 text-red-700' },
 }
 
 const TIPO_CONFIG: Record<string, { label: string; cls: string }> = {
@@ -49,6 +60,8 @@ export default function CompradoresClient({ compradores }: Props) {
   const [novaSenha, setNovaSenha] = useState('')
   const [salvandoSenha, setSalvandoSenha] = useState(false)
   const [senhaMsg, setSenhaMsg] = useState<{ ok: boolean; texto: string } | null>(null)
+  const [reenviandoId, setReenviandoId] = useState<string | null>(null)
+  const [reenvioMsg, setReenvioMsg] = useState<Record<string, { ok: boolean; texto: string } | undefined>>({})
 
   // Formulário de novo comprador
   const [novoEmail, setNovoEmail] = useState('')
@@ -122,6 +135,23 @@ export default function CompradoresClient({ compradores }: Props) {
     } else {
       setSenhaMsg({ ok: false, texto: data.error ?? 'Erro ao salvar' })
     }
+  }
+
+  async function reenviarAcesso(c: Comprador) {
+    setReenviandoId(c.id)
+    setReenvioMsg(msgs => ({ ...msgs, [c.id]: undefined }))
+    const res = await fetch('/api/admin/compradores/reenviar-acesso', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: c.email }),
+    })
+    const data = await res.json()
+    setReenviandoId(null)
+    setReenvioMsg(msgs => ({
+      ...msgs,
+      [c.id]: res.ok ? { ok: true, texto: 'Acesso reenviado!' } : { ok: false, texto: data.error ?? 'Erro ao reenviar' },
+    }))
+    router.refresh()
   }
 
   function exportarCSV() {
@@ -254,6 +284,7 @@ export default function CompradoresClient({ compradores }: Props) {
                 <th className="text-left px-5 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">Pagamento</th>
                 <th className="text-left px-5 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">Testes</th>
                 <th className="text-left px-5 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">Status</th>
+                <th className="text-left px-5 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">Acesso</th>
                 <th className="text-left px-5 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">Cadastro</th>
                 <th className="text-left px-5 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">Ações</th>
               </tr>
@@ -308,6 +339,19 @@ export default function CompradoresClient({ compradores }: Props) {
                         {c.ativo ? 'Ativo' : 'Inativo'}
                       </span>
                     </td>
+                    <td className="px-5 py-3">
+                      {(() => {
+                        const provCfg = PROVISIONAMENTO_CONFIG[c.status_provisionamento ?? ''] ?? { label: '—', cls: 'bg-gray-50 text-gray-400' }
+                        return (
+                          <span
+                            className={`text-xs font-semibold px-2 py-1 rounded-full ${provCfg.cls}`}
+                            title={c.status_provisionamento === 'falhou' ? (c.ultimo_erro ?? undefined) : undefined}
+                          >
+                            {provCfg.label}
+                          </span>
+                        )
+                      })()}
+                    </td>
                     <td className="px-5 py-3 text-gray-400 text-xs whitespace-nowrap">
                       {new Date(c.created_at).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' })}
                     </td>
@@ -357,6 +401,13 @@ export default function CompradoresClient({ compradores }: Props) {
                         <>
                         <div className="flex flex-wrap gap-1.5">
                           <button
+                            onClick={() => reenviarAcesso(c)}
+                            disabled={reenviandoId === c.id}
+                            className="text-xs font-semibold px-2.5 py-1 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition disabled:opacity-50"
+                          >
+                            {reenviandoId === c.id ? 'Reenviando...' : 'Reenviar acesso'}
+                          </button>
+                          <button
                             onClick={() => toggleAtivo(c)}
                             disabled={loadingId === c.id}
                             className={`text-xs font-semibold px-2.5 py-1 rounded-lg transition ${c.ativo ? 'bg-red-50 text-red-600 hover:bg-red-100' : 'bg-green-50 text-green-600 hover:bg-green-100'} disabled:opacity-50`}
@@ -395,6 +446,14 @@ export default function CompradoresClient({ compradores }: Props) {
                             Senha
                           </button>
                         </div>
+                        {(() => {
+                          const msg = reenvioMsg[c.id]
+                          return msg && (
+                            <p className={`text-xs font-semibold mt-1.5 ${msg.ok ? 'text-green-600' : 'text-red-500'}`}>
+                              {msg.texto}
+                            </p>
+                          )
+                        })()}
                         {senhaId === c.id && (
                           <div className="mt-2 flex flex-col gap-1.5 min-w-[180px]">
                             <input
@@ -433,7 +492,7 @@ export default function CompradoresClient({ compradores }: Props) {
                 )
               })}
               {!filtrados.length && (
-                <tr><td colSpan={7} className="px-5 py-10 text-center text-gray-400">Nenhum comprador encontrado.</td></tr>
+                <tr><td colSpan={8} className="px-5 py-10 text-center text-gray-400">Nenhum comprador encontrado.</td></tr>
               )}
             </tbody>
           </table>

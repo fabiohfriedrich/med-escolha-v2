@@ -7,7 +7,7 @@ import CompradoresClient from './CompradoresClient'
 export default async function AdminCompradores() {
   const { data: compradores } = await supabase
     .from('compradores')
-    .select('id, email, nome, testes_realizados, testes_limite, ativo, status_pagamento, tipo, notas, created_at')
+    .select('id, email, nome, testes_realizados, testes_limite, ativo, status_pagamento, tipo, notas, created_at, status_provisionamento, ultimo_erro, email_entregue_em')
     .order('created_at', { ascending: false })
 
   return (
