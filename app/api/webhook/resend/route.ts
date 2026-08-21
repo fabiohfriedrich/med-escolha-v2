@@ -49,26 +49,35 @@ export async function POST(req: NextRequest) {
   }
 
   const supabaseAdmin = getSupabaseAdmin()
-  const { data: comprador } = await supabaseAdmin
-    .from('compradores')
-    .select('email, nome')
-    .eq('resend_email_id', emailId)
-    .maybeSingle()
 
-  if (!comprador) {
+  // O comprador pode estar em `compradores` (produto principal) ou `pacotes_psicologo`
+  // (pacote de psicólogo) — checa as duas, o resend_email_id só existe numa delas.
+  const [{ data: comprador }, { data: pacientePsicologo }] = await Promise.all([
+    supabaseAdmin.from('compradores').select('email, nome').eq('resend_email_id', emailId).maybeSingle(),
+    supabaseAdmin.from('pacotes_psicologo').select('email, nome').eq('resend_email_id', emailId).maybeSingle(),
+  ])
+  const tabela = comprador ? 'compradores' : pacientePsicologo ? 'pacotes_psicologo' : null
+  const registro = comprador ?? pacientePsicologo
+
+  if (!tabela || !registro) {
     // Normal pra e-mails que não são de provisionamento de acesso (alertas internos, etc.)
     return NextResponse.json({ ok: true, action: 'sem-comprador-correspondente' })
   }
 
   if (EVENTOS_ENTREGUE.includes(evento.type)) {
     const { error } = await supabaseAdmin
-      .from('compradores')
+      .from(tabela)
       .update({ status_provisionamento: 'email_entregue', email_entregue_em: new Date().toISOString() })
-      .eq('email', comprador.email)
-    if (error) console.error(`[webhook-resend] Erro ao gravar entrega de ${comprador.email}:`, error.message)
+      .eq('email', registro.email)
+    if (error) {
+      // Devolve erro pro Resend reagendar a entrega desse evento de webhook — senão a evidência
+      // de entrega se perde de vez (o Resend não reenvia o mesmo evento espontaneamente).
+      console.error(`[webhook-resend] Erro ao gravar entrega de ${registro.email}:`, error.message)
+      return NextResponse.json({ error: 'Erro ao gravar entrega' }, { status: 500 })
+    }
 
-    console.log(`[webhook-resend] E-mail de acesso entregue: ${comprador.email}`)
-    return NextResponse.json({ ok: true, action: 'entregue', email: comprador.email })
+    console.log(`[webhook-resend] E-mail de acesso entregue: ${registro.email}`)
+    return NextResponse.json({ ok: true, action: 'entregue', email: registro.email })
   }
 
   // Bounce, reclamação, falha de envio ou supressão — grava o estado e alerta, mas não tenta
@@ -76,21 +85,24 @@ export async function POST(req: NextRequest) {
   // fica com o admin.
   const motivo = evento.data.bounce?.message ?? evento.data.bounce?.type ?? evento.data.failed?.reason ?? evento.type
   const { error: erroFalha } = await supabaseAdmin
-    .from('compradores')
+    .from(tabela)
     .update({ status_provisionamento: 'falhou', ultimo_erro: `Resend: ${motivo}` })
-    .eq('email', comprador.email)
-  if (erroFalha) console.error(`[webhook-resend] Erro ao gravar falha de ${comprador.email}:`, erroFalha.message)
+    .eq('email', registro.email)
+  if (erroFalha) {
+    console.error(`[webhook-resend] Erro ao gravar falha de ${registro.email}:`, erroFalha.message)
+    return NextResponse.json({ error: 'Erro ao gravar falha' }, { status: 500 })
+  }
 
   await sendAlertaAdminEmail({
     assunto: 'E-mail de acesso não entregue (bounce/reclamação)',
     contexto: {
-      'E-mail do comprador': comprador.email,
-      Nome: comprador.nome,
+      'E-mail do comprador': registro.email,
+      Nome: registro.nome,
       Evento: evento.type,
       Motivo: motivo,
     },
   }).catch(alertaErr => console.error('[webhook-resend] Erro ao enviar alerta:', alertaErr))
 
-  console.warn(`[webhook-resend] E-mail de acesso não entregue: ${comprador.email} (${evento.type})`)
-  return NextResponse.json({ ok: true, action: 'falha-registrada', email: comprador.email })
+  console.warn(`[webhook-resend] E-mail de acesso não entregue: ${registro.email} (${evento.type})`)
+  return NextResponse.json({ ok: true, action: 'falha-registrada', email: registro.email })
 }

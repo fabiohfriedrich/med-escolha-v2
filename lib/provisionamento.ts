@@ -66,11 +66,13 @@ interface ResultadoProvisionamento {
   skipped?: boolean
 }
 
+type TabelaProvisionamento = 'compradores' | 'pacotes_psicologo'
+
 /**
  * Cria/atualiza a conta no Clerk e envia o e-mail de acesso com senha temporária, gravando o
- * progresso em `compradores.status_provisionamento` a cada etapa. Chamada por: webhook da
- * Hotmart (provisionamento automático), endpoint do admin e script de reenvio em lote (reenvio
- * manual, `forcar: true`).
+ * progresso em `<tabela>.status_provisionamento` a cada etapa. Chamada por: webhook da Hotmart
+ * (provisionamento automático — `compradores` pro produto principal, `pacotes_psicologo` pro
+ * pacote de psicólogo), endpoint do admin e script de reenvio em lote (reenvio manual, `forcar: true`).
  *
  * Sem `forcar`, reivindica a linha atomicamente via a função `reclamar_provisionamento` no
  * Postgres antes de mexer no Clerk — evita a corrida de duas chamadas concorrentes (ex:
@@ -80,13 +82,14 @@ interface ResultadoProvisionamento {
 export async function provisionarAcesso(
   email: string,
   nome: string,
-  opts: { forcar?: boolean } = {}
+  opts: { forcar?: boolean; tabela?: TabelaProvisionamento } = {}
 ): Promise<ResultadoProvisionamento> {
   const emailLower = email.toLowerCase().trim()
+  const tabela = opts.tabela ?? 'compradores'
   const supabaseAdmin = getSupabaseAdmin()
 
   const { data: reclamoData, error: reclamoError } = await supabaseAdmin
-    .rpc('reclamar_provisionamento', { p_email: emailLower, p_forcar: opts.forcar ?? false })
+    .rpc('reclamar_provisionamento', { p_email: emailLower, p_forcar: opts.forcar ?? false, p_tabela: tabela })
     .single()
 
   if (reclamoError) {
@@ -154,7 +157,7 @@ export async function provisionarAcesso(
     }
 
     const { error: erroContaCriada } = await supabaseAdmin
-      .from('compradores')
+      .from(tabela)
       .update({ status_provisionamento: 'conta_criada' })
       .eq('email', emailLower)
     if (erroContaCriada) console.error(`[provisionamento] Erro ao gravar status 'conta_criada' de ${emailLower}:`, erroContaCriada.message)
@@ -170,7 +173,7 @@ export async function provisionarAcesso(
     if (emailError) throw new Error(emailError.message ?? JSON.stringify(emailError))
 
     const { error: erroEmailEnviado } = await supabaseAdmin
-      .from('compradores')
+      .from(tabela)
       .update({
         status_provisionamento: 'email_enviado',
         email_enviado_em: new Date().toISOString(),
@@ -191,7 +194,7 @@ export async function provisionarAcesso(
     console.error(`[provisionamento] Falha ao provisionar acesso de ${emailLower}:`, mensagemErro)
 
     const { error: erroFalhou } = await supabaseAdmin
-      .from('compradores')
+      .from(tabela)
       .update({ status_provisionamento: 'falhou', ultimo_erro: mensagemErro })
       .eq('email', emailLower)
     if (erroFalhou) console.error(`[provisionamento] Erro ao gravar status 'falhou' de ${emailLower}:`, erroFalhou.message)

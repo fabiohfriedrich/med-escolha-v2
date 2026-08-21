@@ -70,7 +70,7 @@ async function processarCompraPsicologo(emailLower: string, nome: string, transa
   const client = await clerkClient()
   const { data: usuariosExistentes } = await client.users.getUserList({ emailAddress: [emailLower] })
   if (!usuariosExistentes[0]) {
-    const resultadoProvisionamento = await provisionarAcesso(emailLower, nome)
+    const resultadoProvisionamento = await provisionarAcesso(emailLower, nome, { tabela: 'pacotes_psicologo' })
     if (!resultadoProvisionamento.ok) {
       // Mesmo tratamento do fluxo principal: devolve erro pra Hotmart reagendar o reenvio do
       // webhook, em vez de responder sucesso com o comprador ainda sem acesso.
