@@ -588,6 +588,50 @@ export default function MedEscolhaLandingPage() {
                 </div>
               </div>
             </div>
+
+            <div className={styles.testimonialCard}>
+              <div className={styles.testimonialQuote}>&quot;achei bem específico e detalhista. nunca parei para pensar que os aspectos da minha personalidade deveriam ser levados tanto em conta na minha escolha, assim diminuindo as chances de escolher a especialidade errada e ficar frustrada no futuro.&quot;</div>
+              <div className={styles.testimonialAuthor}>
+                <div className={styles.testimonialAvatar}><span className={styles.testimonialAvatarInitial}>M</span></div>
+                <div className={styles.testimonialMeta}>
+                  <div className={styles.name}>Maryana</div>
+                  <div className={styles.role}>estudante de medicina</div>
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.testimonialCard}>
+              <div className={styles.testimonialQuote}>&quot;já fiz muitos outros testes. mas nenhum tão fluido. é o primeiro que faço e me sinto confortável sem tentar prever as respostas associado a resultados. o acolhimento no vídeo, principalmente a parte que afirma que &apos;não tem resposta certa&apos;, é, de fato, um alívio.&quot;</div>
+              <div className={styles.testimonialAuthor}>
+                <div className={styles.testimonialAvatar}><span className={styles.testimonialAvatarInitial}>D</span></div>
+                <div className={styles.testimonialMeta}>
+                  <div className={styles.name}>Davi</div>
+                  <div className={styles.role}>médico</div>
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.testimonialCard}>
+              <div className={styles.testimonialQuote}>&quot;sou alguém decidida e com firmes convicções. quando me vi sem saber que área médica seguir, me senti perdida, pra mim um sentimento atípico. nesse turbilhão de medo e inseguranças, surgiu o med escolha. o fato de ter feito o primeiro teste de vocação médica da vida e ter sido tão completo me acalma, pois agora sim posso estar próxima de descobrir minha verdadeira vocação.&quot;</div>
+              <div className={styles.testimonialAuthor}>
+                <div className={styles.testimonialAvatar}><span className={styles.testimonialAvatarInitial}>M</span></div>
+                <div className={styles.testimonialMeta}>
+                  <div className={styles.name}>Melissa</div>
+                  <div className={styles.role}>médica</div>
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.testimonialCard}>
+              <div className={styles.testimonialQuote}>&quot;tenho a psicologia como primeira graduação e gostei bastante da estrutura do teste. acredito que ele engloba muitas questões importantes durante esse processo de escolha.&quot;</div>
+              <div className={styles.testimonialAuthor}>
+                <div className={styles.testimonialAvatar}><span className={styles.testimonialAvatarInitial}>A</span></div>
+                <div className={styles.testimonialMeta}>
+                  <div className={styles.name}>Ana</div>
+                  <div className={styles.role}>estudante de medicina, graduada em psicologia</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
