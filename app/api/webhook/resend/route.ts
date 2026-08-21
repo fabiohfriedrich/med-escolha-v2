@@ -4,16 +4,20 @@ import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import { sendAlertaAdminEmail } from '@/lib/email'
 
 // Eventos de entrega do Resend que nos interessam pra fechar o rastreamento de provisionamento
-// (ver lib/provisionamento.ts). Outros eventos (sent, opened, clicked, delivery_delayed) são
-// ignorados por enquanto.
+// (ver lib/provisionamento.ts). email.failed (falha no envio) e email.suppressed (endereço na
+// lista de supressão do Resend) são falhas definitivas, tanto quanto bounce — sem isso, um
+// e-mail que nunca chega a ser enviado de verdade ficava preso pra sempre em 'email_enviado'.
+// email.delivery_delayed fica de fora de propósito: é só um atraso transitório, ainda pode
+// entregar depois — não é uma falha.
 const EVENTOS_ENTREGUE = ['email.delivered']
-const EVENTOS_FALHA = ['email.bounced', 'email.complained']
+const EVENTOS_FALHA = ['email.bounced', 'email.complained', 'email.failed', 'email.suppressed']
 
 interface ResendWebhookPayload {
   type: string
   data: {
     email_id?: string
     bounce?: { type?: string; subType?: string; message?: string }
+    failed?: { reason?: string }
   }
 }
 
@@ -57,22 +61,25 @@ export async function POST(req: NextRequest) {
   }
 
   if (EVENTOS_ENTREGUE.includes(evento.type)) {
-    await supabaseAdmin
+    const { error } = await supabaseAdmin
       .from('compradores')
       .update({ status_provisionamento: 'email_entregue', email_entregue_em: new Date().toISOString() })
       .eq('email', comprador.email)
+    if (error) console.error(`[webhook-resend] Erro ao gravar entrega de ${comprador.email}:`, error.message)
 
     console.log(`[webhook-resend] E-mail de acesso entregue: ${comprador.email}`)
     return NextResponse.json({ ok: true, action: 'entregue', email: comprador.email })
   }
 
-  // Bounce ou reclamação — grava o estado e alerta, mas não tenta reenviar sozinho: geralmente
-  // significa e-mail inválido/errado, decisão de como resolver fica com o admin.
-  const motivo = evento.data.bounce?.message ?? evento.data.bounce?.type ?? evento.type
-  await supabaseAdmin
+  // Bounce, reclamação, falha de envio ou supressão — grava o estado e alerta, mas não tenta
+  // reenviar sozinho: geralmente significa e-mail inválido/errado, decisão de como resolver
+  // fica com o admin.
+  const motivo = evento.data.bounce?.message ?? evento.data.bounce?.type ?? evento.data.failed?.reason ?? evento.type
+  const { error: erroFalha } = await supabaseAdmin
     .from('compradores')
     .update({ status_provisionamento: 'falhou', ultimo_erro: `Resend: ${motivo}` })
     .eq('email', comprador.email)
+  if (erroFalha) console.error(`[webhook-resend] Erro ao gravar falha de ${comprador.email}:`, erroFalha.message)
 
   await sendAlertaAdminEmail({
     assunto: 'E-mail de acesso não entregue (bounce/reclamação)',

@@ -32,11 +32,15 @@ const STATUS_CONFIG: Record<string, { label: string; cls: string }> = {
 }
 
 const PROVISIONAMENTO_CONFIG: Record<string, { label: string; cls: string }> = {
-  pendente:        { label: '⏳ Provisionando',  cls: 'bg-gray-100 text-gray-500' },
-  conta_criada:    { label: '⏳ Enviando e-mail', cls: 'bg-gray-100 text-gray-500' },
-  email_enviado:   { label: '📤 E-mail enviado',  cls: 'bg-yellow-100 text-yellow-700' },
-  email_entregue:  { label: '✅ Entregue',        cls: 'bg-green-100 text-green-700' },
-  falhou:          { label: '⚠️ Falhou',          cls: 'bg-red-100 text-red-700' },
+  pendente:        { label: '⏳ Provisionando',   cls: 'bg-gray-100 text-gray-500' },
+  processando:     { label: '⏳ Provisionando',   cls: 'bg-gray-100 text-gray-500' },
+  conta_criada:    { label: '⏳ Enviando e-mail',  cls: 'bg-gray-100 text-gray-500' },
+  email_enviado:   { label: '📤 E-mail enviado',   cls: 'bg-yellow-100 text-yellow-700' },
+  email_entregue:  { label: '✅ Entregue',         cls: 'bg-green-100 text-green-700' },
+  falhou:          { label: '⚠️ Falhou',           cls: 'bg-red-100 text-red-700' },
+  // Comprador ativo antes dessa instrumentação existir — sem evidência real do Resend,
+  // só presunção de que recebeu o acesso na época (ver migração reclamo_atomico_provisionamento).
+  legado:          { label: '— Legado',           cls: 'bg-gray-50 text-gray-400' },
 }
 
 const TIPO_CONFIG: Record<string, { label: string; cls: string }> = {

@@ -7,10 +7,6 @@ import { sendAlertaAdminEmail } from '@/lib/email'
 
 const APP_URL = 'https://app.medescolha.com'
 
-// Estados já provisionados — chamada não forçada não reprovisiona (evita resetar a senha
-// de quem já recebeu acesso, num reenvio duplicado do evento da Hotmart).
-const STATUS_JA_PROVISIONADO = ['conta_criada', 'email_enviado', 'email_entregue']
-
 const LOGO_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 75" fill="none" width="160" height="43">
   <rect x="8" y="4" width="38" height="28" rx="10" fill="#E63946"/>
   <rect x="4" y="22" width="48" height="34" rx="11" fill="#1D6FE8"/>
@@ -76,9 +72,10 @@ interface ResultadoProvisionamento {
  * Hotmart (provisionamento automático), endpoint do admin e script de reenvio em lote (reenvio
  * manual, `forcar: true`).
  *
- * Sem `forcar`, é idempotente: se o comprador já passou por `conta_criada`/`email_enviado`/
- * `email_entregue`, não reprovisiona (evita resetar a senha de quem já recebeu acesso num
- * reenvio duplicado do evento da Hotmart). Com `forcar`, sempre gera senha nova e reenvia.
+ * Sem `forcar`, reivindica a linha atomicamente via a função `reclamar_provisionamento` no
+ * Postgres antes de mexer no Clerk — evita a corrida de duas chamadas concorrentes (ex:
+ * PURCHASE_APPROVED e PURCHASE_COMPLETE da mesma transação chegando quase juntos) gerarem duas
+ * senhas e dois e-mails pro mesmo comprador. Com `forcar`, sempre gera senha nova e reenvia.
  */
 export async function provisionarAcesso(
   email: string,
@@ -88,17 +85,21 @@ export async function provisionarAcesso(
   const emailLower = email.toLowerCase().trim()
   const supabaseAdmin = getSupabaseAdmin()
 
-  const { data: comprador } = await supabaseAdmin
-    .from('compradores')
-    .select('status_provisionamento, tentativas_provisionamento')
-    .eq('email', emailLower)
-    .maybeSingle()
+  const { data: reclamoData, error: reclamoError } = await supabaseAdmin
+    .rpc('reclamar_provisionamento', { p_email: emailLower, p_forcar: opts.forcar ?? false })
+    .single()
 
-  if (!opts.forcar && comprador && STATUS_JA_PROVISIONADO.includes(comprador.status_provisionamento)) {
+  if (reclamoError) {
+    console.error(`[provisionamento] Erro ao reclamar provisionamento de ${emailLower}:`, reclamoError.message)
+    return { ok: false }
+  }
+
+  const reclamo = reclamoData as { reclamado: boolean; ja_existia: boolean; tentativa_atual: number }
+  if (!reclamo.reclamado) {
     return { ok: true, skipped: true }
   }
 
-  const tentativaAtual = (comprador?.tentativas_provisionamento ?? 0) + 1
+  const tentativaAtual = reclamo.tentativa_atual
   const primeiroNome = nome.split(' ')[0] || 'Médico(a)'
   const senhaTemporaria = gerarSenhaTemporaria()
 
@@ -152,10 +153,11 @@ export async function provisionarAcesso(
       }
     }
 
-    await supabaseAdmin
+    const { error: erroContaCriada } = await supabaseAdmin
       .from('compradores')
-      .update({ status_provisionamento: 'conta_criada', tentativas_provisionamento: tentativaAtual })
+      .update({ status_provisionamento: 'conta_criada' })
       .eq('email', emailLower)
+    if (erroContaCriada) console.error(`[provisionamento] Erro ao gravar status 'conta_criada' de ${emailLower}:`, erroContaCriada.message)
 
     const resend = new Resend((process.env.RESEND_API_KEY ?? '').replace(/^﻿/, '').trim())
     const { data: envio, error: emailError } = await resend.emails.send({
@@ -167,7 +169,7 @@ export async function provisionarAcesso(
 
     if (emailError) throw new Error(emailError.message ?? JSON.stringify(emailError))
 
-    await supabaseAdmin
+    const { error: erroEmailEnviado } = await supabaseAdmin
       .from('compradores')
       .update({
         status_provisionamento: 'email_enviado',
@@ -175,6 +177,12 @@ export async function provisionarAcesso(
         resend_email_id: envio?.id ?? null,
       })
       .eq('email', emailLower)
+    if (erroEmailEnviado) {
+      // Clerk e Resend já tiveram sucesso — o comprador recebeu o acesso. Só a nossa gravação de
+      // status falhou; a linha fica em 'conta_criada'/'processando' e é reclamável de novo depois
+      // (ver reclamar_provisionamento), então não é uma falha de provisionamento de verdade.
+      console.error(`[provisionamento] Erro ao gravar status 'email_enviado' de ${emailLower}:`, erroEmailEnviado.message)
+    }
 
     console.log(`[provisionamento] Acesso provisionado: ${emailLower} (tentativa ${tentativaAtual})`)
     return { ok: true }
@@ -182,10 +190,11 @@ export async function provisionarAcesso(
     const mensagemErro = err instanceof Error ? err.message : String(err)
     console.error(`[provisionamento] Falha ao provisionar acesso de ${emailLower}:`, mensagemErro)
 
-    await supabaseAdmin
+    const { error: erroFalhou } = await supabaseAdmin
       .from('compradores')
-      .update({ status_provisionamento: 'falhou', ultimo_erro: mensagemErro, tentativas_provisionamento: tentativaAtual })
+      .update({ status_provisionamento: 'falhou', ultimo_erro: mensagemErro })
       .eq('email', emailLower)
+    if (erroFalhou) console.error(`[provisionamento] Erro ao gravar status 'falhou' de ${emailLower}:`, erroFalhou.message)
 
     await sendAlertaAdminEmail({
       assunto: 'Falha ao provisionar acesso de comprador',
