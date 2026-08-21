@@ -52,12 +52,20 @@ export async function POST(req: NextRequest) {
 
   // O comprador pode estar em `compradores` (produto principal) ou `pacotes_psicologo`
   // (pacote de psicólogo) — checa as duas, o resend_email_id só existe numa delas.
-  const [{ data: comprador }, { data: pacientePsicologo }] = await Promise.all([
+  const [buscaComprador, buscaPsicologo] = await Promise.all([
     supabaseAdmin.from('compradores').select('email, nome').eq('resend_email_id', emailId).maybeSingle(),
     supabaseAdmin.from('pacotes_psicologo').select('email, nome').eq('resend_email_id', emailId).maybeSingle(),
   ])
-  const tabela = comprador ? 'compradores' : pacientePsicologo ? 'pacotes_psicologo' : null
-  const registro = comprador ?? pacientePsicologo
+  if (buscaComprador.error || buscaPsicologo.error) {
+    // Se o Supabase estiver indisponível aqui, não dá pra saber se existe comprador
+    // correspondente — devolve erro pro Resend reagendar em vez de assumir "sem correspondente"
+    // e perder a evidência de entrega/falha de vez.
+    console.error('[webhook-resend] Erro ao buscar comprador correspondente:', buscaComprador.error?.message ?? buscaPsicologo.error?.message)
+    return NextResponse.json({ error: 'Erro ao buscar comprador' }, { status: 500 })
+  }
+
+  const tabela = buscaComprador.data ? 'compradores' : buscaPsicologo.data ? 'pacotes_psicologo' : null
+  const registro = buscaComprador.data ?? buscaPsicologo.data
 
   if (!tabela || !registro) {
     // Normal pra e-mails que não são de provisionamento de acesso (alertas internos, etc.)
