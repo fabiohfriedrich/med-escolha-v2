@@ -11,12 +11,23 @@ declare global {
 
 const VALOR_PADRAO = 149
 const MOEDA = 'BRL'
+const PRODUTO = 'med-escolha'
 
-// Clique em CTA que não leva direto ao checkout da Hotmart (ex: "saiba mais", âncora pra
-// seção de preço) — só analytics de produto, não é sinal de intenção de compra pras
-// plataformas de anúncio.
-export function trackCtaClick(origem: string) {
-  posthog.capture('compra_iniciada', { origem })
+// Clique informativo que mantém a pessoa na landing. Não é sinal de intenção de compra
+// para as plataformas de anúncio.
+export function trackCtaClick(origem: string, destino: string) {
+  posthog.capture('cta_informativa_clicada', {
+    origem,
+    destino,
+    tipo: 'ancora',
+  })
+}
+
+export function trackComparatorOpen(origem: string) {
+  posthog.capture('comparador_aberto', {
+    origem,
+    destino: '/comparar',
+  })
 }
 
 // Clique em CTA que leva direto ao checkout da Hotmart. Além do PostHog, dispara
@@ -24,7 +35,13 @@ export function trackCtaClick(origem: string) {
 // não recebem nenhum sinal de intenção de compra, só pageview (achado da auditoria de
 // 18/08/2026, "o funil de receita não fecha").
 export function trackCheckoutIntent(origem: string) {
-  posthog.capture('compra_iniciada', { origem })
-  window.fbq?.('track', 'InitiateCheckout', { content_name: 'med-escolha', currency: MOEDA, value: VALOR_PADRAO })
+  posthog.capture('compra_iniciada', {
+    origem,
+    destino: 'hotmart',
+    produto: PRODUTO,
+    valor: VALOR_PADRAO,
+    moeda: MOEDA,
+  })
+  window.fbq?.('track', 'InitiateCheckout', { content_name: PRODUTO, currency: MOEDA, value: VALOR_PADRAO })
   window.gtag?.('event', 'begin_checkout', { currency: MOEDA, value: VALOR_PADRAO })
 }

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { Poppins } from 'next/font/google'
 import styles from './MedEscolhaLanding.module.css'
@@ -10,7 +11,15 @@ import CountUp from './ui/CountUp'
 import AnimatedBar from './ui/AnimatedBar'
 import Reveal from './ui/Reveal'
 import { capturarRefDaUrl, comCodigoIndicacao } from '@/lib/referral'
-import { trackCtaClick, trackCheckoutIntent } from '@/lib/ad-tracking'
+import { trackComparatorOpen, trackCtaClick, trackCheckoutIntent } from '@/lib/ad-tracking'
+import heroMedica from '@/public/landing/hero-medica.png'
+import problemStudent from '@/public/landing/problem-student.png'
+import benefitsDoctor from '@/public/landing/benefits-doctor.png'
+import testimonialVanessa from '@/public/landing/testimonial-vanessa.jpg'
+import testimonialJulia from '@/public/landing/testimonial-julia.jpg'
+import testimonialJoao from '@/public/landing/testimonial-joao.jpg'
+import testimonialCamila from '@/public/landing/testimonial-camila.jpg'
+import closingDoctors from '@/public/landing/closing-doctors.png'
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -37,7 +46,10 @@ export default function MedEscolhaLandingPage() {
 
   useEffect(() => {
     capturarRefDaUrl()
-    setCheckoutUrl(comCodigoIndicacao(HOTMART_URL))
+    const frame = window.requestAnimationFrame(() => {
+      setCheckoutUrl(comCodigoIndicacao(HOTMART_URL))
+    })
+    return () => window.cancelAnimationFrame(frame)
   }, [])
 
   return (
@@ -59,9 +71,16 @@ export default function MedEscolhaLandingPage() {
                 <div className={styles.heroBlobTeal} />
                 <div className={styles.heroBlobYellow} />
                 <div className={styles.heroPhotoImg}>
-                  <img src="/landing/hero-medica.png" alt="Médica jovem sorrindo, jaleco branco e tablet" />
+                  <Image
+                    src={heroMedica}
+                    alt="Médica jovem sorrindo, jaleco branco e tablet"
+                    fill
+                    sizes="(max-width: 767px) 54vw, 248px"
+                    preload
+                    placeholder="blur"
+                  />
                 </div>
-                <div className={styles.heroCardPill}>ranking claro</div>
+                <div className={styles.heroCardPill}>prévia do resultado</div>
                 <div className={styles.heroResultCard}>
                   <span className={styles.heroResultLabel}>exemplo ilustrativo</span>
                   <div className={styles.heroResultRow}>
@@ -100,12 +119,12 @@ export default function MedEscolhaLandingPage() {
                 <li>7 dias garantia</li>
               </ul>
               <div className={styles.ctaBlock} style={{ textAlign: 'left' }}>
-                <a href="#como-funciona" className={`${styles.btn} ${styles.btnUppercase} ${styles.btnHeroCta}`} onClick={() => trackCtaClick('hero')}>saiba mais</a>
+                <a href="#como-funciona" className={`${styles.btn} ${styles.btnUppercase} ${styles.btnHeroCta}`} onClick={() => trackCtaClick('hero', '#como-funciona')}>saiba mais</a>
                 <p className={styles.ctaFriction} style={{ marginTop: 12 }}>
                   já tem acesso?{' '}
                   <Link href="/login" style={{ color: 'var(--teal)', fontWeight: 700, textDecoration: 'underline' }}>entrar</Link>
                   {' '}·{' '}
-                  <Link href="/comparar" style={{ color: 'var(--teal)', fontWeight: 700, textDecoration: 'underline' }}>comparar 2 especialidades grátis</Link>
+                  <Link href="/comparar" onClick={() => trackComparatorOpen('hero')} style={{ color: 'var(--teal)', fontWeight: 700, textDecoration: 'underline' }}>comparar 2 especialidades grátis</Link>
                 </p>
                 <CompradoresCounter />
               </div>
@@ -176,7 +195,7 @@ export default function MedEscolhaLandingPage() {
                 compare lado a lado: salário estimado, tempo de residência, saturação do mercado e crescimento projetado. grátis, sem compromisso.
               </p>
             </div>
-            <Link href="/comparar" className={styles.compareCta}>
+            <Link href="/comparar" className={styles.compareCta} onClick={() => trackComparatorOpen('secao_comparador')}>
               comparar 2 especialidades →
             </Link>
           </div>
@@ -188,7 +207,12 @@ export default function MedEscolhaLandingPage() {
         <div className={styles.container}>
           <div className={styles.problemHero}>
             <div className={styles.problemPhoto}>
-              <img src="/landing/problem-student.png" alt="Estudante de medicina estudando à noite, pensativa" />
+              <Image
+                src={problemStudent}
+                alt="Estudante de medicina estudando à noite, pensativa"
+                sizes="(max-width: 899px) calc(100vw - 48px), 42vw"
+                placeholder="blur"
+              />
             </div>
             <div className={styles.problemIntro}>
               <span className={styles.eyebrow}>a sua realidade hoje</span>
@@ -424,7 +448,7 @@ export default function MedEscolhaLandingPage() {
           </div>
 
           <div className={`${styles.ctaBlock} ${styles.mt5}`}>
-            <a href="#checkout" className={`${styles.btn} ${styles.btnLarge} ${styles.btnUppercase}`} onClick={() => trackCtaClick('mecanismo')}>quero fazer o match</a>
+            <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" className={`${styles.btn} ${styles.btnLarge} ${styles.btnUppercase}`} onClick={() => trackCheckoutIntent('mecanismo')}>quero fazer o match</a>
           </div>
         </div>
       </section>
@@ -463,7 +487,7 @@ export default function MedEscolhaLandingPage() {
           </div>
 
           <div className={`${styles.ctaBlock} ${styles.mt5}`}>
-            <a href="#checkout" className={`${styles.btn} ${styles.btnLarge} ${styles.btnUppercase}`} onClick={() => trackCtaClick('plano-pos-resultado')}>quero meu plano de decisão</a>
+            <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" className={`${styles.btn} ${styles.btnLarge} ${styles.btnUppercase}`} onClick={() => trackCheckoutIntent('plano-pos-resultado')}>quero meu plano de decisão</a>
           </div>
         </div>
       </section>
@@ -485,7 +509,12 @@ export default function MedEscolhaLandingPage() {
         <div className={styles.container}>
           <div className={styles.benefitsHero}>
             <div className={styles.benefitsHeroPhoto}>
-              <img src="/landing/benefits-doctor.png" alt="Médica jovem confiante em corredor de hospital" />
+              <Image
+                src={benefitsDoctor}
+                alt="Médica jovem confiante em corredor de hospital"
+                sizes="(max-width: 899px) calc(100vw - 48px), 44vw"
+                placeholder="blur"
+              />
             </div>
             <div className={styles.benefitsHeroContent}>
               <span className={styles.eyebrow}>o impacto na prática</span>
@@ -546,7 +575,7 @@ export default function MedEscolhaLandingPage() {
             <div className={styles.testimonialCard}>
               <div className={styles.testimonialQuote}>&quot;faculdade inteira fiquei em dúvida entre 3 especializações. nunca achei algo que pudesse me mostrar tão fidedignamente o que se encaixaria melhor pra mim. o med escolha proporcionou isso na íntegra, com um teste minuciosamente feito. ele me trouxe tão fiel as 3 especialidades que eu sempre tive dúvida, e ainda mostrou qual delas mais combinava com meu perfil. sanou minha dúvida e fez eu bater o martelo. faria 1 milhão de vezes novamente.&quot;</div>
               <div className={styles.testimonialAuthor}>
-                <div className={styles.testimonialAvatar}><img src="/landing/testimonial-vanessa.jpg" alt="Vanessa" /></div>
+                <div className={styles.testimonialAvatar}><Image src={testimonialVanessa} alt="Vanessa" sizes="52px" placeholder="blur" /></div>
                 <div className={styles.testimonialMeta}>
                   <div className={styles.name}>Vanessa</div>
                   <div className={styles.role}>médica, graduada há 2 anos</div>
@@ -557,7 +586,7 @@ export default function MedEscolhaLandingPage() {
             <div className={styles.testimonialCard}>
               <div className={styles.testimonialQuote}>&quot;antes do med escolha eu não tinha a menor ideia do que queria cursar pra residência. sempre tive amor por pediatria e ginecologia obstetrícia, mas não conseguia me decidir. respondi o questionário e o resultado mostrou que minha prioridade deveria ser GO. dentro da pediatria também foram elencadas áreas que compensam o padrão de vida que desejo, como pediatria intensiva e urgência emergência. meu coração ficou mais em paz com meu futuro.&quot;</div>
               <div className={styles.testimonialAuthor}>
-                <div className={styles.testimonialAvatar}><img src="/landing/testimonial-julia.jpg" alt="Júlia" /></div>
+                <div className={styles.testimonialAvatar}><Image src={testimonialJulia} alt="Júlia" sizes="52px" placeholder="blur" /></div>
                 <div className={styles.testimonialMeta}>
                   <div className={styles.name}>Júlia</div>
                   <div className={styles.role}>estudante de medicina, 5º período, Faculdade Pequeno Príncipe</div>
@@ -569,7 +598,7 @@ export default function MedEscolhaLandingPage() {
             <div className={styles.testimonialCard}>
               <div className={styles.testimonialQuote}>&quot;o med escolha me ajudou a decidir qual especialidade vou seguir. score criterioso, com embasamento científico. o relatório me permitiu entender minhas aptidões, meu temperamento e meu perfil profissional. recebi uma lista completa das especialidades dentro da minha aptidão, com um top 3 que bateu com o que penso em seguir. realmente um ótimo investimento.&quot;</div>
               <div className={styles.testimonialAuthor}>
-                <div className={styles.testimonialAvatar}><img src="/landing/testimonial-joao.jpg" alt="João Vitor Carvalho" /></div>
+                <div className={styles.testimonialAvatar}><Image src={testimonialJoao} alt="João Vitor Carvalho" sizes="52px" placeholder="blur" /></div>
                 <div className={styles.testimonialMeta}>
                   <div className={styles.name}>João Vitor Carvalho</div>
                   <div className={styles.role}>médico, formado pela UFAM</div>
@@ -580,7 +609,7 @@ export default function MedEscolhaLandingPage() {
             <div className={styles.testimonialCard}>
               <div className={styles.testimonialQuote}>&quot;fui uma das primeiras a testar a plataforma. para chegar no resultado parece fácil, mas respondi tantas perguntas e a análise é tão profunda que é um negócio totalmente profissional, de outro nível. meu top 1 foi medicina física e reabilitação, com 80% e poucos de match, uma especialidade que eu nem pensava antes. eles dão todo um perfil da especialidade e o porquê de você ser compatível. diferenciado do que já tem no mercado.&quot;</div>
               <div className={styles.testimonialAuthor}>
-                <div className={styles.testimonialAvatar}><img src="/landing/testimonial-camila.jpg" alt="Camila" /></div>
+                <div className={styles.testimonialAvatar}><Image src={testimonialCamila} alt="Camila" sizes="52px" placeholder="blur" /></div>
                 <div className={styles.testimonialMeta}>
                   <div className={styles.name}>Camila</div>
                   <div className={styles.role}>estudante de medicina</div>
@@ -755,7 +784,7 @@ export default function MedEscolhaLandingPage() {
               <div className={styles.heroAmount}>R$ 149</div>
               <div className={styles.heroMeta}>à vista, ou 12x de R$ 14,90 no cartão</div>
               <p className={styles.heroAside}>menos do que você gastou comendo no hospital essa semana.</p>
-              <a href="#checkout" className={`${styles.btn} ${styles.btnLarge} ${styles.btnUppercase} ${styles.priceCta}`} onClick={() => trackCtaClick('preco')}>decidir minha especialidade agora</a>
+              <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" className={`${styles.btn} ${styles.btnLarge} ${styles.btnUppercase} ${styles.priceCta}`} onClick={() => trackCheckoutIntent('preco')}>decidir minha especialidade agora</a>
             </div>
           </div>
         </div>
@@ -842,7 +871,7 @@ export default function MedEscolhaLandingPage() {
 
             <details className={styles.faqItem}>
               <summary>dá pra ver alguma coisa antes de comprar?</summary>
-              <div className={styles.faqAnswer}>dá. o <Link href="/comparar" style={{ color: 'var(--teal-dark)', fontWeight: 700 }}>comparador de especialidades</Link> é gratuito: você escolhe duas especialidades e vê salário, tempo de residência, saturação e crescimento projetado lado a lado, com os mesmos dados do DMB 2025 usados no match completo.</div>
+              <div className={styles.faqAnswer}>dá. o <Link href="/comparar" onClick={() => trackComparatorOpen('faq')} style={{ color: 'var(--teal-dark)', fontWeight: 700 }}>comparador de especialidades</Link> é gratuito: você escolhe duas especialidades e vê salário, tempo de residência, saturação e crescimento projetado lado a lado, com os mesmos dados do DMB 2025 usados no match completo.</div>
             </details>
 
             <details className={styles.faqItem}>
@@ -900,7 +929,12 @@ export default function MedEscolhaLandingPage() {
       {/* ============ FINAL CTA ============ */}
       <section className={`${styles.sectionNavy} ${styles.finalCta}`}>
         <div className={styles.finalCtaImage}>
-          <img src="/landing/closing-doctors.png" alt="Médicos jovens caminhando juntos pelo hospital, sorrindo" />
+          <Image
+            src={closingDoctors}
+            alt="Médicos jovens caminhando juntos pelo hospital, sorrindo"
+            sizes="(max-width: 767px) calc(100vw - 48px), 672px"
+            placeholder="blur"
+          />
         </div>
         <div className={styles.containerNarrow}>
           <span className={styles.eyebrow}>decida hoje</span>
