@@ -25,7 +25,7 @@ interface CriativoPerformance {
 interface RespostaApi {
   faixa: { from: string; to: string }
   gasto: { configurado: boolean; total: number; campanhas: GastoCampanha[] }
-  receita: { configurado: boolean; total: number; totalLiquido: number; vendas: number; produtos: ReceitaProduto[] }
+  receita: { configurado: boolean; total: number; totalLiquido: number; vendas: number; cancelamentos: number; produtos: ReceitaProduto[] }
   criativos: { configurado: boolean; criativos: CriativoPerformance[] }
 }
 
@@ -147,13 +147,18 @@ export default function FinanceiroClient() {
           {/* Resumo geral */}
           <div>
             <h2 className="text-lg font-extrabold text-gray-800 mb-4">Resumo geral</h2>
-            <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-4">
+            <div className="grid grid-cols-2 lg:grid-cols-6 gap-4 mb-4">
               <Card label="Gasto em campanhas" value={fmtMoeda(gasto?.total ?? 0)} color="text-red-600" />
               <Card label="Receita bruta" value={fmtMoeda(receita?.total ?? 0)} color="text-green-600" />
               <Card label="Receita líquida" value={fmtMoeda(receita?.totalLiquido ?? 0)} sub="Após taxa da Hotmart" color="text-emerald-600" />
               <Card label="Vendas aprovadas" value={fmtNum(receita?.vendas ?? 0)}
                 sub={receita && receita.vendas > 0 ? `Ticket médio: ${fmtMoeda(receita.total / receita.vendas)}` : undefined}
                 color="text-blue-700" />
+              <Card label="Cancelamentos" value={fmtNum(receita?.cancelamentos ?? 0)}
+                sub={receita && receita.vendas + receita.cancelamentos > 0
+                  ? `Taxa: ${((receita.cancelamentos / (receita.vendas + receita.cancelamentos)) * 100).toFixed(1)}%`
+                  : undefined}
+                color="text-orange-600" />
               <Card label="ROAS" value={roas !== null ? `${roas.toFixed(2)}x` : '—'} sub="Receita bruta / Gasto" color="text-purple-600" />
             </div>
 
