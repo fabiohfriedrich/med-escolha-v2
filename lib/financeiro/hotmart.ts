@@ -85,20 +85,17 @@ export interface ReceitaHotmart {
   produtos: ReceitaProduto[]
 }
 
-export async function buscarReceitaHotmart(fromMs: number, toMs: number): Promise<ReceitaHotmart> {
-  if (!process.env.HOTMART_CLIENT_ID) return { configurado: false, total: 0, totalLiquido: 0, vendas: 0, reembolsos: 0, produtos: [] }
-
-  const token = await obterTokenHotmart()
-
-  // Opcional: restringir a produtos específicos do Med Escolha (ex: se a mesma conta
-  // Hotmart também vender outros produtos da Amo Medicina). Sem essa env, traz tudo.
-  const idsPermitidos = (process.env.HOTMART_PRODUCT_IDS ?? '').split(',').map(s => s.trim()).filter(Boolean)
-
-  const produtos = new Map<string, ReceitaProduto>()
-  let total = 0
-  let totalLiquido = 0
-  let vendas = 0
-  let reembolsos = 0
+// A API filtra start_date/end_date pela data relativa ao status pedido: sem transaction_status
+// ela usa a data de aprovação (só traz APPROVED/COMPLETE); pedindo transaction_status=REFUNDED
+// ela passa a filtrar pela data do reembolso, mesmo que a compra original seja de meses antes.
+// Por isso reembolso precisa de uma segunda chamada paginada, com o filtro explícito.
+async function buscarSalesHistoryPaginado(
+  fromMs: number,
+  toMs: number,
+  token: string,
+  transactionStatus?: string
+): Promise<SaleHistoryItem[]> {
+  const itens: SaleHistoryItem[] = []
   let pageToken: string | undefined
 
   do {
@@ -107,6 +104,7 @@ export async function buscarReceitaHotmart(fromMs: number, toMs: number): Promis
       end_date: String(toMs),
       max_results: '500',
     })
+    if (transactionStatus) params.set('transaction_status', transactionStatus)
     if (pageToken) params.set('page_token', pageToken)
 
     const data = await curlGetJson(`${SALES_URL}?${params.toString()}`, {
@@ -118,36 +116,62 @@ export async function buscarReceitaHotmart(fromMs: number, toMs: number): Promis
       throw new Error(data?.error_description ?? data?.message ?? 'Erro ao buscar vendas na Hotmart')
     }
 
-    for (const item of (data.items ?? []) as SaleHistoryItem[]) {
-      const status = String(item.purchase?.status ?? '').toUpperCase()
-      const produtoId = String(item.product?.id ?? 'sem-id')
-      if (idsPermitidos.length && !idsPermitidos.includes(produtoId)) continue
-
-      if (STATUS_REEMBOLSO.has(status)) {
-        reembolsos += 1
-        continue
-      }
-
-      if (!STATUS_RECEITA.has(status)) continue
-
-      const valor = Number(item.purchase?.price?.value) || 0
-      const taxaHotmart = Number(item.purchase?.hotmart_fee?.total) || 0
-      const liquido = valor - taxaHotmart
-      const nome = item.product?.name ?? 'Produto sem nome'
-
-      total += valor
-      totalLiquido += liquido
-      vendas += 1
-
-      const atual = produtos.get(produtoId) ?? { id: produtoId, nome, vendas: 0, receita: 0, receitaLiquida: 0 }
-      atual.vendas += 1
-      atual.receita += valor
-      atual.receitaLiquida += liquido
-      produtos.set(produtoId, atual)
-    }
-
+    itens.push(...((data.items ?? []) as SaleHistoryItem[]))
     pageToken = data?.page_info?.next_page_token || undefined
   } while (pageToken)
+
+  return itens
+}
+
+export async function buscarReceitaHotmart(fromMs: number, toMs: number): Promise<ReceitaHotmart> {
+  if (!process.env.HOTMART_CLIENT_ID) return { configurado: false, total: 0, totalLiquido: 0, vendas: 0, reembolsos: 0, produtos: [] }
+
+  const token = await obterTokenHotmart()
+
+  // Opcional: restringir a produtos específicos do Med Escolha (ex: se a mesma conta
+  // Hotmart também vender outros produtos da Amo Medicina). Sem essa env, traz tudo.
+  const idsPermitidos = (process.env.HOTMART_PRODUCT_IDS ?? '').split(',').map(s => s.trim()).filter(Boolean)
+
+  const [itensAprovados, itensReembolsados] = await Promise.all([
+    buscarSalesHistoryPaginado(fromMs, toMs, token),
+    buscarSalesHistoryPaginado(fromMs, toMs, token, 'REFUNDED,PARTIALLY_REFUNDED'),
+  ])
+
+  const produtos = new Map<string, ReceitaProduto>()
+  let total = 0
+  let totalLiquido = 0
+  let vendas = 0
+
+  for (const item of itensAprovados) {
+    const status = String(item.purchase?.status ?? '').toUpperCase()
+    const produtoId = String(item.product?.id ?? 'sem-id')
+    if (idsPermitidos.length && !idsPermitidos.includes(produtoId)) continue
+    if (!STATUS_RECEITA.has(status)) continue
+
+    const valor = Number(item.purchase?.price?.value) || 0
+    const taxaHotmart = Number(item.purchase?.hotmart_fee?.total) || 0
+    const liquido = valor - taxaHotmart
+    const nome = item.product?.name ?? 'Produto sem nome'
+
+    total += valor
+    totalLiquido += liquido
+    vendas += 1
+
+    const atual = produtos.get(produtoId) ?? { id: produtoId, nome, vendas: 0, receita: 0, receitaLiquida: 0 }
+    atual.vendas += 1
+    atual.receita += valor
+    atual.receitaLiquida += liquido
+    produtos.set(produtoId, atual)
+  }
+
+  let reembolsos = 0
+  for (const item of itensReembolsados) {
+    const status = String(item.purchase?.status ?? '').toUpperCase()
+    const produtoId = String(item.product?.id ?? 'sem-id')
+    if (idsPermitidos.length && !idsPermitidos.includes(produtoId)) continue
+    if (!STATUS_REEMBOLSO.has(status)) continue
+    reembolsos += 1
+  }
 
   return {
     configurado: true,
