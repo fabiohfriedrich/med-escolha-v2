@@ -4,6 +4,8 @@ import Link from 'next/link'
 const supabase = getSupabaseAdmin()
 const PAGE_SIZE = 50
 
+export const dynamic = 'force-dynamic'
+
 export default async function AdminRespostas({
   searchParams,
 }: {

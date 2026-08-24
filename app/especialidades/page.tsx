@@ -3,6 +3,8 @@ import descriptionsData from '@/data/descriptions.json'
 import dmbData from '@/data/dmb_data.json'
 import EspecialidadesLibrary from '@/components/EspecialidadesLibrary'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata = {
   title: 'Especialidades Médicas | Med Escolha',
   description: '55 especialidades reconhecidas pelo CFM com dados do DMB 2025. Descrições, rotinas, mercado e muito mais.',

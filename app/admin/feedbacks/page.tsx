@@ -2,6 +2,8 @@ import { getSupabaseAdmin } from '@/lib/supabase-admin'
 
 const supabase = getSupabaseAdmin()
 
+export const dynamic = 'force-dynamic'
+
 function Estrelas({ nota }: { nota: number }) {
   const cor = nota >= 9 ? 'text-green-600' : nota >= 7 ? 'text-yellow-500' : 'text-red-500'
   return (

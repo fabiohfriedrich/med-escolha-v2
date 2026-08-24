@@ -7,6 +7,8 @@ import Link from 'next/link'
 import VideosEspecialidade from '@/components/VideosEspecialidade'
 import { getStatusVisual } from '@/lib/radar'
 
+export const dynamic = 'force-dynamic'
+
 const PRE_REQ: Record<number, string> = {
   1:'Acesso direto',2:'Acesso direto',3:'Acesso direto',4:'Cirurgia Geral',5:'Clínica Médica',
   6:'Cirurgia Geral',7:'Cirurgia Geral',8:'Cirurgia Geral',9:'Cirurgia Geral',10:'Acesso direto',
