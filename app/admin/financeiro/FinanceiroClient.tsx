@@ -25,7 +25,7 @@ interface CriativoPerformance {
 interface RespostaApi {
   faixa: { from: string; to: string }
   gasto: { configurado: boolean; total: number; campanhas: GastoCampanha[] }
-  receita: { configurado: boolean; total: number; totalLiquido: number; vendas: number; cancelamentos: number; produtos: ReceitaProduto[] }
+  receita: { configurado: boolean; total: number; totalLiquido: number; vendas: number; reembolsos: number; produtos: ReceitaProduto[] }
   criativos: { configurado: boolean; criativos: CriativoPerformance[] }
 }
 
@@ -154,9 +154,9 @@ export default function FinanceiroClient() {
               <Card label="Vendas aprovadas" value={fmtNum(receita?.vendas ?? 0)}
                 sub={receita && receita.vendas > 0 ? `Ticket médio: ${fmtMoeda(receita.total / receita.vendas)}` : undefined}
                 color="text-blue-700" />
-              <Card label="Cancelamentos" value={fmtNum(receita?.cancelamentos ?? 0)}
-                sub={receita && receita.vendas + receita.cancelamentos > 0
-                  ? `Taxa: ${((receita.cancelamentos / (receita.vendas + receita.cancelamentos)) * 100).toFixed(1)}%`
+              <Card label="Reembolsos" value={fmtNum(receita?.reembolsos ?? 0)}
+                sub={receita && receita.vendas + receita.reembolsos > 0
+                  ? `Taxa: ${((receita.reembolsos / (receita.vendas + receita.reembolsos)) * 100).toFixed(1)}%`
                   : undefined}
                 color="text-orange-600" />
               <Card label="ROAS" value={roas !== null ? `${roas.toFixed(2)}x` : '—'} sub="Receita bruta / Gasto" color="text-purple-600" />

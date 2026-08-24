@@ -27,9 +27,9 @@ async function curlGetJson(url: string, headers: Record<string, string>): Promis
 // app/api/webhook/hotmart/route.ts, EVENTOS_APROVADOS).
 const STATUS_RECEITA = new Set(['APPROVED', 'COMPLETE'])
 
-// Equivalente aos eventos EVENTOS_CANCELADOS do webhook (REFUNDED, CHARGEBACK, CANCELED),
-// mas usando os valores de purchase.status da Sales History API.
-const STATUS_CANCELAMENTO = new Set(['CANCELLED', 'REFUNDED', 'CHARGEBACK', 'PARTIALLY_REFUNDED'])
+// Reembolso (parcial ou total) — não inclui CHARGEBACK (contestação bancária) nem
+// CANCELLED (cancelado antes de pagar), que são casos distintos.
+const STATUS_REEMBOLSO = new Set(['REFUNDED', 'PARTIALLY_REFUNDED'])
 
 let tokenCache: { valor: string; expiraEm: number } | null = null
 
@@ -81,12 +81,12 @@ export interface ReceitaHotmart {
   total: number
   totalLiquido: number
   vendas: number
-  cancelamentos: number
+  reembolsos: number
   produtos: ReceitaProduto[]
 }
 
 export async function buscarReceitaHotmart(fromMs: number, toMs: number): Promise<ReceitaHotmart> {
-  if (!process.env.HOTMART_CLIENT_ID) return { configurado: false, total: 0, totalLiquido: 0, vendas: 0, cancelamentos: 0, produtos: [] }
+  if (!process.env.HOTMART_CLIENT_ID) return { configurado: false, total: 0, totalLiquido: 0, vendas: 0, reembolsos: 0, produtos: [] }
 
   const token = await obterTokenHotmart()
 
@@ -98,7 +98,7 @@ export async function buscarReceitaHotmart(fromMs: number, toMs: number): Promis
   let total = 0
   let totalLiquido = 0
   let vendas = 0
-  let cancelamentos = 0
+  let reembolsos = 0
   let pageToken: string | undefined
 
   do {
@@ -123,8 +123,8 @@ export async function buscarReceitaHotmart(fromMs: number, toMs: number): Promis
       const produtoId = String(item.product?.id ?? 'sem-id')
       if (idsPermitidos.length && !idsPermitidos.includes(produtoId)) continue
 
-      if (STATUS_CANCELAMENTO.has(status)) {
-        cancelamentos += 1
+      if (STATUS_REEMBOLSO.has(status)) {
+        reembolsos += 1
         continue
       }
 
@@ -154,7 +154,7 @@ export async function buscarReceitaHotmart(fromMs: number, toMs: number): Promis
     total,
     totalLiquido,
     vendas,
-    cancelamentos,
+    reembolsos,
     produtos: Array.from(produtos.values()).sort((a, b) => b.receita - a.receita),
   }
 }
