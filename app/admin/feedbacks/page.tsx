@@ -1,7 +1,5 @@
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
 
-const supabase = getSupabaseAdmin()
-
 export const dynamic = 'force-dynamic'
 
 function Estrelas({ nota }: { nota: number }) {
@@ -15,6 +13,7 @@ function Estrelas({ nota }: { nota: number }) {
 }
 
 export default async function AdminFeedbacks() {
+  const supabase = getSupabaseAdmin()
   const { data: feedbacks } = await supabase
     .from('resultados')
     .select('id, nome, email, feedback_nota, feedback_texto, created_at')

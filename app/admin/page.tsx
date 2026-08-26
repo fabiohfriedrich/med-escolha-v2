@@ -1,10 +1,10 @@
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
-const supabase = getSupabaseAdmin()
 import GraficoNovosClientes from './GraficoNovosClientes'
 
 export const dynamic = 'force-dynamic'
 
 async function getStats() {
+  const supabase = getSupabaseAdmin()
   const [
     { count: totalRespostas },
     { count: totalCompradores },

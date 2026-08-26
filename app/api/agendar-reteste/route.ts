@@ -4,14 +4,14 @@ import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import { agendarReteste } from '@/lib/reteste'
 import { publicFormRateLimit, getClientIp } from '@/lib/rate-limit'
 
-const supabase = getSupabaseAdmin()
-
 export async function GET() {
   const user = await currentUser()
   const email = user?.primaryEmailAddress?.emailAddress?.toLowerCase().trim()
   if (!email) {
     return NextResponse.json({ error: 'Não autenticado' }, { status: 401 })
   }
+
+  const supabase = getSupabaseAdmin()
 
   const { data } = await supabase
     .from('agendamentos_reteste')

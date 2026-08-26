@@ -2,8 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { currentUser } from '@clerk/nextjs/server'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
 
-const supabase = getSupabaseAdmin()
-
 async function emailDaSessao(): Promise<string | null> {
   const user = await currentUser()
   return user?.primaryEmailAddress?.emailAddress?.toLowerCase().trim() ?? null
@@ -15,6 +13,7 @@ async function emailDaSessao(): Promise<string | null> {
  * antes passado pela autorização do GET/POST de /api/cronograma.
  */
 async function autorizarItem(id: string): Promise<boolean> {
+  const supabase = getSupabaseAdmin()
   const { data: item } = await supabase
     .from('cronograma_itens')
     .select('email')
@@ -42,6 +41,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   if (titulo !== undefined) updates.titulo = titulo
   if (dataAlvo !== undefined) updates.data_alvo = dataAlvo || null
 
+  const supabase = getSupabaseAdmin()
   const { data, error } = await supabase
     .from('cronograma_itens')
     .update(updates)
@@ -62,6 +62,7 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
     return NextResponse.json({ error: 'Não autorizado' }, { status: 403 })
   }
 
+  const supabase = getSupabaseAdmin()
   const { error } = await supabase
     .from('cronograma_itens')
     .delete()

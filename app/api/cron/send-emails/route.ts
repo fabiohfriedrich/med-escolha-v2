@@ -2,8 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import { sendResultEmail } from '@/lib/email'
 
-const supabase = getSupabaseAdmin()
-
 // Horário de envio: 9h–18h, segunda a sexta, horário de Brasília (UTC-3)
 function dentroDoHorario(): boolean {
   const agora = new Date()
@@ -27,6 +25,8 @@ export async function GET(req: NextRequest) {
   if (authHeader !== `Bearer ${cronSecret}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
+
+  const supabase = getSupabaseAdmin()
 
   if (!dentroDoHorario()) {
     return NextResponse.json({ ok: true, message: 'Fora do horário de envio (seg–sex 9h–18h)' })

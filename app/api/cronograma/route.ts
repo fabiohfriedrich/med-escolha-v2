@@ -3,8 +3,6 @@ import { currentUser } from '@clerk/nextjs/server'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import { obterOuSemearItens } from '@/lib/cronograma'
 
-const supabase = getSupabaseAdmin()
-
 async function emailDaSessao(): Promise<string | null> {
   const user = await currentUser()
   return user?.primaryEmailAddress?.emailAddress?.toLowerCase().trim() ?? null
@@ -20,6 +18,7 @@ async function autorizar(resultadoId: string | null): Promise<{ email: string; r
   const sessionEmail = await emailDaSessao()
 
   if (resultadoId) {
+    const supabase = getSupabaseAdmin()
     const { data: resultado } = await supabase
       .from('resultados')
       .select('email')
@@ -55,6 +54,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
   }
   const { email, resultadoId } = auth
+  const supabase = getSupabaseAdmin()
 
   const { stepNum, titulo, dataAlvo } = body
   if (!stepNum || !titulo) {
