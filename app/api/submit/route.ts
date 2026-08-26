@@ -11,8 +11,6 @@ import c04bData from '@/data/c04b_perguntas.json'
 
 const MESES_RETESTE_PADRAO = 6
 
-const supabase = getSupabaseAdmin()
-
 // Mesma regra do quiz (components/Quiz.tsx): exigir cobertura completa dos 81 itens
 // comportamentais e ao menos uma resposta em valores/Jung/Holland — reaplicada aqui pra quem
 // chamar a API direto, sem passar pela interface (que já valida isso antes de enviar).
@@ -50,6 +48,8 @@ export async function POST(req: NextRequest) {
     if (!clerkUser || !clerkEmail) {
       return NextResponse.json({ error: 'Não autenticado' }, { status: 401 })
     }
+
+    const supabase = getSupabaseAdmin()
 
     const { data: comprador, error: compradorError } = await supabase
       .from('compradores')

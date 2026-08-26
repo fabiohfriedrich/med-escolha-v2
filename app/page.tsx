@@ -29,7 +29,7 @@ function Dashboard() {
 
 // ─── Página principal — detecta auth e decide o que renderizar ─────────────────
 
-export default function Home() {
+function ClerkHome() {
   const { isLoaded, isSignedIn } = useUser()
 
   // A troca de senha obrigatória (primeiro acesso) já é forçada globalmente
@@ -37,4 +37,12 @@ export default function Home() {
   if (!isLoaded) return null
 
   return isSignedIn ? <Dashboard /> : <MedEscolhaLandingPage />
+}
+
+export default function Home() {
+  if (!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY) {
+    return <MedEscolhaLandingPage />
+  }
+
+  return <ClerkHome />
 }

@@ -1,10 +1,10 @@
 export const dynamic = 'force-dynamic'
 
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
-const supabase = getSupabaseAdmin()
 import CompradoresClient from './CompradoresClient'
 
 export default async function AdminCompradores() {
+  const supabase = getSupabaseAdmin()
   const { data: compradores } = await supabase
     .from('compradores')
     .select('id, email, nome, testes_realizados, testes_limite, ativo, status_pagamento, tipo, notas, created_at, status_provisionamento, ultimo_erro, email_entregue_em')

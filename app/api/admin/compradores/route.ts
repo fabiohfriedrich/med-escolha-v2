@@ -2,11 +2,11 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import { isAdminRequest } from '@/lib/admin-auth'
 
-const supabase = getSupabaseAdmin()
-
 // Adicionar comprador manualmente
 export async function POST(req: NextRequest) {
   if (!(await isAdminRequest())) return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
+
+  const supabase = getSupabaseAdmin()
 
   const { email, nome, tipo, notas, testes_limite } = await req.json()
   if (!email) return NextResponse.json({ error: 'Email obrigatório' }, { status: 400 })
@@ -30,6 +30,8 @@ export async function POST(req: NextRequest) {
 // Atualizar comprador (ativar/desativar ou resetar testes)
 export async function PATCH(req: NextRequest) {
   if (!(await isAdminRequest())) return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
+
+  const supabase = getSupabaseAdmin()
 
   const { id, ...fields } = await req.json()
   if (!id) return NextResponse.json({ error: 'ID obrigatório' }, { status: 400 })

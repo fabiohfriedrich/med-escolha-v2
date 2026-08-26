@@ -1,7 +1,6 @@
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import Link from 'next/link'
 
-const supabase = getSupabaseAdmin()
 const PAGE_SIZE = 50
 
 export const dynamic = 'force-dynamic'
@@ -11,6 +10,7 @@ export default async function AdminRespostas({
 }: {
   searchParams: Promise<{ email?: string; page?: string }>
 }) {
+  const supabase = getSupabaseAdmin()
   const { email: emailFiltro, page: pageParam } = await searchParams
   const page = Math.max(1, parseInt(pageParam ?? '1', 10))
   const from = (page - 1) * PAGE_SIZE
