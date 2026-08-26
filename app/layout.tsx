@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { connection } from "next/server";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import NavBarCondicional from "@/components/NavBarCondicional";
@@ -26,22 +27,29 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <ClerkProvider>
-      <html lang="pt-BR" className={`${hankFont.variable} h-full antialiased`}>
-        <body className="min-h-full flex flex-col" style={{ fontFamily: 'var(--font-hank), Arial, sans-serif' }}>
-          <AnalyticsPixels />
-          <ForcarTrocaSenha />
-          <PostHogIdentify />
-          <NavBarCondicional />
-          {children}
-        </body>
-      </html>
-    </ClerkProvider>
+  const clerkConfigured = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
+  if (!clerkConfigured) await connection();
+
+  const document = (
+    <html lang="pt-BR" className={`${hankFont.variable} h-full antialiased`}>
+      <body className="min-h-full flex flex-col" style={{ fontFamily: 'var(--font-hank), Arial, sans-serif' }}>
+        <AnalyticsPixels />
+        {clerkConfigured ? (
+          <>
+            <ForcarTrocaSenha />
+            <PostHogIdentify />
+            <NavBarCondicional />
+          </>
+        ) : null}
+        {children}
+      </body>
+    </html>
   );
+
+  return clerkConfigured ? <ClerkProvider>{document}</ClerkProvider> : document;
 }

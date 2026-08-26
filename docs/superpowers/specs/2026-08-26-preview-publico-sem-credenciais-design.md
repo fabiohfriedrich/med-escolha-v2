@@ -80,6 +80,7 @@ O layout só monta `ClerkProvider` e componentes dependentes de `useUser()` quan
 
 Sem Clerk:
 
+- o layout chama `connection()` para impedir o pré-render de componentes dependentes de autenticação durante o build;
 - o layout mantém fontes, analytics que não dependem de autenticação e o conteúdo da página;
 - componentes globais que chamam hooks do Clerk não são montados;
 - a página inicial renderiza diretamente `MedEscolhaLandingPage`;
