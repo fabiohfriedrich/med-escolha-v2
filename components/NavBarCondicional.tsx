@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation'
 import { useUser } from '@clerk/nextjs'
 import NavBar from './NavBar'
 
-const PUBLIC_PREFIXES = ['/guias', '/quiz-rapido', '/ebooks']
+const PUBLIC_PREFIXES = ['/guias', '/quiz-rapido', '/ebooks', '/oferta-psicologo']
 
 // Páginas que têm seu próprio header público (LandingHeader) pra visitante
 // deslogado — não duplica a navbar autenticada (com "Meu perfil"/"Sair") nelas.
