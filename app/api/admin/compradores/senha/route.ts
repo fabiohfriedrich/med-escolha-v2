@@ -20,6 +20,10 @@ export async function POST(req: NextRequest) {
   try {
     if (user) {
       await client.users.updateUser(user.id, { password: senha })
+      // Senha entregue diretamente (sem e-mail com "senha temporária"), então não faz sentido
+      // manter o forçar-troca-de-senha pendente, senão o próximo login trava em /criar-senha
+      // pedindo uma senha temporária que o comprador nunca recebeu.
+      await client.users.updateUserMetadata(user.id, { publicMetadata: { mustChangePassword: null } })
     } else {
       // Sem conta no Clerk (ex: falha silenciosa na criação via webhook da Hotmart) — cria agora
       const { data: comprador } = await getSupabaseAdmin()
