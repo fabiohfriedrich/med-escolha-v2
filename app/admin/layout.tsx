@@ -16,7 +16,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const pathname = usePathname()
   const router = useRouter()
 
-  if (pathname === '/admin/login') return <>{children}</>
+  if (pathname === '/admin/login' || pathname.startsWith('/admin/psicologo')) return <>{children}</>
 
   async function logout() {
     await fetch('/api/admin/login', { method: 'DELETE' })

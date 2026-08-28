@@ -13,7 +13,7 @@ function getJwtSecret(): string {
   return secret
 }
 
-async function generateSessionToken(secret: string): Promise<string> {
+export async function generateSessionToken(secret: string): Promise<string> {
   const uuid = crypto.randomUUID()
   const encoder = new TextEncoder()
   const key = await crypto.subtle.importKey(
