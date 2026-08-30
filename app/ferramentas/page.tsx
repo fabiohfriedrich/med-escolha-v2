@@ -1,8 +1,13 @@
 import Link from 'next/link'
+import { currentUser } from '@clerk/nextjs/server'
+import KitTop3OfertaCard from '@/components/KitTop3OfertaCard'
+import { PRODUTO_DIGITAL_KIT_TOP3, temAcessoProdutoDigital } from '@/lib/produtos-digitais'
+
+export const dynamic = 'force-dynamic'
 
 export const metadata = {
-  title: 'Bônus | Med Escolha',
-  description: 'Acervo de lives, curso de IA na Medicina, planilha financeira e guia de Instagram: os 4 bônus de quem já fez o Med Escolha.',
+  title: 'Ferramentas | Med Escolha 2.0',
+  description: 'Bônus do Med Escolha 2.0 e materiais práticos para os próximos passos da escolha da especialidade.',
 }
 
 const FERRAMENTAS = [
@@ -49,20 +54,34 @@ const FERRAMENTAS = [
   },
 ]
 
-export default function FerramentasPage() {
+export default async function FerramentasPage() {
+  const user = await currentUser()
+  const email = user?.primaryEmailAddress?.emailAddress
+  let kitTop3Desbloqueado = false
+  let consultaKitFalhou = false
+
+  if (email) {
+    try {
+      kitTop3Desbloqueado = await temAcessoProdutoDigital(email, PRODUTO_DIGITAL_KIT_TOP3)
+    } catch (error) {
+      consultaKitFalhou = true
+      console.error('[ferramentas] Erro ao consultar Kit Top 3:', error)
+    }
+  }
+
   return (
     <div style={{ minHeight: '100vh', background: '#f0f4f8' }}>
       {/* Hero */}
       <div style={{ background: 'linear-gradient(135deg, #0f2d5e 0%, #1e4d8c 100%)', color: 'white', padding: '56px 24px 48px' }}>
         <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center' }}>
           <div style={{ display: 'inline-block', background: 'rgba(255,255,255,.12)', border: '1px solid rgba(255,255,255,.2)', borderRadius: 20, padding: '4px 14px', fontSize: 12, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase' as const, marginBottom: 16 }}>
-            🎁 Bônus · Med Escolha
+            Ferramentas · Med Escolha 2.0
           </div>
           <h1 style={{ fontSize: 36, fontWeight: 900, lineHeight: 1.2, marginBottom: 16 }}>
-            Seus bônus Med Escolha
+            Seus materiais Med Escolha 2.0
           </h1>
           <p style={{ fontSize: 16, opacity: 0.85, lineHeight: 1.6, maxWidth: 520, margin: '0 auto' }}>
-            Os 4 bônus de quem já fez o teste: acervo de lives, curso de IA na Medicina, planilha financeira e guia de Instagram.
+            Acesse seus bônus e os materiais extras que ajudam a transformar o resultado em próximos passos concretos.
           </p>
         </div>
       </div>
@@ -70,6 +89,7 @@ export default function FerramentasPage() {
       {/* Cards */}
       <div style={{ maxWidth: 800, margin: '0 auto', padding: '48px 24px 80px' }}>
         <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 20 }}>
+          <KitTop3OfertaCard desbloqueado={kitTop3Desbloqueado} origem="ferramentas" consultaFalhou={consultaKitFalhou} />
           {FERRAMENTAS.map((f) => {
             const cardContent = (
               <div style={{ background: 'white', borderRadius: 16, overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,0,0,.06)', transition: 'box-shadow .2s', cursor: 'pointer', border: '1px solid #e5e7eb' }}>
