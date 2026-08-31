@@ -23,7 +23,7 @@ const isClerkDependentPage = createRouteMatcher([
 ])
 
 // Acesso escopado do psicólogo parceiro: cookie e senha separados do admin_auth do time
-// interno, pra ele nunca alcançar financeiro/compradores/etc — só /admin/psicologo.
+// interno, para ele nunca alcançar financeiro, compradores ou outras áreas.
 async function handlePsicologoRoute(request: NextRequest): Promise<NextResponse | null> {
   const { pathname } = request.nextUrl
 

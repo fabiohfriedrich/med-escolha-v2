@@ -3,6 +3,17 @@ import { clerkClient } from '@clerk/nextjs/server'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import { provisionarAcesso } from '@/lib/provisionamento'
 import { enviarPurchaseMetaCapi, enviarPurchaseGA4 } from '@/lib/ad-tracking-server'
+import {
+  carregarConfiguracaoProdutosHotmart,
+  classificarOfertaKit,
+  classificarProdutoHotmart,
+} from '@/lib/hotmart-produtos'
+import {
+  PRODUTO_DIGITAL_KIT_TOP3,
+  registrarCompraProdutoDigital,
+  revogarCompraProdutoDigital,
+} from '@/lib/produtos-digitais'
+import { statusPagamentoPorEvento } from '@/lib/produtos-digitais-core'
 
 // Eventos que liberam o acesso
 const EVENTOS_APROVADOS = ['PURCHASE_APPROVED', 'PURCHASE_COMPLETE']
@@ -34,13 +45,6 @@ async function registrarIndicacao(codigoOrigem: string, emailIndicado: string, t
   } catch (err) {
     console.error('[webhook] Erro ao processar indicação:', err)
   }
-}
-
-function ehProdutoPsicologo(body: any): boolean {
-  const productId = body?.data?.product?.id
-  const psicologoId = process.env.HOTMART_PRODUCT_ID_PSICOLOGO
-  if (!psicologoId || productId == null) return false
-  return String(productId) === psicologoId
 }
 
 async function processarCompraPsicologo(emailLower: string, nome: string, transactionId: string) {
@@ -83,6 +87,32 @@ async function processarCompraPsicologo(emailLower: string, nome: string, transa
   return NextResponse.json({ ok: true, action: 'liberado', produto: 'psicologo', email: emailLower })
 }
 
+async function processarCompraKit(
+  emailLower: string,
+  transactionId: string,
+  productId: string,
+  offerCode: string,
+  valorBruto: number | undefined,
+  moeda: string,
+) {
+  const configuracao = carregarConfiguracaoProdutosHotmart()
+  const origem = classificarOfertaKit(offerCode, configuracao)
+
+  await registrarCompraProdutoDigital({
+    email: emailLower,
+    produtoSlug: PRODUTO_DIGITAL_KIT_TOP3,
+    hotmartProductId: productId,
+    hotmartOfferCode: offerCode,
+    hotmartTransactionId: transactionId,
+    origem,
+    valorBruto,
+    moeda,
+  })
+
+  console.log(`[webhook] Kit Top 3 liberado: ${transactionId} (${origem})`)
+  return NextResponse.json({ ok: true, action: 'liberado', produto: PRODUTO_DIGITAL_KIT_TOP3, origem })
+}
+
 // Dedup de eventos aprovados: evita que um reenvio legítimo da Hotmart do mesmo evento
 // resete a senha de um comprador que já recebeu acesso (a senha temporária é única por
 // provisionamento — resetar de novo pode invalidar uma senha que o comprador ainda nem leu).
@@ -112,6 +142,17 @@ async function processarCancelamentoPsicologo(transactionId: string, status_paga
   return NextResponse.json({ ok: true, action: 'revogado', produto: 'psicologo' })
 }
 
+async function processarCancelamentoKit(transactionId: string, event: string) {
+  const status = statusPagamentoPorEvento(event)
+  if (!status || status === 'pago') {
+    return NextResponse.json({ ok: true, action: 'ignorado', event })
+  }
+
+  await revogarCompraProdutoDigital(transactionId, status)
+  console.log(`[webhook] Kit Top 3 revogado: ${transactionId} (${status})`)
+  return NextResponse.json({ ok: true, action: 'revogado', produto: PRODUTO_DIGITAL_KIT_TOP3 })
+}
+
 export async function POST(req: NextRequest) {
   try {
     // Valida hottok — token fixo que a Hotmart inclui em todo webhook. Se a variável não
@@ -136,21 +177,48 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ok: true, action: 'ignorado', event })
     }
 
+    const configuracaoProdutos = carregarConfiguracaoProdutosHotmart()
+    const productId = String(body?.data?.product?.id ?? '').trim()
+    const produto = classificarProdutoHotmart(productId, configuracaoProdutos)
+
+    if (produto === 'desconhecido') {
+      console.warn(`[webhook] Produto ignorado: ${productId || 'sem-id'} (${event})`)
+      return NextResponse.json({ ok: true, action: 'ignorado', reason: 'produto-desconhecido' })
+    }
+
     const email: string = body?.data?.buyer?.email ?? ''
     const nome: string = body?.data?.buyer?.name ?? ''
     const transactionId: string = body?.data?.purchase?.transaction ?? ''
     const codigoIndicacaoOrigem: string = body?.data?.purchase?.origin?.sck ?? ''
+    const offerCode: string = body?.data?.purchase?.offer?.code ?? ''
+    const valorPayload = Number(body?.data?.purchase?.price?.value)
+    const valorBruto = Number.isFinite(valorPayload) ? valorPayload : undefined
+    const moeda: string = body?.data?.purchase?.price?.currency_value ?? 'BRL'
 
     if (!email) {
       console.warn(`[webhook] Evento ${event} sem email no payload`)
       return NextResponse.json({ ok: true, action: 'ignorado', reason: 'sem-email' })
     }
 
+    if (!transactionId) {
+      console.warn(`[webhook] Evento ${event} do produto ${produto} sem transação`)
+      return NextResponse.json({ ok: true, action: 'ignorado', reason: 'sem-transacao' })
+    }
+
     const emailLower = email.toLowerCase().trim()
-    const isPsicologo = ehProdutoPsicologo(body)
 
     if (EVENTOS_APROVADOS.includes(event)) {
-      if (isPsicologo) return await processarCompraPsicologo(emailLower, nome, transactionId)
+      if (produto === 'psicologo') return await processarCompraPsicologo(emailLower, nome, transactionId)
+      if (produto === 'kit-top3') {
+        return await processarCompraKit(
+          emailLower,
+          transactionId,
+          productId,
+          offerCode,
+          valorBruto,
+          moeda,
+        )
+      }
 
       // 1. Registra/ativa o comprador no banco
       const { error } = await getSupabaseAdmin()
@@ -188,10 +256,9 @@ export async function POST(req: NextRequest) {
       if (jaProcessado) {
         console.log(`[webhook] Evento já processado, pulando confirmação de compra: ${transactionId} (${event})`)
       } else {
-        const valor = Number(body?.data?.purchase?.price?.value) || undefined // TODO: confirmar contra payload real da Hotmart
         await Promise.all([
-          enviarPurchaseMetaCapi({ email: emailLower, transactionId, valor }),
-          enviarPurchaseGA4({ email: emailLower, transactionId, valor }),
+          enviarPurchaseMetaCapi({ email: emailLower, transactionId, valor: valorBruto }),
+          enviarPurchaseGA4({ email: emailLower, transactionId, valor: valorBruto }),
         ])
       }
 
@@ -217,7 +284,8 @@ export async function POST(req: NextRequest) {
       }
       const status_pagamento = statusMap[event] ?? 'cancelado'
 
-      if (isPsicologo) return await processarCancelamentoPsicologo(transactionId, status_pagamento)
+      if (produto === 'psicologo') return await processarCancelamentoPsicologo(transactionId, status_pagamento)
+      if (produto === 'kit-top3') return await processarCancelamentoKit(transactionId, event)
 
       const { error } = await getSupabaseAdmin()
         .from('compradores')

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import posthog from 'posthog-js'
+import KitTop3OfertaCard from '@/components/KitTop3OfertaCard'
 
 interface Especialidade {
   id: number
@@ -18,11 +19,13 @@ interface Props {
 type RadarState = 'loading' | { ativo: boolean; total: number }
 type RetesteState = 'loading' | { agendado: boolean; data?: string }
 type IndicacaoState = 'loading' | { codigo: string | null; confirmadas: number; meta: number }
+type KitTop3State = 'loading' | { desbloqueado: boolean; consultaFalhou: boolean }
 
 export default function PosResultadoActions({ top3, resultadoId }: Props) {
   const [radar, setRadar] = useState<RadarState>('loading')
   const [reteste, setReteste] = useState<RetesteState>('loading')
   const [indicacao, setIndicacao] = useState<IndicacaoState>('loading')
+  const [kitTop3, setKitTop3] = useState<KitTop3State>('loading')
   const [ativandoRadar, setAtivandoRadar] = useState(false)
   const [agendandoReteste, setAgendandoReteste] = useState(false)
   const [copiado, setCopiado] = useState(false)
@@ -42,6 +45,11 @@ export default function PosResultadoActions({ top3, resultadoId }: Props) {
       .then(res => (res.ok ? res.json() : { codigo: null, confirmadas: 0, meta: 3 }))
       .then(data => setIndicacao({ codigo: data.codigo, confirmadas: data.confirmadas ?? 0, meta: data.meta ?? 3 }))
       .catch(() => setIndicacao({ codigo: null, confirmadas: 0, meta: 3 }))
+
+    fetch('/api/produtos-digitais/kit-top3/status')
+      .then(async res => (res.ok ? { data: await res.json(), consultaFalhou: false } : { data: null, consultaFalhou: true }))
+      .then(({ data, consultaFalhou }) => setKitTop3({ desbloqueado: data?.status === 'desbloqueado', consultaFalhou }))
+      .catch(() => setKitTop3({ desbloqueado: false, consultaFalhou: true }))
   }, [])
 
   async function ativarRadar() {
@@ -93,7 +101,15 @@ export default function PosResultadoActions({ top3, resultadoId }: Props) {
       <h2 className="text-2xl font-extrabold text-blue-900 mb-1">Seus próximos passos</h2>
       <div className="w-10 h-1 bg-teal-400 rounded mb-5" />
 
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {kitTop3 === 'loading' ? (
+          <div className="bg-white rounded-2xl border border-teal-100 shadow-sm p-5">
+            <div className="h-24 bg-gray-100 rounded-lg animate-pulse" />
+          </div>
+        ) : (
+          <KitTop3OfertaCard desbloqueado={kitTop3.desbloqueado} origem="pos_resultado" compacto consultaFalhou={kitTop3.consultaFalhou} />
+        )}
+
         {/* Radar */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex flex-col gap-3">
           <div className="text-2xl">🎯</div>

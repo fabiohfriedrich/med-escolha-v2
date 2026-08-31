@@ -45,3 +45,28 @@ export function trackCheckoutIntent(origem: string) {
   window.fbq?.('track', 'InitiateCheckout', { content_name: PRODUTO, currency: MOEDA, value: VALOR_PADRAO })
   window.gtag?.('event', 'begin_checkout', { currency: MOEDA, value: VALOR_PADRAO })
 }
+
+export type OrigemOfertaKitTop3 = 'ferramentas' | 'pos_resultado' | 'pagina_kit'
+
+export function trackKitTop3OfferView(origem: OrigemOfertaKitTop3) {
+  posthog.capture('kit_top3_oferta_vista', { origem })
+}
+
+export function trackKitTop3Checkout(origem: OrigemOfertaKitTop3) {
+  posthog.capture('kit_top3_checkout_iniciado', {
+    origem,
+    produto: 'kit-top3',
+    valor: 47,
+    moeda: MOEDA,
+  })
+}
+
+export function trackKitTop3Page(desbloqueado: boolean) {
+  posthog.capture('kit_top3_pagina_aberta', {
+    acesso: desbloqueado ? 'desbloqueado' : 'bloqueado',
+  })
+}
+
+export function trackKitTop3Download(arquivo: string, tipo: 'individual' | 'pacote') {
+  posthog.capture('kit_top3_download', { arquivo, tipo })
+}
