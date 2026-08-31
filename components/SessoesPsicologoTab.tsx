@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useUser } from '@clerk/nextjs'
 
-const CAL_COM_BOOKING_LINK = process.env.NEXT_PUBLIC_CAL_COM_BOOKING_LINK ?? ''
+const WHATSAPP_EDUARDO = process.env.NEXT_PUBLIC_WHATSAPP_EDUARDO ?? ''
 const HOTMART_CHECKOUT_PSICOLOGO = process.env.NEXT_PUBLIC_HOTMART_CHECKOUT_PSICOLOGO ?? '#'
 
 interface Saldo {
@@ -60,7 +60,10 @@ export default function SessoesPsicologoTab() {
 
   const nome = [user?.firstName, user?.lastName].filter(Boolean).join(' ')
   const email = user?.primaryEmailAddress?.emailAddress ?? ''
-  const link = `${CAL_COM_BOOKING_LINK}?name=${encodeURIComponent(nome)}&email=${encodeURIComponent(email)}`
+  const mensagem = `Olá Eduardo! Comprei o pacote de sessões do Med Escolha.\nMeu nome é ${nome || '(nome)'}, e-mail ${email || '(e-mail)'}.\nGostaria de combinar minha primeira sessão.`
+  const linkWhatsapp = WHATSAPP_EDUARDO
+    ? `https://wa.me/${WHATSAPP_EDUARDO}?text=${encodeURIComponent(mensagem)}`
+    : null
 
   return (
     <div className="text-center py-10">
@@ -70,14 +73,20 @@ export default function SessoesPsicologoTab() {
       <p className="text-xs text-gray-400 mb-6">
         Cancelamentos com menos de 24h de antecedência não devolvem a sessão.
       </p>
-      <a
-        href={link}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-block bg-blue-700 text-white text-sm font-bold px-6 py-3 rounded-xl hover:bg-blue-800 transition"
-      >
-        Agendar sessão →
-      </a>
+      {linkWhatsapp ? (
+        <a
+          href={linkWhatsapp}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block bg-green-600 text-white text-sm font-bold px-6 py-3 rounded-xl hover:bg-green-700 transition"
+        >
+          Falar com o Eduardo no WhatsApp →
+        </a>
+      ) : (
+        <p className="text-gray-400 text-sm">
+          O contato direto com o Eduardo estará disponível aqui em breve.
+        </p>
+      )}
     </div>
   )
 }

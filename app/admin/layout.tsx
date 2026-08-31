@@ -10,13 +10,14 @@ const NAV = [
   { href: '/admin/compradores', label: '👥 Compradores' },
   { href: '/admin/feedbacks', label: '⭐ Feedbacks' },
   { href: '/admin/radar', label: '📅 Radar' },
+  { href: '/admin/sessoes-psicologo', label: '🧠 Psicólogo' },
 ]
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const router = useRouter()
 
-  if (pathname === '/admin/login') return <>{children}</>
+  if (pathname === '/admin/login' || pathname.startsWith('/admin/psicologo')) return <>{children}</>
 
   async function logout() {
     await fetch('/api/admin/login', { method: 'DELETE' })

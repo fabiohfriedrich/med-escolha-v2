@@ -22,8 +22,33 @@ const isClerkDependentPage = createRouteMatcher([
   '/teste(.*)',
 ])
 
+// Acesso escopado do psicólogo parceiro: cookie e senha separados do admin_auth do time
+// interno, para ele nunca alcançar financeiro, compradores ou outras áreas.
+async function handlePsicologoRoute(request: NextRequest): Promise<NextResponse | null> {
+  const { pathname } = request.nextUrl
+
+  if (!pathname.startsWith('/admin/psicologo')) return null
+  if (pathname === '/admin/psicologo/login') return NextResponse.next()
+
+  const jwtSecret = process.env.ADMIN_JWT_SECRET
+  if (!jwtSecret) {
+    console.error('[proxy] ADMIN_JWT_SECRET não configurada')
+    return NextResponse.redirect(new URL('/admin/psicologo/login', request.url))
+  }
+
+  const cookie = request.cookies.get('psico_auth')?.value
+  if (!cookie || !(await verifySessionToken(cookie, jwtSecret))) {
+    return NextResponse.redirect(new URL('/admin/psicologo/login', request.url))
+  }
+
+  return NextResponse.next()
+}
+
 async function handleAdminRoute(request: NextRequest): Promise<NextResponse | null> {
   const { pathname } = request.nextUrl
+
+  const psicologoResponse = await handlePsicologoRoute(request)
+  if (psicologoResponse) return psicologoResponse
 
   if (!pathname.startsWith('/admin')) return null
   if (pathname === '/admin/login') return NextResponse.next()
