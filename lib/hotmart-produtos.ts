@@ -15,6 +15,13 @@ function normalizarIdentificador(valor: unknown): string {
   return valor.trim()
 }
 
+function primeiroProdutoLegado(valor: string | undefined): string {
+  return valor
+    ?.split(',')
+    .map((id) => id.trim())
+    .find(Boolean) ?? ''
+}
+
 export function classificarProdutoHotmart(
   productId: unknown,
   configuracao: ConfiguracaoProdutosHotmart
@@ -39,8 +46,10 @@ export function classificarOfertaKit(
 }
 
 export function carregarConfiguracaoProdutosHotmart(): ConfiguracaoProdutosHotmart {
+  const produtoPrincipalLegado = primeiroProdutoLegado(process.env.HOTMART_PRODUCT_IDS)
   const configuracao: ConfiguracaoProdutosHotmart = {
-    produtoPrincipalId: process.env.HOTMART_PRODUCT_ID_PRINCIPAL?.trim() ?? '',
+    produtoPrincipalId:
+      process.env.HOTMART_PRODUCT_ID_PRINCIPAL?.trim() || produtoPrincipalLegado,
     psicologoId: process.env.HOTMART_PRODUCT_ID_PSICOLOGO?.trim() ?? '',
     kitTop3Id: process.env.HOTMART_PRODUCT_ID_KIT_TOP3?.trim() ?? '',
     ofertaKitBump: process.env.HOTMART_OFFER_CODE_KIT_BUMP?.trim() ?? '',
