@@ -10,7 +10,7 @@ import crypto from 'node:crypto'
 const META_PIXEL_ID = '486908010162611'
 const GA4_MEASUREMENT_ID = 'G-KR2TGEFGXN'
 const MOEDA = 'BRL'
-const VALOR_PADRAO = 149
+const VALOR_PADRAO = 199.9
 
 function hashEmail(email: string): string {
   return crypto.createHash('sha256').update(email.toLowerCase().trim()).digest('hex')

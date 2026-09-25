@@ -9,7 +9,7 @@ declare global {
   }
 }
 
-const VALOR_PADRAO = 149
+const VALOR_PADRAO = 199.9
 const MOEDA = 'BRL'
 const PRODUTO = 'med-escolha'
 

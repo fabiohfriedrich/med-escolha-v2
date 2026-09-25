@@ -735,8 +735,8 @@ export default function MedEscolhaLandingPage() {
               <div className={styles.totalLabel}>valor total real</div>
               <div className={styles.totalStrike}>R$ 1.744</div>
               <div className={styles.totalLabel} style={{ color: 'var(--teal)', marginTop: 12 }}>você paga hoje</div>
-              <div className={styles.totalNow}>R$ 149<small> à vista</small></div>
-              <div className={styles.totalInstallments}>ou em até 12x de R$ 14,90 no cartão</div>
+              <div className={styles.totalNow}>R$ 199,90<small> à vista</small></div>
+              <div className={styles.totalInstallments}>ou parcelado em até 12x no cartão</div>
             </div>
             <div className={`${styles.ctaBlock} ${styles.mt3}`}>
               <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" className={`${styles.btn} ${styles.btnLarge} ${styles.btnUppercase}`} onClick={() => trackCheckoutIntent('oferta')}>quero garantir meu acesso, R$ 149</a>
@@ -781,8 +781,8 @@ export default function MedEscolhaLandingPage() {
 
             <div className={styles.priceCardHero}>
               <div className={styles.heroEyebrow}>você paga apenas</div>
-              <div className={styles.heroAmount}>R$ 149</div>
-              <div className={styles.heroMeta}>à vista, ou 12x de R$ 14,90 no cartão</div>
+              <div className={styles.heroAmount}>R$ 199,90</div>
+              <div className={styles.heroMeta}>à vista, ou parcelado em até 12x no cartão</div>
               <p className={styles.heroAside}>menos do que você gastou comendo no hospital essa semana.</p>
               <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" className={`${styles.btn} ${styles.btnLarge} ${styles.btnUppercase} ${styles.priceCta}`} onClick={() => trackCheckoutIntent('preco')}>decidir minha especialidade agora</a>
             </div>
@@ -941,7 +941,7 @@ export default function MedEscolhaLandingPage() {
           <h2>menos dúvidas, <span className={styles.highlightTeal}>mais certezas</span>.</h2>
           <p className={styles.lead}>a sua próxima especialidade médica não precisa ser decidida no escuro.</p>
           <p className={styles.lead}>match da especialidade médica + acervo com 50+ lives + curso IA na Medicina + acesso vitalício + 7 dias de garantia.</p>
-          <p className={styles.lead}><strong>R$ 149 à vista. ou 12x de R$ 14,90 no cartão.</strong></p>
+          <p className={styles.lead}><strong>R$ 199,90 à vista. ou parcelado em até 12x no cartão.</strong></p>
 
           <div className={`${styles.ctaBlock} ${styles.mt4}`}>
             <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" className={`${styles.btn} ${styles.btnLarge} ${styles.btnUppercase}`} onClick={() => trackCheckoutIntent('cta_final')}>testar sem risco</a>
@@ -978,7 +978,7 @@ export default function MedEscolhaLandingPage() {
           <div className={styles.stickyCtaInfo}>
             <span className={styles.stickyCtaRating}>★★★★★</span>
             <span className={styles.stickyProduct}>match da especialidade médica</span>
-            <span className={styles.stickyPrice}>R$ 149 ou 12x R$ 14,90</span>
+            <span className={styles.stickyPrice}>R$ 199,90 ou 12x no cartão</span>
           </div>
           <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" className={`${styles.btn} ${styles.stickyCtaBtn} ${styles.btnUppercase}`} onClick={() => trackCheckoutIntent('sticky')}>garantir acesso</a>
         </div>
