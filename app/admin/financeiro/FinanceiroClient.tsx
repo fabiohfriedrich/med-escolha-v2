@@ -24,19 +24,19 @@ interface CriativoPerformance {
 
 interface RespostaApi {
   faixa: { from: string; to: string }
-  gasto: { configurado: boolean; total: number; campanhas: GastoCampanha[] }
-  receita: { configurado: boolean; total: number; totalLiquido: number; vendas: number; reembolsos: number; produtos: ReceitaProduto[] }
-  criativos: { configurado: boolean; criativos: CriativoPerformance[] }
+  gasto: { configurado: boolean; erro?: string; total: number; campanhas: GastoCampanha[] }
+  receita: { configurado: boolean; erro?: string; total: number; totalLiquido: number; vendas: number; reembolsos: number; produtos: ReceitaProduto[] }
+  criativos: { configurado: boolean; erro?: string; criativos: CriativoPerformance[] }
   mes: {
     faixa: { from: string; to: string }
-    gasto: { configurado: boolean; total: number }
-    receita: { configurado: boolean; total: number; totalLiquido: number; vendas: number }
+    gasto: { configurado: boolean; erro?: string; total: number }
+    receita: { configurado: boolean; erro?: string; total: number; totalLiquido: number; vendas: number }
   }
 }
 
 const fmtMoeda = (v: number) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
-const fmtSaldo = (v: number) => `${v < 0 ? '-' : ''}${fmtMoeda(Math.abs(v))}`
-const corSaldo = (v: number) => (v >= 0 ? 'text-emerald-600' : 'text-red-600')
+const fmtSaldo = (v: number | null) => (v === null ? '—' : `${v < 0 ? '-' : ''}${fmtMoeda(Math.abs(v))}`)
+const corSaldo = (v: number | null) => (v === null ? 'text-gray-400' : v >= 0 ? 'text-emerald-600' : 'text-red-600')
 const fmtNum = (v: number) => v.toLocaleString('pt-BR')
 const fmtDataBr = (iso: string) => new Date(`${iso}T12:00:00Z`).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })
 
@@ -47,6 +47,14 @@ function Card({ label, value, sub, color }: { label: string; value: string; sub?
       <p className={`text-2xl sm:text-3xl font-extrabold mt-1 ${color}`}>{value}</p>
       {sub && <p className="text-xs text-gray-400 mt-1">{sub}</p>}
     </div>
+  )
+}
+
+function AvisoErro({ fonte, mensagem }: { fonte: string; mensagem: string }) {
+  return (
+    <p className="text-sm text-red-600 bg-red-50 border border-red-100 rounded-lg px-3 py-2">
+      <strong>{fonte}:</strong> {mensagem}
+    </p>
   )
 }
 
@@ -106,14 +114,21 @@ export default function FinanceiroClient() {
   const receita = dados?.receita
   const criativos = dados?.criativos
   const mes = dados?.mes
-  const roas = gasto && gasto.total > 0 && receita ? receita.total / gasto.total : null
-  const saldo = gasto && receita ? receita.totalLiquido - gasto.total : 0
-  const cpa = gasto && receita && receita.vendas > 0 ? gasto.total / receita.vendas : null
+  // Sem gasto confiável (Meta com erro) ou sem receita confiável (Hotmart com erro), as contas
+  // cruzadas ficam em branco em vez de mostrar saldo/ROAS enganosos.
+  const cruzaOk = !!gasto && !!receita && !gasto.erro && !receita.erro
+  const roas = cruzaOk && gasto.total > 0 ? receita.total / gasto.total : null
+  const saldo = cruzaOk ? receita.totalLiquido - gasto.total : null
+  const cpa = cruzaOk && receita.vendas > 0 ? gasto.total / receita.vendas : null
+
+  const errosMeta = Array.from(new Set([gasto?.erro, criativos?.erro, mes?.gasto.erro].filter((e): e is string => !!e)))
+  const errosHotmart = Array.from(new Set([receita?.erro, mes?.receita.erro].filter((e): e is string => !!e)))
 
   const gastoMes = mes?.gasto.total ?? 0
-  const saldoMes = mes ? mes.receita.totalLiquido - gastoMes : 0
-  const roasMes = mes && gastoMes > 0 ? mes.receita.total / gastoMes : null
-  const cpaMes = mes && mes.receita.vendas > 0 ? gastoMes / mes.receita.vendas : null
+  const cruzaMesOk = !!mes && !mes.gasto.erro && !mes.receita.erro
+  const saldoMes = cruzaMesOk ? mes.receita.totalLiquido - gastoMes : null
+  const roasMes = cruzaMesOk && gastoMes > 0 ? mes.receita.total / gastoMes : null
+  const cpaMes = cruzaMesOk && mes.receita.vendas > 0 ? gastoMes / mes.receita.vendas : null
 
   const rankeaveis = (criativos?.criativos ?? []).filter(c => c.cliques > 0)
   const melhorId = rankeaveis.length
@@ -166,6 +181,19 @@ export default function FinanceiroClient() {
 
       {dados && (
         <div className={`space-y-8 transition-opacity ${carregando ? 'opacity-50 pointer-events-none' : ''}`}>
+          {/* Falhas por fonte: o resto do dash continua funcionando */}
+          {(errosMeta.length > 0 || errosHotmart.length > 0) && (
+            <div className="space-y-2">
+              {errosMeta.length > 0 && (
+                <AvisoErro
+                  fonte="Meta Ads"
+                  mensagem={`${errosMeta[0]}${/token|session|OAuth/i.test(errosMeta[0]) ? ' Gere um token novo e atualize META_ADS_TOKEN no Vercel. Gasto, ROAS, saldo e CPA ficam ocultos até lá.' : ''}`}
+                />
+              )}
+              {errosHotmart.length > 0 && <AvisoErro fonte="Hotmart" mensagem={errosHotmart[0]} />}
+            </div>
+          )}
+
           {/* Mês corrente: fixo, não muda com o filtro */}
           {mes && (
             <div className="rounded-2xl border border-blue-100 bg-blue-50/50 p-4 sm:p-5">
@@ -206,7 +234,7 @@ export default function FinanceiroClient() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <GraficoGastoReceita gasto={gasto?.total ?? 0} receita={receita?.total ?? 0} receitaLiquida={receita?.totalLiquido ?? 0} />
+              <GraficoGastoReceita gasto={gasto?.total ?? 0} receita={receita?.total ?? 0} receitaLiquida={receita?.totalLiquido ?? 0} ocultarSaldo={!cruzaOk} />
               <div className="flex flex-col justify-center gap-2">
                 {gasto && !gasto.configurado && <AvisoNaoConfigurado nome="Meta Ads" />}
                 {receita && !receita.configurado && <AvisoNaoConfigurado nome="Hotmart" />}

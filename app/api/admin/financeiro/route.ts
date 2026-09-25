@@ -19,20 +19,27 @@ export async function GET(req: NextRequest) {
   const faixaMes = resolverFaixa('este_mes', null, null)
   const filtroEhMes = faixaMes.from === faixa.from && faixaMes.to === faixa.to
 
+  // Cada fonte falha sozinha: se o token do Meta expirar, a Hotmart continua aparecendo
+  // (e vice-versa). A falha volta no campo `erro` da própria fonte.
+  const [gasto, receita, criativos, gastoMes, receitaMes] = await Promise.all([
+    tentar(() => buscarGastoMeta(faixa.from, faixa.to), { configurado: true, total: 0, campanhas: [] }),
+    tentar(() => buscarReceitaHotmart(inicioDiaSPms(faixa.from), fimDiaSPms(faixa.to)), RECEITA_VAZIA),
+    tentar(() => buscarPerformanceCriativos(faixa.from, faixa.to), { configurado: true, criativos: [] }),
+    filtroEhMes ? null : tentar(() => buscarGastoMeta(faixaMes.from, faixaMes.to), { configurado: true, total: 0, campanhas: [] }),
+    filtroEhMes ? null : tentar(() => buscarReceitaHotmart(inicioDiaSPms(faixaMes.from), fimDiaSPms(faixaMes.to)), RECEITA_VAZIA),
+  ])
+
+  const mes = { faixa: faixaMes, gasto: gastoMes ?? gasto, receita: receitaMes ?? receita }
+
+  return NextResponse.json({ faixa, gasto, receita, criativos, mes })
+}
+
+const RECEITA_VAZIA = { configurado: true, total: 0, totalLiquido: 0, vendas: 0, reembolsos: 0, produtos: [] }
+
+async function tentar<T extends object>(fn: () => Promise<T>, vazio: T): Promise<T & { erro?: string }> {
   try {
-    const [gasto, receita, criativos, gastoMes, receitaMes] = await Promise.all([
-      buscarGastoMeta(faixa.from, faixa.to),
-      buscarReceitaHotmart(inicioDiaSPms(faixa.from), fimDiaSPms(faixa.to)),
-      buscarPerformanceCriativos(faixa.from, faixa.to),
-      filtroEhMes ? null : buscarGastoMeta(faixaMes.from, faixaMes.to),
-      filtroEhMes ? null : buscarReceitaHotmart(inicioDiaSPms(faixaMes.from), fimDiaSPms(faixaMes.to)),
-    ])
-
-    const mes = { faixa: faixaMes, gasto: gastoMes ?? gasto, receita: receitaMes ?? receita }
-
-    return NextResponse.json({ faixa, gasto, receita, criativos, mes })
+    return await fn()
   } catch (err) {
-    const msg = err instanceof Error ? err.message : String(err)
-    return NextResponse.json({ error: msg }, { status: 502 })
+    return { ...vazio, erro: err instanceof Error ? err.message : String(err) }
   }
 }
