@@ -14,14 +14,23 @@ export async function GET(req: NextRequest) {
   const preset = PRESETS_VALIDOS.includes(presetParam as PresetFiltro) ? (presetParam as PresetFiltro) : null
   const faixa = resolverFaixa(preset, searchParams.get('from'), searchParams.get('to'))
 
+  // Resumo do mês corrente é fixo, independente do filtro. Se o filtro já for o mês
+  // corrente, reaproveita os mesmos dados em vez de chamar Meta/Hotmart de novo.
+  const faixaMes = resolverFaixa('este_mes', null, null)
+  const filtroEhMes = faixaMes.from === faixa.from && faixaMes.to === faixa.to
+
   try {
-    const [gasto, receita, criativos] = await Promise.all([
+    const [gasto, receita, criativos, gastoMes, receitaMes] = await Promise.all([
       buscarGastoMeta(faixa.from, faixa.to),
       buscarReceitaHotmart(inicioDiaSPms(faixa.from), fimDiaSPms(faixa.to)),
       buscarPerformanceCriativos(faixa.from, faixa.to),
+      filtroEhMes ? null : buscarGastoMeta(faixaMes.from, faixaMes.to),
+      filtroEhMes ? null : buscarReceitaHotmart(inicioDiaSPms(faixaMes.from), fimDiaSPms(faixaMes.to)),
     ])
 
-    return NextResponse.json({ faixa, gasto, receita, criativos })
+    const mes = { faixa: faixaMes, gasto: gastoMes ?? gasto, receita: receitaMes ?? receita }
+
+    return NextResponse.json({ faixa, gasto, receita, criativos, mes })
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err)
     return NextResponse.json({ error: msg }, { status: 502 })

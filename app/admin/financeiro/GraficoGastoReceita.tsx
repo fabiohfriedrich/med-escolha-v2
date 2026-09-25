@@ -3,16 +3,19 @@
 interface Props {
   gasto: number
   receita: number
+  receitaLiquida: number
 }
 
 const fmtMoeda = (v: number) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 })
 
-export default function GraficoGastoReceita({ gasto, receita }: Props) {
-  const max = Math.max(gasto, receita, 1)
+export default function GraficoGastoReceita({ gasto, receita, receitaLiquida }: Props) {
+  const max = Math.max(gasto, receita, receitaLiquida, 1)
+  const saldo = receitaLiquida - gasto
 
   const barras = [
     { label: 'Gasto em campanhas', valor: gasto, cor: '#dc2626' },
-    { label: 'Receita', valor: receita, cor: '#16a34a' },
+    { label: 'Receita bruta', valor: receita, cor: '#16a34a' },
+    { label: 'Receita líquida', valor: receitaLiquida, cor: '#059669' },
   ]
 
   return (
@@ -33,6 +36,12 @@ export default function GraficoGastoReceita({ gasto, receita }: Props) {
             </div>
           )
         })}
+      </div>
+      <div className="flex items-center justify-between border-t border-gray-100 mt-4 pt-3">
+        <span className="text-xs font-medium text-gray-500">Saldo (líquida menos gasto)</span>
+        <span className={`text-sm font-extrabold ${saldo >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>
+          {saldo < 0 ? '-' : ''}{fmtMoeda(Math.abs(saldo))}
+        </span>
       </div>
     </div>
   )

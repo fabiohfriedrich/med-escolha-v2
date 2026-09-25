@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import GraficoGastoReceita from './GraficoGastoReceita'
 
 type PresetFiltro = 'hoje' | 'ontem' | '7dias' | 'este_mes' | 'mes_passado'
@@ -27,17 +27,24 @@ interface RespostaApi {
   gasto: { configurado: boolean; total: number; campanhas: GastoCampanha[] }
   receita: { configurado: boolean; total: number; totalLiquido: number; vendas: number; reembolsos: number; produtos: ReceitaProduto[] }
   criativos: { configurado: boolean; criativos: CriativoPerformance[] }
+  mes: {
+    faixa: { from: string; to: string }
+    gasto: { configurado: boolean; total: number }
+    receita: { configurado: boolean; total: number; totalLiquido: number; vendas: number }
+  }
 }
 
 const fmtMoeda = (v: number) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+const fmtSaldo = (v: number) => `${v < 0 ? '-' : ''}${fmtMoeda(Math.abs(v))}`
+const corSaldo = (v: number) => (v >= 0 ? 'text-emerald-600' : 'text-red-600')
 const fmtNum = (v: number) => v.toLocaleString('pt-BR')
 const fmtDataBr = (iso: string) => new Date(`${iso}T12:00:00Z`).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })
 
 function Card({ label, value, sub, color }: { label: string; value: string; sub?: string; color: string }) {
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
+    <div className="bg-white rounded-2xl border border-gray-100 p-4 sm:p-6 shadow-sm">
       <p className="text-sm font-semibold text-gray-500">{label}</p>
-      <p className={`text-3xl font-extrabold mt-1 ${color}`}>{value}</p>
+      <p className={`text-2xl sm:text-3xl font-extrabold mt-1 ${color}`}>{value}</p>
       {sub && <p className="text-xs text-gray-400 mt-1">{sub}</p>}
     </div>
   )
@@ -59,7 +66,12 @@ export default function FinanceiroClient() {
   const [carregando, setCarregando] = useState(true)
   const [erro, setErro] = useState<string | null>(null)
 
+  // Só a última requisição pode atualizar a tela: trocar de filtro rápido não deixa
+  // uma resposta antiga sobrescrever a nova.
+  const ultimaBusca = useRef(0)
+
   const buscar = useCallback(async (preset: PresetFiltro | null, from?: string, to?: string) => {
+    const idBusca = ++ultimaBusca.current
     setCarregando(true)
     setErro(null)
     try {
@@ -69,12 +81,14 @@ export default function FinanceiroClient() {
 
       const res = await fetch(`/api/admin/financeiro?${params.toString()}`)
       const json = await res.json()
+      if (idBusca !== ultimaBusca.current) return
       if (!res.ok) throw new Error(json?.error ?? 'Erro ao carregar dados')
       setDados(json)
     } catch (err) {
+      if (idBusca !== ultimaBusca.current) return
       setErro(err instanceof Error ? err.message : 'Erro ao carregar dados')
     } finally {
-      setCarregando(false)
+      if (idBusca === ultimaBusca.current) setCarregando(false)
     }
   }, [])
 
@@ -91,7 +105,15 @@ export default function FinanceiroClient() {
   const gasto = dados?.gasto
   const receita = dados?.receita
   const criativos = dados?.criativos
+  const mes = dados?.mes
   const roas = gasto && gasto.total > 0 && receita ? receita.total / gasto.total : null
+  const saldo = gasto && receita ? receita.totalLiquido - gasto.total : 0
+  const cpa = gasto && receita && receita.vendas > 0 ? gasto.total / receita.vendas : null
+
+  const gastoMes = mes?.gasto.total ?? 0
+  const saldoMes = mes ? mes.receita.totalLiquido - gastoMes : 0
+  const roasMes = mes && gastoMes > 0 ? mes.receita.total / gastoMes : null
+  const cpaMes = mes && mes.receita.vendas > 0 ? gastoMes / mes.receita.vendas : null
 
   const rankeaveis = (criativos?.criativos ?? []).filter(c => c.cliques > 0)
   const melhorId = rankeaveis.length
@@ -118,7 +140,7 @@ export default function FinanceiroClient() {
         ))}
 
         {filtro === 'personalizado' && (
-          <div className="flex items-center gap-2 ml-2">
+          <div className="flex flex-wrap items-center gap-2 sm:ml-2">
             <input type="date" value={customFrom} onChange={e => setCustomFrom(e.target.value)}
               className="border border-gray-200 rounded-lg px-2 py-1.5 text-sm text-gray-700" />
             <span className="text-gray-400 text-sm">até</span>
@@ -143,27 +165,48 @@ export default function FinanceiroClient() {
       {carregando && !dados && <p className="text-gray-400 text-sm">Carregando…</p>}
 
       {dados && (
-        <>
+        <div className={`space-y-8 transition-opacity ${carregando ? 'opacity-50 pointer-events-none' : ''}`}>
+          {/* Mês corrente: fixo, não muda com o filtro */}
+          {mes && (
+            <div className="rounded-2xl border border-blue-100 bg-blue-50/50 p-4 sm:p-5">
+              <h2 className="text-lg font-extrabold text-gray-800">Mês corrente</h2>
+              <p className="text-xs text-gray-400 mb-4">
+                {fmtDataBr(mes.faixa.from)} até {fmtDataBr(mes.faixa.to)} (não muda com o filtro)
+              </p>
+              <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+                <Card label="Gasto em ads" value={fmtMoeda(gastoMes)} color="text-red-600" />
+                <Card label="Receita líquida" value={fmtMoeda(mes.receita.totalLiquido)}
+                  sub={`Bruta: ${fmtMoeda(mes.receita.total)}`} color="text-emerald-600" />
+                <Card label="Saldo" value={fmtSaldo(saldoMes)} sub="Líquida menos gasto" color={corSaldo(saldoMes)} />
+                <Card label="ROAS" value={roasMes !== null ? `${roasMes.toFixed(2)}x` : '—'} sub="Bruta / Gasto" color="text-purple-600" />
+                <Card label="CPA real" value={cpaMes !== null ? fmtMoeda(cpaMes) : '—'}
+                  sub={`${fmtNum(mes.receita.vendas)} vendas (Hotmart)`} color="text-blue-700" />
+              </div>
+            </div>
+          )}
+
           {/* Resumo geral */}
           <div>
-            <h2 className="text-lg font-extrabold text-gray-800 mb-4">Resumo geral</h2>
-            <div className="grid grid-cols-2 lg:grid-cols-6 gap-4 mb-4">
+            <h2 className="text-lg font-extrabold text-gray-800 mb-4">Resumo do período</h2>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
               <Card label="Gasto em campanhas" value={fmtMoeda(gasto?.total ?? 0)} color="text-red-600" />
               <Card label="Receita bruta" value={fmtMoeda(receita?.total ?? 0)} color="text-green-600" />
               <Card label="Receita líquida" value={fmtMoeda(receita?.totalLiquido ?? 0)} sub="Após taxa da Hotmart" color="text-emerald-600" />
+              <Card label="Saldo" value={fmtSaldo(saldo)} sub="Líquida menos gasto" color={corSaldo(saldo)} />
               <Card label="Vendas aprovadas" value={fmtNum(receita?.vendas ?? 0)}
                 sub={receita && receita.vendas > 0 ? `Ticket médio: ${fmtMoeda(receita.total / receita.vendas)}` : undefined}
                 color="text-blue-700" />
+              <Card label="CPA real" value={cpa !== null ? fmtMoeda(cpa) : '—'} sub="Gasto / Vendas Hotmart" color="text-blue-700" />
               <Card label="Reembolsos" value={fmtNum(receita?.reembolsos ?? 0)}
-                sub={receita && receita.vendas + receita.reembolsos > 0
-                  ? `Taxa: ${((receita.reembolsos / (receita.vendas + receita.reembolsos)) * 100).toFixed(1)}%`
+                sub={receita && receita.vendas > 0
+                  ? `${((receita.reembolsos / receita.vendas) * 100).toFixed(1)}% das vendas do período`
                   : undefined}
                 color="text-orange-600" />
               <Card label="ROAS" value={roas !== null ? `${roas.toFixed(2)}x` : '—'} sub="Receita bruta / Gasto" color="text-purple-600" />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <GraficoGastoReceita gasto={gasto?.total ?? 0} receita={receita?.total ?? 0} />
+              <GraficoGastoReceita gasto={gasto?.total ?? 0} receita={receita?.total ?? 0} receitaLiquida={receita?.totalLiquido ?? 0} />
               <div className="flex flex-col justify-center gap-2">
                 {gasto && !gasto.configurado && <AvisoNaoConfigurado nome="Meta Ads" />}
                 {receita && !receita.configurado && <AvisoNaoConfigurado nome="Hotmart" />}
@@ -178,8 +221,8 @@ export default function FinanceiroClient() {
             <div className="space-y-6">
               <div>
                 <p className="text-sm font-semibold text-gray-600 mb-2">Receita por produto (Hotmart)</p>
-                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-                  <table className="w-full text-sm">
+                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-x-auto">
+                  <table className="w-full text-sm min-w-[520px]">
                     <thead className="bg-gray-50">
                       <tr>
                         <th className="text-left px-5 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">Produto</th>
@@ -211,8 +254,8 @@ export default function FinanceiroClient() {
 
               <div>
                 <p className="text-sm font-semibold text-gray-600 mb-2">Gasto por campanha (Meta Ads)</p>
-                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-                  <table className="w-full text-sm">
+                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-x-auto">
+                  <table className="w-full text-sm min-w-[520px]">
                     <thead className="bg-gray-50">
                       <tr>
                         <th className="text-left px-5 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">Campanha</th>
@@ -242,9 +285,9 @@ export default function FinanceiroClient() {
 
               <div>
                 <p className="text-sm font-semibold text-gray-600 mb-2">Performance de criativos (Meta Ads)</p>
-                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-                  <div className="max-h-[520px] overflow-y-auto">
-                    <table className="w-full text-sm">
+                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm">
+                  <div className="max-h-[520px] overflow-auto">
+                    <table className="w-full text-sm min-w-[720px]">
                       <thead className="bg-gray-50 sticky top-0">
                         <tr>
                           <th className="text-left px-5 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">Criativo</th>
@@ -291,7 +334,7 @@ export default function FinanceiroClient() {
               </div>
             </div>
           </div>
-        </>
+        </div>
       )}
     </div>
   )
