@@ -17,7 +17,6 @@ import problemStudent from '@/public/landing/problem-student.png'
 import benefitsDoctor from '@/public/landing/benefits-doctor.png'
 import testimonialVanessa from '@/public/landing/testimonial-vanessa.jpg'
 import testimonialJulia from '@/public/landing/testimonial-julia.jpg'
-import testimonialJoao from '@/public/landing/testimonial-joao.jpg'
 import testimonialCamila from '@/public/landing/testimonial-camila.jpg'
 import closingDoctors from '@/public/landing/closing-doctors.png'
 
@@ -492,18 +491,6 @@ export default function MedEscolhaLandingPage() {
         </div>
       </section>
 
-      {/* ============ PULLED QUOTE ============ */}
-      <section className={styles.pulledQuoteSection}>
-        <blockquote className={styles.pulledQuote}>
-          <span className={styles.quoteMark}>&quot;</span>
-          <p className={styles.quoteText}>o relatório me permitiu entender minhas aptidões, meu temperamento e meu perfil profissional. recebi uma lista completa das especialidades dentro da minha aptidão, com um <span className={styles.quoteEmphasis}>top 3 que bateu com o que penso em seguir</span>.</p>
-          <footer className={styles.quoteAttribution}>
-            <strong>João Vitor Carvalho</strong>
-            <span>médico, formado pela universidade federal do amazonas</span>
-          </footer>
-        </blockquote>
-      </section>
-
       {/* ============ BENEFITS ============ */}
       <section>
         <div className={styles.container}>
@@ -591,17 +578,6 @@ export default function MedEscolhaLandingPage() {
                   <div className={styles.name}>Júlia</div>
                   <div className={styles.role}>estudante de medicina, 5º período, Faculdade Pequeno Príncipe</div>
                   <div className={styles.testimonialMatch}>top match: ginecologia e obstetrícia</div>
-                </div>
-              </div>
-            </div>
-
-            <div className={styles.testimonialCard}>
-              <div className={styles.testimonialQuote}>&quot;o med escolha me ajudou a decidir qual especialidade vou seguir. score criterioso, com embasamento científico. o relatório me permitiu entender minhas aptidões, meu temperamento e meu perfil profissional. recebi uma lista completa das especialidades dentro da minha aptidão, com um top 3 que bateu com o que penso em seguir. realmente um ótimo investimento.&quot;</div>
-              <div className={styles.testimonialAuthor}>
-                <div className={styles.testimonialAvatar}><Image src={testimonialJoao} alt="João Vitor Carvalho" sizes="52px" placeholder="blur" /></div>
-                <div className={styles.testimonialMeta}>
-                  <div className={styles.name}>João Vitor Carvalho</div>
-                  <div className={styles.role}>médico, formado pela UFAM</div>
                 </div>
               </div>
             </div>
