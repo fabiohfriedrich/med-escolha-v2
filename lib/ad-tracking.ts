@@ -9,7 +9,7 @@ declare global {
   }
 }
 
-const VALOR_PADRAO = 199.9
+const VALOR_PADRAO = 119 // black november até 30/11; voltar pra 199.9 em 01/12
 const MOEDA = 'BRL'
 const PRODUTO = 'med-escolha'
 

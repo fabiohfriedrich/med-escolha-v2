@@ -26,7 +26,7 @@ const poppins = Poppins({
   display: 'swap',
 })
 
-const HOTMART_URL = 'https://pay.hotmart.com/Y86347681C?off=y014gd40&checkoutMode=10&bid=1781225502432'
+const HOTMART_URL = 'https://pay.hotmart.com/Y86347681C?checkoutMode=6&off=y014gd40&offDiscount=BLACK26'
 
 export default function MedEscolhaLandingPage() {
   const [stickyVisible, setStickyVisible] = useState(false)
@@ -645,7 +645,7 @@ export default function MedEscolhaLandingPage() {
       <section id="checkout" className={styles.sectionNavy}>
         <div className={styles.container}>
           <div className={styles.textCenter} style={{ marginBottom: 32 }}>
-            <span className={styles.eyebrow}>a oferta</span>
+            <span className={styles.eyebrow}>black november · até 30/11</span>
             <h2>tudo o que você recebe</h2>
           </div>
 
@@ -711,11 +711,12 @@ export default function MedEscolhaLandingPage() {
               <div className={styles.totalLabel}>valor total real</div>
               <div className={styles.totalStrike}>R$ 1.744</div>
               <div className={styles.totalLabel} style={{ color: 'var(--teal)', marginTop: 12 }}>você paga hoje</div>
-              <div className={styles.totalNow}>R$ 199,90<small> à vista</small></div>
+              <div className={styles.totalNow}><s style={{ opacity: 0.55, fontSize: '0.5em', marginRight: 10 }}>R$ 199,90</s>R$ 119<small> à vista</small></div>
               <div className={styles.totalInstallments}>ou parcelado em até 12x no cartão</div>
+              <div className={styles.totalInstallments} style={{ color: 'var(--yellow)', fontWeight: 700, marginTop: 8 }}>preço de black november só até 30/11, 23h59. os 50 primeiros ainda levam 2 ebooks de bônus.</div>
             </div>
             <div className={`${styles.ctaBlock} ${styles.mt3}`}>
-              <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" className={`${styles.btn} ${styles.btnLarge} ${styles.btnUppercase}`} onClick={() => trackCheckoutIntent('oferta')}>quero garantir meu acesso, R$ 149</a>
+              <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" className={`${styles.btn} ${styles.btnLarge} ${styles.btnUppercase}`} onClick={() => trackCheckoutIntent('oferta')}>quero garantir meu acesso, R$ 119</a>
               <p className={styles.ctaFriction} style={{ color: 'var(--text-soft)' }}>compra 100% protegida. 7 dias de garantia. acesso imediato.</p>
             </div>
           </div>
@@ -756,9 +757,9 @@ export default function MedEscolhaLandingPage() {
             </div>
 
             <div className={styles.priceCardHero}>
-              <div className={styles.heroEyebrow}>você paga apenas</div>
-              <div className={styles.heroAmount}>R$ 199,90</div>
-              <div className={styles.heroMeta}>à vista, ou parcelado em até 12x no cartão</div>
+              <div className={styles.heroEyebrow}>na black november, você paga apenas</div>
+              <div className={styles.heroAmount}><s style={{ opacity: 0.55, fontSize: '0.5em', marginRight: 10 }}>R$ 199,90</s>R$ 119</div>
+              <div className={styles.heroMeta}>à vista, ou parcelado em até 12x no cartão. só até 30/11.</div>
               <p className={styles.heroAside}>menos do que você gastou comendo no hospital essa semana.</p>
               <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" className={`${styles.btn} ${styles.btnLarge} ${styles.btnUppercase} ${styles.priceCta}`} onClick={() => trackCheckoutIntent('preco')}>decidir minha especialidade agora</a>
             </div>
@@ -917,7 +918,7 @@ export default function MedEscolhaLandingPage() {
           <h2>menos dúvidas, <span className={styles.highlightTeal}>mais certezas</span>.</h2>
           <p className={styles.lead}>a sua próxima especialidade médica não precisa ser decidida no escuro.</p>
           <p className={styles.lead}>match da especialidade médica + acervo com 50+ lives + curso IA na Medicina + acesso vitalício + 7 dias de garantia.</p>
-          <p className={styles.lead}><strong>R$ 199,90 à vista. ou parcelado em até 12x no cartão.</strong></p>
+          <p className={styles.lead}><strong>de R$ 199,90 por R$ 119 à vista na black november, só até 30/11. ou parcelado em até 12x no cartão.</strong></p>
 
           <div className={`${styles.ctaBlock} ${styles.mt4}`}>
             <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" className={`${styles.btn} ${styles.btnLarge} ${styles.btnUppercase}`} onClick={() => trackCheckoutIntent('cta_final')}>testar sem risco</a>
@@ -929,7 +930,7 @@ export default function MedEscolhaLandingPage() {
           </div>
 
           <div className={styles.psBlock}>
-            <p><span className={styles.psLabel}>P.S.</span>a residência que você vai começar daqui a 1 ano vai ser decidida nos próximos meses. ou agora, com o match da especialidade médica cobrindo as 55 áreas reconhecidas, narrativa explicativa, um plano de decisão com prazo e lembrete automático pro reteste, resultado salvo na sua área de membro e garantia de 7 dias. ou no escuro, depois, na pressão da inscrição. R$ 149 contra 30 anos de carreira: a matemática mais simples que você vai resolver hoje.</p>
+            <p><span className={styles.psLabel}>P.S.</span>a residência que você vai começar daqui a 1 ano vai ser decidida nos próximos meses. ou agora, com o match da especialidade médica cobrindo as 55 áreas reconhecidas, narrativa explicativa, um plano de decisão com prazo e lembrete automático pro reteste, resultado salvo na sua área de membro e garantia de 7 dias. ou no escuro, depois, na pressão da inscrição. R$ 119 contra 30 anos de carreira: a matemática mais simples que você vai resolver hoje.</p>
           </div>
         </div>
       </section>
@@ -954,7 +955,7 @@ export default function MedEscolhaLandingPage() {
           <div className={styles.stickyCtaInfo}>
             <span className={styles.stickyCtaRating}>★★★★★</span>
             <span className={styles.stickyProduct}>match da especialidade médica</span>
-            <span className={styles.stickyPrice}>R$ 199,90 ou 12x no cartão</span>
+            <span className={styles.stickyPrice}>R$ 119 até 30/11 ou 12x no cartão</span>
           </div>
           <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" className={`${styles.btn} ${styles.stickyCtaBtn} ${styles.btnUppercase}`} onClick={() => trackCheckoutIntent('sticky')}>garantir acesso</a>
         </div>

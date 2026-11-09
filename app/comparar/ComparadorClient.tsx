@@ -18,7 +18,7 @@ const CRITERIOS = [
 
 const MAX = CRITERIOS.length * 5
 
-const HOTMART_URL = 'https://pay.hotmart.com/Y86347681C?off=y014gd40&checkoutMode=10&bid=1781225502432'
+const HOTMART_URL = 'https://pay.hotmart.com/Y86347681C?checkoutMode=6&off=y014gd40&offDiscount=BLACK26'
 
 type Scores = Record<string, number>
 type Step = 'pick' | 'rate' | 'email' | 'result'
@@ -422,7 +422,7 @@ export default function ComparadorClient({ specialties }: { specialties: Special
         <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" onClick={() => trackCheckoutIntent('comparador_resultado')} style={{ display: 'inline-block', background: 'var(--teal)', color: 'white', textDecoration: 'none', borderRadius: 12, padding: '14px 32px', fontSize: 16, fontWeight: 900 }}>
           Quero fazer o teste completo →
         </a>
-        <p style={{ fontSize: 12, color: 'var(--yellow)', marginTop: 12 }}>R$ 199,90 · acesso imediato · 95 questões</p>
+        <p style={{ fontSize: 12, color: 'var(--yellow)', marginTop: 12 }}>black november: R$ 119 até 30/11 · acesso imediato · 95 questões</p>
       </div>
 
       <div style={{ textAlign: 'center', marginTop: 20 }}>
